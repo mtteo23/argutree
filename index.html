@@ -1,0 +1,92 @@
+<html>
+<head>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+
+<body bgcolor="red">
+	<ul id="MainList" style="background-color: lightblue">
+        <div align="center">
+            <h3>Motion</h3>
+            <h4>
+                Definitions... <br>
+                Contestualization... <br>
+            </h4>
+        </div>
+        <div>
+			<input type="text" id="inAssertion" placeholder="Assertion" style="float: left;">
+            <span onclick="newElement()" class="addBtn" style="float: left;">+</span>
+            <input type="text" id="inReasoning" placeholder="Reasoning">
+        </div>
+        <li><di>test<p style="display: none">long texttttttttttttttttttttttttttttt</p></di></li>
+    </ul>
+
+    <script>
+        // Create a "close" button and append it to each list item
+        var myNodelist = document.getElementsByTagName("LI");
+        var i;
+        for (i = 0; i < myNodelist.length; i++) {
+            var span = document.createElement("SPAN");
+            var txt = document.createTextNode("\u00D7");
+            span.className = "close";
+            span.appendChild(txt);
+            myNodelist[i].appendChild(span);
+        }
+
+        // Click on a close button to hide the current list item
+        var close = document.getElementsByClassName("close");
+        var i;
+        for (i = 0; i < close.length; i++) {
+            close[i].onclick = function () {
+                var div = this.parentElement;
+                div.style.display = "none";
+            }
+        }
+
+        // Add a "checked" symbol when clicking on a list item
+        var list = document.querySelector('ul');
+        list.addEventListener('click', function (ev) {
+            if (ev.target.tagName === 'LI') {
+                ev.target.classList.toggle('selected');
+            }
+        }, false);
+		
+		
+		
+		
+		var wage = document.getElementById("inAssertion");
+		wage.addEventListener("keydown", function (e) {
+			if (e.code === "Enter") {  //checks whether the pressed key is "Enter"
+				newElement();
+			}
+		});
+		
+        // Create a new list item when clicking on the "Add" button
+        function newElement() {
+            var li = document.createElement("li");
+            var txtAssertion = document.getElementById("inAssertion").value;
+            var t = document.createTextNode(txtAssertion);
+            li.appendChild(t);
+            if (txtAssertion === '') {
+                alert("You must write something!");
+            } else {
+                document.getElementById("MainList").appendChild(li);
+            }
+            document.getElementById("inAssertion").value = "";
+
+            var span = document.createElement("SPAN");
+            var txt = document.createTextNode("\u00D7");
+            span.className = "close";
+            span.appendChild(txt);
+            li.appendChild(span);
+
+            for (i = 0; i < close.length; i++) {
+                close[i].onclick = function () {
+                    var div = this.parentElement;
+                    div.style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
