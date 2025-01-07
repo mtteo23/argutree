@@ -3,10 +3,52 @@
   box-sizing: border-box;
 }
 
-/* Remove margins and padding from the list */
+/* Style the header */
+.header {
+  background-color: #f44336;
+  padding: 30px 40px;
+  color: white;
+  text-align: center;
+}
+
+/* Clear floats after the header */
+.header:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+input {
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  width: 100%;
+  padding: 10px;
+  float: left;
+  font-size: 16px;
+}
+
+div.argument {
+	/*width: 50%;
+	margin: auto;*/
+}
+
+div.argument h3 {
+	/*text-align: center;*/
+	font-size: 24px;
+	/*background-color: #0b0;*/
+}
+
+div.argument h4 {
+	/*text-align: center;*/
+	font-size: 18px;
+	/*background-color: #b00;*/
+}
+
 div.argument ul {
   margin: 0;
   padding: 0;
+  /*text-align: center;*/
 }
 
 /* Style the list items */
@@ -41,46 +83,3 @@ div.argument ul li.selected {
   background: #888;
   color: #fff;
 }
-
-
-
-
-/* Style the header */
-.header {
-  background-color: #f44336;
-  padding: 30px 40px;
-  color: white;
-  text-align: center;
-}
-
-/* Clear floats after the header */
-.header:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-input {
-  margin: 0;
-  border: none;
-  border-radius: 0;
-  width: 100%;
-  padding: 10px;
-  float: left;
-  font-size: 16px;
-}
-
-div.argument {
-	/*background-color: #bb0;*/
-}
-
-div.argument h3 {
-	font-size: 24px;
-	/*background-color: #0b0;*/
-}
-
-div.argument h4 {
-	font-size: 18px;
-	/*background-color: #b00;*/
-}
-

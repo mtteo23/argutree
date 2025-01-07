@@ -8,50 +8,99 @@
 	</head>
 
 	<body>
-		<div id="0" class="Argument" align="center">
-			<h3 id="A-0">Assertion</h3>
-			<h4 id="R-0">Reasoning</h4>
-			<ul id="E-0" class="EvidenceList">
-				<li id="E-1-0">Evidence 1</li>
-				<li id="E-2-0">Evidence 2</li>
-				<li id="E-3-0">Evidence 3</li>
-			</ul>
-			<br><br><br>
-			<ul id="-0" class="SubArgumentList">
-				<li id="A-1-0">Assertion 1</li>
-				<li id="A-2-0">Assertion 2</li>
-				<li id="A-3-0">Assertion 3</li>
-			</ul>
-			<br>
+		<div id="graph" align="center">
 		</div>
-		<div id="content"></div>
 	</body>
+	
+	<!-- Embed the code.txt content directly in the HTML -->
+    <script id="code-data" type="text/plain">
+0{assertion 0}{Reasoning 0}
+1-0{Assertion 1}{Reasoning 1}
+2-0{Assertion 2}{Reasoning 2}
+3-0{Assertion 3}{Reasoning 3}
+1-1-0{Assertion 4}{Reasoning 4}
+    </script>
 
 	<script>
-		document.addEventListener('DOMContentLoaded', () => {
-			const contentDiv = document.getElementById('content');
+		selId='';
+        document.addEventListener('DOMContentLoaded', () => {
+			refocus('0');
+        });
+        
+        function refocus(id){
+			document.getElementById("graph").innerHTML = ""; 
+			selId=id;
+			
+			{
+				const element = document.createElement('div');
+				element.id = selId; // Assign a unique id
+				element.classList.add("Argument");
+				document.getElementById('graph').appendChild(element); // Append to the container
+			}
+			
+			const MainDiv = document.getElementById(selId);
+			
+			
+			{
+				const element = document.createElement('ul');
+				element.id = 'EvList-'+selId; // Assign a unique id
+				element.classList.add("EvidenceList");
+				MainDiv.appendChild(element); // Append to the container
+			}
+			{
+				const element = document.createElement('ul');
+				element.id = '-'+selId; // Assign a unique id
+				element.classList.add("SubArgList");
+				MainDiv.appendChild(element); // Append to the container
+			}
+			
+			
+			const SubArgList = document.getElementById('-'+selId);
+			const EvidenceList = document.getElementById('EvList-'+selId);
+			
+            // Get the embedded text content from the script tag
+            const codeData = document.getElementById('code-data').textContent;
 
-			// Fetch the code.txt file
-			fetch('code.txt')
-				.then(response => {
-					if (!response.ok) {
-						throw new Error('Failed to fetch code.txt: ${response.statusText}');
+            // Split the content into lines
+            const rows = codeData.split('\n');
+
+            rows.forEach((row, index) => {
+				text=row.trim()
+				if(text!='')
+				{
+					
+					startAss=text.search("{")+1;
+					startRes=text.search("}{")+2;
+					
+					if(text.slice(0,startAss-1)==selId)
+					{
+						const element = document.createElement('h4');
+						id='A-'+text.slice(0, startAss-1);
+						element.id = id; // Assign a unique id
+						element.classList.add("Reasoning");
+						element.textContent = text.slice(startRes, text.length-1);
+						MainDiv.appendChild(element);
+						MainDiv.insertBefore(element, MainDiv.firstChild);
+					
+						const element2 = document.createElement('h3');
+						id='A-'+text.slice(0, startAss-1);
+						element2.id = id; // Assign a unique id
+						element2.classList.add("Assertion");
+						element2.textContent = text.slice(startAss, startRes-2);
+						MainDiv.insertBefore(element2, MainDiv.firstChild);
 					}
-					return response.text();
-				})
-				.then(data => {
-					const rows = data.split('\n'); // Split the file content by lines
-
-					rows.forEach((row, index) => {
-						const p = document.createElement('p');
-						p.id = `line-${index + 1}`; // Assign a unique id
-						p.textContent = row; // Set the text content
-						contentDiv.appendChild(p); // Append to the container
-					});
-				})
-				.catch(error => {
-					console.error('Error loading the code.txt file:', error);
-				});
-		});
-	</script>
+					
+					if(text.slice(text.search('-'),startAss-1)=='-'+selId)
+					{
+						const element = document.createElement('li');
+						id='A-'+text.slice(0, startAss-1);
+						element.id = id;
+						element.textContent = text.slice(startAss, startRes-2);
+						element.onclick=function() { refocus(element.id.slice(2)); };
+						SubArgList.appendChild(element); // Append to the container
+					}
+				}
+            });
+		}
+    </script>
 </html>
