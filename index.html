@@ -14,11 +14,11 @@
 	
 	<!-- Embed the code.txt content directly in the HTML -->
     <script id="code-data" type="text/plain">
-0{assertion 0}{Reasoning 0}
-1-0{Assertion 1}{Reasoning 1}
-2-0{Assertion 2}{Reasoning 2}
+0{QASC vadano introdotte le uniformi scolastiche}{Reasoning 0}
+1-0{Migliorano l' ambiente scolastico}{Reasoning 1}
+2-0{Appianano le differenze sociali}{Reasoning 2}
 3-0{Assertion 3}{Reasoning 3}
-1-1-0{Assertion 4}{Reasoning 4}
+1-1-0{Creano un senso di comunita}{Reasoning 4}
     </script>
 
 	<script>
@@ -30,6 +30,7 @@
         function refocus(id){
 			document.getElementById("graph").innerHTML = ""; 
 			selId=id;
+			parId=selId.slice(selId.search('-')+1);
 			
 			{
 				const element = document.createElement('div');
@@ -72,17 +73,28 @@
 					startAss=text.search("{")+1;
 					startRes=text.search("}{")+2;
 					
+					if(text.slice(0,startAss-1)==parId && selId!=0)
+					{
+						const element = document.createElement('p');
+						id='A-'+selId.slice(selId.search('-')+1);
+						element.id = id; // Assign a unique id
+						element.classList.add("ParentArgument");
+						element.textContent = text.slice(startAss, startRes-2);
+						element.onclick=function() { refocus(element.id.slice(2)); };
+						document.getElementById('graph').insertBefore(element, document.getElementById('graph').firstChild);
+						
+					}
+					
 					if(text.slice(0,startAss-1)==selId)
 					{
-						const element = document.createElement('h4');
+						const element = document.createElement('p');
 						id='A-'+text.slice(0, startAss-1);
 						element.id = id; // Assign a unique id
 						element.classList.add("Reasoning");
 						element.textContent = text.slice(startRes, text.length-1);
-						MainDiv.appendChild(element);
 						MainDiv.insertBefore(element, MainDiv.firstChild);
 					
-						const element2 = document.createElement('h3');
+						const element2 = document.createElement('p');
 						id='A-'+text.slice(0, startAss-1);
 						element2.id = id; // Assign a unique id
 						element2.classList.add("Assertion");
