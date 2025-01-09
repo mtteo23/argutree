@@ -107,12 +107,29 @@
 						const element = document.createElement('li');
 						id='A-'+text.slice(0, startAss-1);
 						element.id = id;
+						element.classList.add("SubArg");
 						element.textContent = text.slice(startAss, startRes-2);
 						element.onclick=function() { refocus(element.id.slice(2)); };
 						SubArgList.appendChild(element); // Append to the container
 					}
 				}
             });
+			
+			{
+				const element = document.createElement('li');
+				element.textContent = '+';
+				element.onclick=function() { addEv(element.id.slice(2)); };
+				element.classList.add("addBtn");
+				SubArgList.appendChild(element); // Append to the container
+			}
+			
+			{
+				const element = document.createElement('li');
+				element.textContent = '+';
+				element.onclick=function() { addArg(element.id.slice(2)); };
+				element.classList.add("addBtn");
+				EvidenceList.appendChild(element); // Append to the container
+			}		
 		}
     </script>
 </html>

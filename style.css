@@ -49,7 +49,7 @@ div.argument ul {
 }
 
 /* Style the list items */
-div.argument ul li {
+div.argument ul li.subArg {
   width: 16.6667vw; /* One-sixth of the viewport width */
   height: 100px; /* Fixed height */
   cursor: pointer;
@@ -63,25 +63,43 @@ div.argument ul li {
   vertical-align: top; /* Align to the top */
 }
 
+/* Style the list items */
+div.argument ul li.subArg {
+  width: 16.6667vw; /* One-sixth of the viewport width */
+  height: 100px; /* Fixed height */
+  cursor: pointer;
+  position: relative;
+  padding: 12px 32px;
+  background: #e0e0e0;
+  font-size: 18px;
+  transition: 0.2s;
+  list-style-type: none;
+  display: inline-block; /* Inline-block for layout */
+  vertical-align: top; /* Align to the top */
+}
+
+/* Style the list items */
+div.argument ul li.addBtn {
+  width: 100px; /* One-sixth of the viewport width */
+  height: 100px; /* Fixed height */
+  cursor: pointer;
+  position: relative;
+  padding: 12px 32px;
+  background: #b0ffb0;
+  font-size: 18x;
+  transition: 0.2s;
+  list-style-type: none;
+  display: inline-block; /* Inline-block for layout */
+  vertical-align: top; /* Align to the top */
+}
 
 /* Set all odd list items to a different color (zebra-stripes) */
-ul.EvidenceList li:nth-child(odd) {
+ul.EvidenceList li.subEv:nth-child(odd) {
   background: #f9f9f9;
 }
 
-ul.SubArgList li:nth-child(even) {
+ul.SubArgList li.subArg:nth-child(even) {
   background: #f9f9f9;
-}
-
-/* Darker background-color on hover */
-div.argument ul li:hover {
-  background: #aaa;
-}
-
-/* When clicked on, add a background color and strike out text */
-div.argument ul li.selected {
-  background: #888;
-  color: #fff;
 }
 
 p.ParentArgument {
@@ -99,5 +117,19 @@ p.ParentArgument {
 }
 
 p.ParentArgument:hover {
+  background: #aaa;
+}
+
+/* Darker background-color on hover */
+div.argument ul li:hover {
+  background: #aaa;
+}
+
+ul.EvidenceList li.subEv:nth-child(odd):hover {
+  background: #aaa;
+}
+
+
+ul.SubArgList li.subArg:nth-child(even):hover {
   background: #aaa;
 }
