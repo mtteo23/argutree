@@ -118,7 +118,8 @@
 			{
 				const element = document.createElement('li');
 				element.textContent = '+';
-				element.onclick=function() { addEv(element.id.slice(2)); };
+				element.id='PA'+selId;
+				element.onclick=function() { addArg(element.id.slice(2)); };
 				element.classList.add("addBtn");
 				SubArgList.appendChild(element); // Append to the container
 			}
@@ -126,10 +127,46 @@
 			{
 				const element = document.createElement('li');
 				element.textContent = '+';
-				element.onclick=function() { addArg(element.id.slice(2)); };
+				element.id='PE'+selId;
+				element.onclick=function() { addEv(element.id.slice(2)); };
 				element.classList.add("addBtn");
 				EvidenceList.appendChild(element); // Append to the container
-			}		
+			}	
+		}
+		
+		function addArg(id)
+		{
+            const codeData = document.getElementById('code-data').textContent;
+            const rows = codeData.split('\n');
+            
+            occ=0;
+            t=0;
+            //*
+			do{
+				t+=1;
+				occ=0;
+				for(let i=0; i<rows.length; i++)
+				{
+					while(rows[i]==''){i++;}
+					let row=rows[i];
+					let extrId=row.slice(0, row.search('{'));
+					if(extrId==t+'-'+id)
+					{
+						occ=1;
+					}
+				}
+			}while(occ==1);
+			
+			newId=t+'-'+id;
+			alert(newId);
+			
+			const MainDiv = document.getElementById(id);
+			{
+				const element = document.createElement('input');
+				element.id='i-'+newId;
+				MainDiv.appendChild(element); // Append to the container
+			}
+			
 		}
     </script>
 </html>
