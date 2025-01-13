@@ -1,10 +1,11 @@
 <html lang="en">
 	<head>
+		
 		<link rel="stylesheet" href="style.css">
+		
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Load Code File</title>
-		<script defer src="script.js"></script>
+		<title>Argument Tree</title>
 	</head>
 
 	<body>
@@ -14,15 +15,16 @@
 	
 	<!-- Embed the code.txt content directly in the HTML -->
     <script id="code-data" type="text/plain">
-0{QASC vadano introdotte le uniformi scolastiche}{Reasoning 0}
-1-0{Migliorano l' ambiente scolastico}{Reasoning 1}
-2-0{Appianano le differenze sociali}{Reasoning 2}
+0{Mozione}{Definizioni e contestualizzazione}
+1-0{Assertion 1}{Reasoning 1}
+2-0{Assertion 2}{Reasoning 2}
 3-0{Assertion 3}{Reasoning 3}
-1-1-0{Creano un senso di comunita}{Reasoning 4}
+1-1-0{SubAssertion}{Reasoning 4}
     </script>
 
 	<script>
 		selId='';
+		
         document.addEventListener('DOMContentLoaded', () => {
 			refocus('0');
         });
@@ -138,7 +140,6 @@
 		{
             const codeData = document.getElementById('code-data').textContent;
             const rows = codeData.split('\n');
-            
             occ=0;
             t=0;
             //*
@@ -147,26 +148,40 @@
 				occ=0;
 				for(let i=0; i<rows.length; i++)
 				{
-					while(rows[i]==''){i++;}
-					let row=rows[i];
-					let extrId=row.slice(0, row.search('{'));
-					if(extrId==t+'-'+id)
-					{
-						occ=1;
+					if(rows[i]!='')
+					{						
+						ind=rows[i].search('{');
+						let extrId=rows[i].slice(0, ind);
+						if(extrId==t+'-'+id)
+						{
+							occ=1;
+						}
 					}
 				}
 			}while(occ==1);
 			
 			newId=t+'-'+id;
-			alert(newId);
 			
 			const MainDiv = document.getElementById(id);
+			if(document.getElementById('i-'+newId)==null)
 			{
 				const element = document.createElement('input');
 				element.id='i-'+newId;
 				MainDiv.appendChild(element); // Append to the container
 			}
 			
+			inputId = document.getElementById('i-'+newId);
+			
+			inputId.addEventListener('keyup', function onEvent(e) {
+				if (event.key === "Enter") {
+					newLine=newId+'{'+inputId.value+'}{}\n';
+					document.getElementById('code-data').append(newLine);
+					refocus(id);
+				}
+			});		
 		}
+    
     </script>
 </html>
+
+
