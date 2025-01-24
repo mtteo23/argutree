@@ -1,7 +1,7 @@
 <html lang="en">
 	<head>
 		
-		<link rel="stylesheet" href="style.css">
+		<!--<link rel="stylesheet" href="style.css">-->
 		
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,6 +23,162 @@
     </script>
 
 	<script>
+		
+		 document.addEventListener('DOMContentLoaded', () => {
+			parent=document.getElementById("graph");
+			showNode('0', parent);
+			expandNode('0');
+        });
+		
+		function showNode(id, parent)
+		{
+			//Main div
+			const main=document.createElement('div');
+			main.id=id;
+			main.classList.add("Node");
+			parent.appendChild(main);
+			
+			//trunk div
+			const trunk=document.createElement('div');
+			trunk.id='T-'+id;
+			trunk.classList.add("Trunk");
+			trunk.onclick=function() { expandNode(trunk.id.slice(2)) };
+			main.appendChild(trunk);
+			
+			//Assertion
+			const ass=document.createElement('p');
+			ass.id='A-'+id;
+			ass.classList.add("Assertion");
+			ass.textContent=primaryText(id);
+			trunk.appendChild(ass);
+			
+			//Reasoning
+			const res=document.createElement('p');
+			res.id='R-'+id;
+			res.classList.add("Reasoning");
+			res.textContent=secondaryText(id);
+			res.style.display="none";
+			trunk.appendChild(res);
+			
+			//Evidence List
+			const el=document.createElement('ul');
+			el.id='EL-'+id;
+			el.classList.add("EvidenceList");
+			el.style.display="none";
+			trunk.appendChild(el);
+			
+			//Add Button Evidence
+			const addE=document.createElement('p');
+			addE.id='AddE-'+id;
+			addE.classList.add("AddBtnEvidence");
+			addE.textContent="+";
+			addE.style.display="none";
+			el.appendChild(addE);
+			
+			//SubArgument List
+			const sal=document.createElement('ul');
+			sal.id='SAL-'+id;
+			sal.classList.add("SubArgList");
+			main.appendChild(sal);
+			
+			//Add Button Argument
+			const addA=document.createElement('p');
+			addA.id='AddA-'+id;
+			addA.classList.add("AddBtnArg");
+			addA.textContent="+";
+			addA.style.display="none";
+			sal.appendChild(addA);
+			
+			IDs=idList();
+			for(let i=0; i<IDs.length; i++)
+			{
+				if(isParentOf(id, IDs[i]))
+				{
+					showNode(IDs[i], sal);
+				}
+			}
+		}
+		
+		function expandNode(id)
+		{
+			IDs=idList();
+			for(let i=0; i<IDs.length; i++)
+			{
+				val=""
+				if(IDs[i]==id)
+					val="block";
+				else
+					val="none";
+				
+				document.getElementById('R-'+IDs[i]).style.display=val;
+				document.getElementById('EL-'+IDs[i]).style.display=val;
+				document.getElementById('AddE-'+IDs[i]).style.display=val;
+				document.getElementById('AddA-'+IDs[i]).style.display=val;
+			}
+		}
+		
+		function idList()
+		{
+			const codeData = document.getElementById('code-data').textContent;
+            let rows = codeData.split('\n');
+            
+            if(rows[0].length==0)
+            {
+				rows=rows.slice(1);
+			}
+			
+            for(let i=0; i<rows.length; i++)
+            {	
+				let ind=rows[i].search("{");
+				rows[i]=rows[i].slice(0, ind);
+			}
+			return rows;
+		}
+		
+		function isParentOf(parent, child)
+		{
+			ind=child.search("-");
+			return (child.slice(ind+1)==parent && child!=parent);
+		}
+		
+		function primaryText(id)
+		{
+			const codeData = document.getElementById('code-data').textContent;
+            let rows = codeData.split('\n');
+			
+            for(let i=0; i<rows.length; i++)
+            {	
+				let ind=rows[i].search("{");
+				if(rows[i].slice(0, ind)==id)
+				{
+					let end=rows[i].search("}{");
+					return rows[i].slice(ind+1, end);
+				}
+			}
+			return "ERRORE!!";
+		}
+		
+		function secondaryText(id)
+		{
+			const codeData = document.getElementById('code-data').textContent;
+            let rows = codeData.split('\n');
+			
+            for(let i=0; i<rows.length; i++)
+            {	
+				let ind=rows[i].search("{");
+				if(rows[i].slice(0, ind)==id)
+				{
+					ind=rows[i].search("}{")+2;
+					let end=rows[i].slice(ind).search("}");
+					return rows[i].slice(ind, ind+end);
+				}
+			}
+			return "ERRORE!!";
+		}
+		
+		
+		
+		/*
 		selId='';
 		
         document.addEventListener('DOMContentLoaded', () => {
@@ -180,6 +336,7 @@
 				}
 			});		
 		}
+		*/
     
     </script>
 </html>
