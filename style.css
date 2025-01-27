@@ -1,21 +1,61 @@
 div.trunk {
-	background: #aaa;
-	border: 2px solid #999;
-	border-radius: 30px;
-	display: inline-block;
+
+	background: #99e; 
+	border: 5px solid #88d; 
+	border-radius: 10px; 
+	display: inline-block; 
+	padding: 10px; 
+	margin: 10px auto; 
+	white-space: nowrap; 
+	box-sizing: border-box; 
+}
+
+.Arg {
+	position: relative; 
+	
+	display: inline-block; 
+}
+
+.SubArgList {
+	display: flex; 
+	flex-wrap: nowrap; 
+	justify-content: center; 
+	gap: 20px; 
+	
 }
 
 .AddBtnArg {
-	background: #aaa;
-	border: 2px solid #999;
-	border-radius: 20px;
-	display: inline-block;
+	top: 10;
+	background: #99e; 
+	border: 5px solid #88d; 
+	border-radius: 50%; 
+	display: inline-flex; 
+	justify-content: center; 
+	align-items: center; 
+	padding: 0; 
+	margin: 5px; 
+	cursor: pointer; 
+	font-size: 16px; 
+	box-sizing: content-box; 
+	width: 25px; 
+	height: 25px; 
+	text-align: center; 
+	white-space: nowrap; 
 }
 
-div.BtnDiv *{
-	display: inline-block;
+
+div.BtnDiv * {
+	display: inline-block; 
+	margin: 0 5px; 
 }
 
-.SubArgList div.Arg {
-	display: inline-block;
+.AssertionInput {
+	background: #99e; 
+	border: 5px solid #88d; 
+	border-radius: 10px; 
+	display: inline-block; 
+	margin: 10px auto; 
+	white-space: nowrap; 
+	box-sizing: border-box; 
+	height: 25px;
 }

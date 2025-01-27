@@ -26,6 +26,7 @@
 		
 		 document.addEventListener('DOMContentLoaded', () => {
 			parent=document.getElementById("graph");
+			
 			showArg('0', parent);
 			expandArg('0');
         });
@@ -98,13 +99,6 @@
 			sal.classList.add("SubArgList");
 			main.appendChild(sal);
 			
-			//Add Button Argument
-			const addA=document.createElement('p');
-			addA.id='AddA-'+id;
-			addA.classList.add("AddBtnArg");
-			addA.textContent="+";
-			sal.appendChild(addA);
-			
 			IDs=idList();
 			for(let i=0; i<IDs.length; i++)
 			{
@@ -113,6 +107,14 @@
 					showArg(IDs[i], sal);
 				}
 			}
+			
+			//Add Button Argument
+			const addA=document.createElement('p');
+			addA.id='AddA-'+id;
+			addA.classList.add("AddBtnArg");
+			addA.textContent="+";
+			addA.onclick=function() { createArg(addA.id.slice(5)) };
+			sal.appendChild(addA);
 		}
 		
 		function expandArg(id)
@@ -130,6 +132,46 @@
 			}
 		}
 		
+		function createArg(parent)
+		{
+			let lastN=0;
+			let found=1;
+			IDs=idList();
+			alert(IDs);
+			while(found==1)
+			{
+				found=0;
+				lastN++;
+				for(i=0; i<IDs.length; i++)
+				{
+					if(lastN+'-'+parent==IDs[i])
+						found=1;
+				}
+			}
+			
+			id=lastN+'-'+parent;
+			
+			const p=document.getElementById('AddA-'+parent);
+			
+			const AI=document.createElement('input');
+			AI.id='AI-'+id;
+			AI.classList.add("AssertionInput");
+			AI.textContent='';
+			
+			AI.addEventListener('keyup', function onEvent(e) {
+				if (event.key === "Enter") {
+					appInp(AI.id.slice(3), AI.value, '');
+					
+					const graph=document.getElementById("graph");
+					graph.innerHTML = "";
+					showArg('0', graph);
+					expandArg(AI.id.slice(3));
+				}
+			});
+			
+			p.replaceWith(AI);
+		}
+		
 		function idList()
 		{
 			const codeData = document.getElementById('code-data').textContent;
@@ -143,7 +185,7 @@
             for(let i=0; i<rows.length; i++)
             {	
 				let ind=rows[i].search("{");
-				rows[i]=rows[i].slice(0, ind);
+				rows[i]=rows[i].slice(0, ind).trim();
 			}
 			return rows;
 		}
@@ -162,7 +204,7 @@
             for(let i=0; i<rows.length; i++)
             {	
 				let ind=rows[i].search("{");
-				if(rows[i].slice(0, ind)==id)
+				if(rows[i].slice(0, ind).trim()==id)
 				{
 					let end=rows[i].search("}{");
 					return rows[i].slice(ind+1, end);
@@ -179,7 +221,7 @@
             for(let i=0; i<rows.length; i++)
             {	
 				let ind=rows[i].search("{");
-				if(rows[i].slice(0, ind)==id)
+				if(rows[i].slice(0, ind).trim()==id)
 				{
 					ind=rows[i].search("}{")+2;
 					let end=rows[i].slice(ind).search("}");
@@ -189,14 +231,15 @@
 			return "ERRORE!!";
 		}
 		
+		function appInp(id, prim, sec)
+		{
+			
+			toAdd=id+'{'+prim+'}{'+sec+'}\n';
+			document.getElementById('code-data').append(toAdd);
+		}
 		
 		
 		/*
-		selId='';
-		
-        document.addEventListener('DOMContentLoaded', () => {
-			refocus('0');
-        });
         
         function refocus(id){
 			document.getElementById("graph").innerHTML = ""; 
