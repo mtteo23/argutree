@@ -14,12 +14,18 @@
 	</body>
 	
 	<!-- Embed the code.txt content directly in the HTML -->
-    <script id="code-data" type="text/plain">
+    <script id="argument-data" type="text/plain">
 0{Mozione}{Definizioni e contestualizzazione}
 1-0{Assertion 1}{Reasoning 1}
 2-0{Assertion 2}{Reasoning 2}
 3-0{Assertion 3}{Reasoning 3}
 1-1-0{SubAssertion}{Reasoning 4}
+    </script>
+    
+    <script id="evidence-data" type="text/plain">
+    </script>
+    
+    <script id="comment-data" type="text/plain">
     </script>
 
 	<script>
@@ -39,10 +45,17 @@
 			main.classList.add("Arg");
 			parent.appendChild(main);
 			
+			if(id!='0')
+			{			
+				const upline=document.createElement('div');
+				upline.classList.add("vertical-line");
+				main.appendChild(upline);		
+			}
 			//trunk div
 			const trunk=document.createElement('div');
 			trunk.id='T-'+id;
 			trunk.classList.add("Trunk");
+			trunk.align='center';
 			trunk.onclick=function() { expandArg(trunk.id.slice(2)) };
 			main.appendChild(trunk);
 			
@@ -70,28 +83,63 @@
 			const el=document.createElement('ul');
 			el.id='EL-'+id;
 			el.classList.add("EvidenceList");
+			el.align='center';
 			expanded.appendChild(el);
+			
+			IDs=evList();
+			for(let i=0; i<IDs.length; i++)
+			{
+				if(isEvidenceOf(id, IDs[i]))
+				{
+					const ev=document.createElement('p');
+					ev.id=IDs[i];
+					ev.classList.add("Evidence");
+					ev.textContent=primaryTextEvidence(IDs[i]);
+					el.appendChild(ev);
+				}
+			}
 			
 			//Button Div
 			const but=document.createElement('div');
 			but.id='B-'+id;
 			but.classList.add("BtnDiv");
 			expanded.appendChild(but);
-			
-			
+				
 			//Add Button Evidence
 			const addE=document.createElement('p');
 			addE.id='AddE-'+id;
 			addE.classList.add("AddBtnEvidence");
 			addE.textContent="+";
+			addE.onclick=function() { createEvidence(addE.id.slice(5)) };
 			but.appendChild(addE);
 			
 			//More Options Button
 			const opt=document.createElement('p');
 			opt.id='OPT-'+id;
 			opt.classList.add("OptBtn");
-			opt.textContent=":";
+			opt.textContent="...";
+			opt.onclick=function() { expandOption(opt.id.slice(4)) };
 			but.appendChild(opt);
+			
+			const lowline=document.createElement('div');
+			lowline.classList.add("vertical-line");
+			main.appendChild(lowline);
+			
+			
+			
+			{
+				IDs=idList();
+				for(let i=0; i<IDs.length; i++)
+				{
+					if(isParentOf(id, IDs[i]))
+					{
+						const hline=document.createElement('div');
+						hline.classList.add("horizontal-line");
+						main.appendChild(hline);
+						break;
+					}
+				}
+			}
 			
 			//SubArgument List
 			const sal=document.createElement('ul');
@@ -107,6 +155,12 @@
 					showArg(IDs[i], sal);
 				}
 			}
+			const addBtnDiv=document.createElement('div');
+			sal.appendChild(addBtnDiv);
+			
+			const butupline=document.createElement('div');
+			butupline.classList.add("vertical-line");
+			addBtnDiv.appendChild(butupline);
 			
 			//Add Button Argument
 			const addA=document.createElement('p');
@@ -114,7 +168,7 @@
 			addA.classList.add("AddBtnArg");
 			addA.textContent="+";
 			addA.onclick=function() { createArg(addA.id.slice(5)) };
-			sal.appendChild(addA);
+			addBtnDiv.appendChild(addA);
 		}
 		
 		function expandArg(id)
@@ -159,7 +213,7 @@
 			
 			AI.addEventListener('keyup', function onEvent(e) {
 				if (event.key === "Enter") {
-					appInp(AI.id.slice(3), AI.value, '');
+					appArg(AI.id.slice(3), AI.value, 'Write here the reasoning');
 					
 					const graph=document.getElementById("graph");
 					graph.innerHTML = "";
@@ -171,10 +225,72 @@
 			p.replaceWith(AI);
 		}
 		
+		function createEvidence(parent)
+		{
+			let lastN=0;
+			let found=1;
+			IDs=evList();
+			while(found==1)
+			{
+				found=0;
+				lastN++;
+				for(i=0; i<IDs.length; i++)
+				{
+					if(lastN+'E-'+parent==IDs[i])
+						found=1;
+				}
+			}
+			
+			id=lastN+'E-'+parent;
+			
+			const EI=document.createElement('input');
+			EI.id='EI-'+id;
+			EI.classList.add("AssertionInput");
+			EI.textContent='';
+			
+			EI.addEventListener('keyup', function onEvent(e) {
+				if (event.key === "Enter") {
+					appEv(EI.id.slice(3), EI.value, 'Write here the sources');
+					
+					id=EI.id.slice(3);
+					id=id.slice(id.search("E-")+2);
+					const graph=document.getElementById("graph");
+					graph.innerHTML = "";
+					showArg('0', graph);
+					expandArg(id);
+				}
+			});
+			
+			document.getElementById('EL-'+parent).appendChild(EI);
+		}
+		
+		function expandOption(id)
+		{
+			alert('expanding opt'+id);
+		}
+		
 		function idList()
 		{
-			const codeData = document.getElementById('code-data').textContent;
-            let rows = codeData.split('\n');
+			const argData = document.getElementById('argument-data').textContent;
+            let rows = argData.split('\n');
+            
+            if(rows[0].length==0)
+            {
+				rows=rows.slice(1);
+			}
+			
+            for(let i=0; i<rows.length; i++)
+            {	
+				let ind=rows[i].search("{");
+				rows[i]=rows[i].slice(0, ind).trim();
+			}
+			return rows;
+		}
+	
+		function evList()
+		{
+			const argData = document.getElementById('evidence-data').textContent;
+            let rows = argData.split('\n');
             
             if(rows[0].length==0)
             {
@@ -195,10 +311,16 @@
 			return (child.slice(ind+1)==parent && child!=parent);
 		}
 		
+		function isEvidenceOf(parent, child)
+		{
+			ind=child.search("E-");
+			return (child.slice(ind+2)==parent && child!=parent);
+		}
+		
 		function primaryText(id)
 		{
-			const codeData = document.getElementById('code-data').textContent;
-            let rows = codeData.split('\n');
+			const argData = document.getElementById('argument-data').textContent;
+            let rows = argData.split('\n');
 			
             for(let i=0; i<rows.length; i++)
             {	
@@ -214,8 +336,8 @@
 		
 		function secondaryText(id)
 		{
-			const codeData = document.getElementById('code-data').textContent;
-            let rows = codeData.split('\n');
+			const argData = document.getElementById('argument-data').textContent;
+            let rows = argData.split('\n');
 			
             for(let i=0; i<rows.length; i++)
             {	
@@ -230,168 +352,53 @@
 			return "ERRORE!!";
 		}
 		
-		function appInp(id, prim, sec)
+		function primaryTextEvidence(id)
 		{
+			const argData = document.getElementById('evidence-data').textContent;
+            let rows = argData.split('\n');
 			
+            for(let i=0; i<rows.length; i++)
+            {	
+				let ind=rows[i].search("{");
+				if(rows[i].slice(0, ind).trim()==id)
+				{
+					let end=rows[i].search("}{");
+					return rows[i].slice(ind+1, end);
+				}
+			}
+			return "ERRORE!!";
+		}
+		
+		function secondaryTextEvidence(id)
+		{
+			const argData = document.getElementById('evidence-data').textContent;
+            let rows = argData.split('\n');
+			
+            for(let i=0; i<rows.length; i++)
+            {	
+				let ind=rows[i].search("{");
+				if(rows[i].slice(0, ind).trim()==id)
+				{
+					ind=rows[i].search("}{")+2;
+					let end=rows[i].slice(ind).search("}");
+					return rows[i].slice(ind, ind+end);
+				}
+			}
+			return "ERRORE!!";
+		}
+		
+		
+		function appArg(id, prim, sec)
+		{
 			toAdd=id+'{'+prim+'}{'+sec+'}\n';
-			document.getElementById('code-data').append(toAdd);
+			document.getElementById('argument-data').append(toAdd);
 		}
 		
-		
-		/*
-        
-        function refocus(id){
-			document.getElementById("graph").innerHTML = ""; 
-			selId=id;
-			parId=selId.slice(selId.search('-')+1);
-			
-			{
-				const element = document.createElement('div');
-				element.id = selId; // Assign a unique id
-				element.classList.add("Argument");
-				document.getElementById('graph').appendChild(element); // Append to the container
-			}
-			
-			const MainDiv = document.getElementById(selId);
-			
-			
-			{
-				const element = document.createElement('ul');
-				element.id = 'EvList-'+selId; // Assign a unique id
-				element.classList.add("EvidenceList");
-				MainDiv.appendChild(element); // Append to the container
-			}
-			{
-				const element = document.createElement('ul');
-				element.id = '-'+selId; // Assign a unique id
-				element.classList.add("SubArgList");
-				MainDiv.appendChild(element); // Append to the container
-			}
-			
-			
-			const SubArgList = document.getElementById('-'+selId);
-			const EvidenceList = document.getElementById('EvList-'+selId);
-			
-            // Get the embedded text content from the script tag
-            const codeData = document.getElementById('code-data').textContent;
-
-            // Split the content into lines
-            const rows = codeData.split('\n');
-
-            rows.forEach((row, index) => {
-				text=row.trim()
-				if(text!='')
-				{
-					
-					startAss=text.search("{")+1;
-					startRes=text.search("}{")+2;
-					
-					if(text.slice(0,startAss-1)==parId && selId!=0)
-					{
-						const element = document.createElement('p');
-						id='A-'+selId.slice(selId.search('-')+1);
-						element.id = id; // Assign a unique id
-						element.classList.add("ParentArgument");
-						element.textContent = text.slice(startAss, startRes-2);
-						element.onclick=function() { refocus(element.id.slice(2)); };
-						document.getElementById('graph').insertBefore(element, document.getElementById('graph').firstChild);
-						
-					}
-					
-					if(text.slice(0,startAss-1)==selId)
-					{
-						const element = document.createElement('p');
-						id='A-'+text.slice(0, startAss-1);
-						element.id = id; // Assign a unique id
-						element.classList.add("Reasoning");
-						element.textContent = text.slice(startRes, text.length-1);
-						MainDiv.insertBefore(element, MainDiv.firstChild);
-					
-						const element2 = document.createElement('p');
-						id='A-'+text.slice(0, startAss-1);
-						element2.id = id; // Assign a unique id
-						element2.classList.add("Assertion");
-						element2.textContent = text.slice(startAss, startRes-2);
-						MainDiv.insertBefore(element2, MainDiv.firstChild);
-					}
-					
-					if(text.slice(text.search('-'),startAss-1)=='-'+selId)
-					{
-						const element = document.createElement('li');
-						id='A-'+text.slice(0, startAss-1);
-						element.id = id;
-						element.classList.add("SubArg");
-						element.textContent = text.slice(startAss, startRes-2);
-						element.onclick=function() { refocus(element.id.slice(2)); };
-						SubArgList.appendChild(element); // Append to the container
-					}
-				}
-            });
-			
-			{
-				const element = document.createElement('li');
-				element.textContent = '+';
-				element.id='PA'+selId;
-				element.onclick=function() { addArg(element.id.slice(2)); };
-				element.classList.add("addBtn");
-				SubArgList.appendChild(element); // Append to the container
-			}
-			
-			{
-				const element = document.createElement('li');
-				element.textContent = '+';
-				element.id='PE'+selId;
-				element.onclick=function() { addEv(element.id.slice(2)); };
-				element.classList.add("addBtn");
-				EvidenceList.appendChild(element); // Append to the container
-			}	
-		}
-		
-		function addArg(id)
+		function appEv(id, prim, sec)
 		{
-            const codeData = document.getElementById('code-data').textContent;
-            const rows = codeData.split('\n');
-            occ=0;
-            t=0;
-            //*
-			do{
-				t+=1;
-				occ=0;
-				for(let i=0; i<rows.length; i++)
-				{
-					if(rows[i]!='')
-					{						
-						ind=rows[i].search('{');
-						let extrId=rows[i].slice(0, ind);
-						if(extrId==t+'-'+id)
-						{
-							occ=1;
-						}
-					}
-				}
-			}while(occ==1);
-			
-			newId=t+'-'+id;
-			
-			const MainDiv = document.getElementById(id);
-			if(document.getElementById('i-'+newId)==null)
-			{
-				const element = document.createElement('input');
-				element.id='i-'+newId;
-				MainDiv.appendChild(element); // Append to the container
-			}
-			
-			inputId = document.getElementById('i-'+newId);
-			
-			inputId.addEventListener('keyup', function onEvent(e) {
-				if (event.key === "Enter") {
-					newLine=newId+'{'+inputId.value+'}{}\n';
-					document.getElementById('code-data').append(newLine);
-					refocus(id);
-				}
-			});		
+			toAdd=id+'{'+prim+'}{'+sec+'}\n';
+			document.getElementById('evidence-data').append(toAdd);
 		}
-		*/
     
     </script>
 </html>

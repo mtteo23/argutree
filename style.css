@@ -1,18 +1,42 @@
-div.trunk {
+.horizontal-line {
+  /*width: 100px;*/
+  height: 2px; /* Ensure it's only the thickness of the line */
+  background-color: black;
+  margin: 0; /* Remove any default margin */
+  padding: 0; /* Remove any default padding */
+  display: block; /* Ensures no extra height */
+}
 
+.vertical-line {
+  width: 2px;  /* Thin vertical line */
+  height: 20px; /* Adjust height as needed */
+  background-color: black;
+}
+
+div.trunk {
 	background: #99e; 
 	border: 5px solid #88d; 
 	border-radius: 10px; 
 	display: inline-block; 
-	padding: 10px; 
-	margin: 10px auto; 
+	padding: 0px; 
+	margin: 0px auto; 
+	white-space: nowrap; 
+	box-sizing: border-box; 
+}
+
+div.trunk:hover {
+	background: #99e; 
+	border: 5px solid #88d; 
+	border-radius: 10px; 
+	display: inline-block; 
+	padding: 0px; 
+	margin: 0px auto; 
 	white-space: nowrap; 
 	box-sizing: border-box; 
 }
 
 .Arg {
 	position: relative; 
-	
 	display: inline-block; 
 }
 
@@ -20,29 +44,52 @@ div.trunk {
 	display: flex; 
 	flex-wrap: nowrap; 
 	justify-content: center; 
+	margin: 0px;
 	gap: 20px; 
 	
 }
 
 .AddBtnArg {
-	top: 10;
 	background: #99e; 
 	border: 5px solid #88d; 
-	border-radius: 50%; 
-	display: inline-flex; 
-	justify-content: center; 
-	align-items: center; 
-	padding: 0; 
-	margin: 5px; 
-	cursor: pointer; 
-	font-size: 16px; 
-	box-sizing: content-box; 
-	width: 25px; 
-	height: 25px; 
-	text-align: center; 
+	border-radius: 15px; 
+	display: inline-block;  
 	white-space: nowrap; 
+	box-sizing: border-box;
+	width: 30px; 
+	height: 30px;
+	margin: 0px;
 }
 
+.AddBtnArg:hover {
+	background: #b9e; 
+	border: 5px solid #a8d; 
+	border-radius: 15px; 
+	display: inline-block;  
+	white-space: nowrap; 
+	box-sizing: border-box;
+	width: 30px; 
+	height: 30px;
+	margin: 0px;
+}
+
+.OptBtn {
+	background: #aad;
+	width: 40%;
+}
+
+.AddBtnEvidence {
+	background: #aad; 
+	width: 40%;
+}
+
+.OptBtn:hover {
+	background: #87c; 
+}
+
+.AddBtnEvidence:hover {
+	background: #87c; 
+}
 
 div.BtnDiv * {
 	display: inline-block; 
@@ -58,4 +105,12 @@ div.BtnDiv * {
 	white-space: nowrap; 
 	box-sizing: border-box; 
 	height: 25px;
+}
+
+.EvidenceList {
+	padding: 0px;
+}
+
+.SubArgList {
+	padding: 0px;
 }
