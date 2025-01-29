@@ -1,19 +1,4 @@
-.horizontal-line {
-  /*width: 100px;*/
-  height: 2px; /* Ensure it's only the thickness of the line */
-  background-color: black;
-  margin: 0; /* Remove any default margin */
-  padding: 0; /* Remove any default padding */
-  display: block; /* Ensures no extra height */
-}
-
-.vertical-line {
-  width: 2px;  /* Thin vertical line */
-  height: 20px; /* Adjust height as needed */
-  background-color: black;
-}
-
-div.trunk {
+.trunk {
 	background: #99e; 
 	border: 5px solid #88d; 
 	border-radius: 10px; 
@@ -24,7 +9,7 @@ div.trunk {
 	box-sizing: border-box; 
 }
 
-div.trunk:hover {
+.trunk:hover {
 	background: #99e; 
 	border: 5px solid #88d; 
 	border-radius: 10px; 
@@ -109,8 +94,60 @@ div.BtnDiv * {
 
 .EvidenceList {
 	padding: 0px;
+	margin: 0px;
 }
 
 .SubArgList {
 	padding: 0px;
+}
+
+.Evidence {
+	background: #aaf;
+}
+
+.Evidence:hover {
+	background: #88e;
+}
+
+.Source {
+	background: #99e;
+	width: 90%;
+	margin: 0px;
+	display: none;
+}
+
+.Evidence:hover p.Source{
+	background: #99e;
+	display: block;
+}
+
+.BtnDiv {
+	background: #9ae;
+	width: 100%;
+	
+	
+}
+
+.horizontal-line {
+  /*width: 100px;*/
+  height: 2px; /* Ensure it's only the thickness of the line */
+  background-color: black;
+  margin: 0; /* Remove any default margin */
+  padding: 0; /* Remove any default padding */
+  display: block; /* Ensures no extra height */
+}
+
+.vertical-line {
+  width: 2px;  /* Thin vertical line */
+  height: 20px; /* Adjust height as needed */
+  background-color: black;
+}
+
+
+#graph {
+	margin: 2%;
+}
+
+body {
+	margin: 0px;
 }
