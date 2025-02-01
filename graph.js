@@ -240,26 +240,10 @@ function createEvidence(parent)
 	
 	document.getElementById('EL-'+parent).appendChild(EI);
 }
-/*
-function expandEvidence(id)
-{
-	IDs=evList();
-	for(let i=0; i<IDs.length; i++)
-	{
-		val=""
-		if(IDs[i]==id)
-			val="block";
-		else
-			val="none";
-		
-		document.getElementById('SRC-'+IDs[i]).style.display=val;
-	}
-}
-*/
 
 function expandOption(id)
 {
-	alert('expanding opt'+id);
+	modifyMode(id);
 }
 
 function idList()
@@ -380,7 +364,6 @@ function secondaryTextEvidence(id)
 	return "ERRORE!!";
 }
 
-
 function appArg(id, prim, sec)
 {
 	toAdd=id+'{'+prim+'}{'+sec+'}\n';
@@ -393,3 +376,85 @@ function appEv(id, prim, sec)
 	document.getElementById('evidence-data').append(toAdd);
 }
     
+function modifyMode(id)
+{
+	const ass=document.getElementById('A-'+id);
+	
+	const AI=document.createElement('textarea');
+	AI.id='AI-'+id;
+	AI.classList.add("AssertionModify");
+	AI.value=ass.textContent;
+	
+	AI.addEventListener('keyup', function onEvent(e) {
+		if (event.key === "Enter") {
+			subAss(AI.id.slice(3), AI.value);
+			
+			const graph=document.getElementById("graph");
+			graph.innerHTML = "";
+			showArg('0', graph);
+			expandArg(AI.id.slice(3));
+		}
+	});
+	
+	ass.replaceWith(AI);
+	
+	const res=document.getElementById('R-'+id);
+	
+	const EI=document.createElement('textarea');
+	EI.id='EI-'+id;
+	EI.classList.add("ReasoningModify");
+	EI.value=res.textContent;
+	
+	EI.addEventListener('keyup', function onEvent(e) {
+		if (event.key === "Enter") {
+			subRes(EI.id.slice(3), EI.value);
+			
+			const graph=document.getElementById("graph");
+			graph.innerHTML = "";
+			showArg('0', graph);
+			expandArg(EI.id.slice(3));
+		}
+	});
+	
+	res.replaceWith(EI);
+}
+
+function subAss(id, arg)
+{
+	rows=document.getElementById('argument-data').textContent;
+	fID='';
+	pos=0;
+	while(fID!=id)
+	{
+		txt=rows.slice(pos+1);
+		fID=txt.slice(0, txt.search('{'));
+		if(fID!=id)
+		{
+			pos+=txt.search('\n')+1;
+		}
+	}
+	beforeRows=rows.slice(0, pos);
+	afterRows=txt.slice(txt.search('\n')+1);
+	final=beforeRows+'\n'+id+'{'+arg+'}{'+secondaryText(id)+'}\n'+afterRows;
+	document.getElementById('argument-data').textContent=final;
+}
+
+function subRes(id, arg)
+{
+	rows=document.getElementById('argument-data').textContent;
+	fID='';
+	pos=0;
+	while(fID!=id)
+	{
+		txt=rows.slice(pos+1);
+		fID=txt.slice(0, txt.search('{'));
+		if(fID!=id)
+		{
+			pos+=txt.search('\n')+1;
+		}
+	}
+	beforeRows=rows.slice(0, pos);
+	afterRows=txt.slice(txt.search('\n')+1);
+	final=beforeRows+'\n'+id+'{'+primaryText(id)+'}{'+arg+'}\n'+afterRows;
+	document.getElementById('argument-data').textContent=final;
+}
