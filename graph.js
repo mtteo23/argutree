@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
+	listArg();
+	
+	
 	parent=document.getElementById("graph");
 	
 	showArg('0', parent);
@@ -248,16 +251,15 @@ function expandOption(id)
 
 function idList()
 {
-	const argData = document.getElementById('argument-data').textContent;
-            let rows = argData.split('\n');
+	rows=listArg();
             
-            if(rows[0].length==0)
-            {
+    if(rows[0].length==0)
+    {
 		rows=rows.slice(1);
 	}
 	
-            for(let i=0; i<rows.length; i++)
-            {	
+    for(let i=0; i<rows.length; i++)
+    {	
 		let ind=rows[i].search("{");
 		rows[i]=rows[i].slice(0, ind).trim();
 	}
@@ -267,15 +269,15 @@ function idList()
 function evList()
 {
 	const argData = document.getElementById('evidence-data').textContent;
-            let rows = argData.split('\n');
+    let rows = argData.split('\n');
             
-            if(rows[0].length==0)
-            {
+    if(rows[0].length==0)
+    {
 		rows=rows.slice(1);
 	}
 	
-            for(let i=0; i<rows.length; i++)
-            {	
+    for(let i=0; i<rows.length; i++)
+    {	
 		let ind=rows[i].search("{");
 		rows[i]=rows[i].slice(0, ind).trim();
 	}
@@ -296,11 +298,10 @@ function isEvidenceOf(parent, child)
 
 function primaryText(id)
 {
-	const argData = document.getElementById('argument-data').textContent;
-            let rows = argData.split('\n');
+	rows=listArg();
 	
-            for(let i=0; i<rows.length; i++)
-            {	
+	for(let i=0; i<rows.length; i++)
+    {	
 		let ind=rows[i].search("{");
 		if(rows[i].slice(0, ind).trim()==id)
 		{
@@ -313,11 +314,10 @@ function primaryText(id)
 
 function secondaryText(id)
 {
-	const argData = document.getElementById('argument-data').textContent;
-            let rows = argData.split('\n');
+	rows=listArg();
 	
-            for(let i=0; i<rows.length; i++)
-            {	
+	for(let i=0; i<rows.length; i++)
+    {	
 		let ind=rows[i].search("{");
 		if(rows[i].slice(0, ind).trim()==id)
 		{
@@ -366,57 +366,57 @@ function secondaryTextEvidence(id)
 
 function appArg(id, prim, sec)
 {
-	toAdd=id+'{'+prim+'}{'+sec+'}\n';
+	toAdd='#'+id+'{'+prim+'}{'+sec+'}\n';
 	document.getElementById('argument-data').append(toAdd);
 }
 
 function appEv(id, prim, sec)
 {
-	toAdd=id+'{'+prim+'}{'+sec+'}\n';
+	toAdd='#'+id+'{'+prim+'}{'+sec+'}\n';
 	document.getElementById('evidence-data').append(toAdd);
 }
     
 function modifyMode(id)
 {
-	const ass=document.getElementById('A-'+id);
-	
-	const AI=document.createElement('textarea');
-	AI.id='AI-'+id;
+	const ass = document.getElementById('A-' + id);
+
+	const divA = document.createElement('div');
+	divA.classList.add("grow-wrap");
+	divA.dataset.replicatedValue = ass.textContent;
+
+	const AI = document.createElement('textarea');
+	AI.id = 'AI-' + id;
 	AI.classList.add("AssertionModify");
-	AI.value=ass.textContent;
+	AI.value = ass.textContent;
+	AI.spellcheck = false;
+	AI.cols = 30;
+
+	AI.oninput = function () {
+		this.parentNode.dataset.replicatedValue = this.value;
+	};
+
+	divA.appendChild(AI);
+	ass.replaceWith(divA);
 	
-	AI.addEventListener('keyup', function onEvent(e) {
-		if (event.key === "Enter") {
-			subAss(AI.id.slice(3), AI.value);
-			
-			const graph=document.getElementById("graph");
-			graph.innerHTML = "";
-			showArg('0', graph);
-			expandArg(AI.id.slice(3));
-		}
-	});
-	
-	ass.replaceWith(AI);
-	
-	const res=document.getElementById('R-'+id);
-	
-	const EI=document.createElement('textarea');
-	EI.id='EI-'+id;
-	EI.classList.add("ReasoningModify");
-	EI.value=res.textContent;
-	
-	EI.addEventListener('keyup', function onEvent(e) {
-		if (event.key === "Enter") {
-			subRes(EI.id.slice(3), EI.value);
-			
-			const graph=document.getElementById("graph");
-			graph.innerHTML = "";
-			showArg('0', graph);
-			expandArg(EI.id.slice(3));
-		}
-	});
-	
-	res.replaceWith(EI);
+	const res = document.getElementById('R-' + id);
+
+	const divR = document.createElement('div');
+	divR.classList.add("grow-wrap");
+	divR.dataset.replicatedValue = res.textContent;
+
+	const RI = document.createElement('textarea');
+	RI.id = 'RI-' + id;
+	RI.classList.add("AssertionModify");
+	RI.value = res.textContent;
+	RI.spellcheck = false;
+	RI.cols = 30;
+
+	RI.oninput = function () {
+		this.parentNode.dataset.replicatedValue = this.value;
+	};
+
+	divR.appendChild(RI);
+	res.replaceWith(divR);
 }
 
 function subAss(id, arg)
@@ -435,7 +435,7 @@ function subAss(id, arg)
 	}
 	beforeRows=rows.slice(0, pos);
 	afterRows=txt.slice(txt.search('\n')+1);
-	final=beforeRows+'\n'+id+'{'+arg+'}{'+secondaryText(id)+'}\n'+afterRows;
+	final=beforeRows+'\n#'+id+'{'+arg+'}{'+secondaryText(id)+'}\n'+afterRows;
 	document.getElementById('argument-data').textContent=final;
 }
 
@@ -455,6 +455,21 @@ function subRes(id, arg)
 	}
 	beforeRows=rows.slice(0, pos);
 	afterRows=txt.slice(txt.search('\n')+1);
-	final=beforeRows+'\n'+id+'{'+primaryText(id)+'}{'+arg+'}\n'+afterRows;
+	final=beforeRows+'\n#'+id+'{'+primaryText(id)+'}{'+arg+'}\n'+afterRows;
 	document.getElementById('argument-data').textContent=final;
+}
+
+function listArg()
+{
+	rows=document.getElementById('argument-data').textContent;
+	rows=rows.split("#");
+	
+	rows=rows.slice(1);
+	
+	for(i=0; i<rows.length; i++)
+	{
+		rows[i]=rows[i].trim();
+	}
+	
+	return rows;
 }

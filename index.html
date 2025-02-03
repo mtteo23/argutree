@@ -9,8 +9,10 @@
 	</head>
 
 	<body>
-		<button>Login</button>
-		<button>Explore</button>
+		<div class="grow-wrap">
+			<textarea spellcheck="false" cols="30" onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+		</div>
+		
 		<div id="graph" align="center"></div>
 		
 		
@@ -22,10 +24,10 @@
 	
 	
     <script id="argument-data" type="text/plain">
-0{La pasta rigata è migliore di quella liscia}{La mozione è limitata alla pasta prodotta industrialmente}
-1-0{La pasta valorizza il condimento}{Le superfici ruvide e irregolari creano più spazi per il deposito del condimento che nelle paste lisce scorrerebbe via. In questo modo ogni elemento ha la maggior quantità possibile di condimento}
-2-0{La pasta rigata si cuoce in maniera irregolare}{Le superfici irregolari della pasta creano aree a distanze diverse dal centro che quindi si cuoceranno a velocità diverse rispetto ad altre aree}
-1-1-0{Il trattenimento del condimento non è esclusivo della pasta rigata}{La pasta liscia laminata al bronzo trattiene il sugo tanto quanto la pasta rigata, grazie a micro-irregolarita}
+#0{La pasta rigata è migliore di quella liscia}{La mozione è limitata alla pasta prodotta industrialmente}
+#1-0{La pasta valorizza il condimento}{Le superfici ruvide e irregolari creano più spazi per il deposito del condimento che nelle paste lisce scorrerebbe via. In questo modo ogni elemento ha la maggior quantità possibile di condimento}
+#2-0{La pasta rigata si cuoce in maniera irregolare}{Le superfici irregolari della pasta creano aree a distanze diverse dal centro che quindi si cuoceranno a velocità diverse rispetto ad altre aree}
+#1-1-0{Il trattenimento del condimento non è esclusivo della pasta rigata}{La pasta liscia laminata al bronzo trattiene il sugo tanto quanto la pasta rigata, grazie a micro-irregolarita}
     </script>
     
     <script id="evidence-data" type="text/plain">
@@ -35,6 +37,7 @@
     <script id="comment-data" type="text/plain">
     </script>
 
+	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 	<script src="graph.js">
     </script>
 </html>

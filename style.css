@@ -69,35 +69,11 @@
 .AssertionModify {
     background: #99e;
     border: 0px;
-    margin: 15px;
-    font-size: 14px;
-    width: 100%; 
-    min-width: 50px;
-    max-width: 300px; 
-    
-    overflow-wrap: break-word;
-    white-space: pre-wrap; 
-
-	resize: vertical; 
-    font-family: inherit;
-    line-height: 1.2;
 }
 
 .ReasoningModify {
-    background: #99e;
+	background: #99e;
     border: 0px;
-    margin: 10px;
-    font-size: 14px;
-    width: 100%; 
-    min-width: 50px;
-    max-width: 600px; 
-    
-    overflow-wrap: break-word;
-    white-space: pre-wrap; 
-
-	resize: vertical; 
-    font-family: inherit;
-    line-height: 1.2;
 }
 
 .AddBtnArg {
@@ -215,4 +191,25 @@ div.BtnDiv * {
 
 body {
 	margin: 0px;
+}
+
+.grow-wrap {
+  display: grid;
+}
+.grow-wrap::after {
+  content: attr(data-replicated-value) " ";
+  white-space: pre-wrap;
+  visibility: hidden;
+}
+.grow-wrap > textarea {
+  resize: none;
+  overflow: hidden;
+  
+}
+.grow-wrap > textarea,
+.grow-wrap::after {
+  border: 0px;
+  padding: 0.5rem;
+  font: inherit;
+  grid-area: 1 / 1 / 2 / 2;
 }
