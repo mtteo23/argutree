@@ -26,14 +26,15 @@
 	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
 	<script>
-	  document.addEventListener('DOMContentLoaded', () => {
+		
 		// Supabase configuration
 		const SUPABASE_URL = 'https://htbxgsolhsxacotnprjq.supabase.co';
 		const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0Ynhnc29saHN4YWNvdG5wcmpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE2MzQ2MzAsImV4cCI6MjA1NzIxMDYzMH0.OJy9IdF8aWh_YuqU3WIdvuqAX-2GAfTTjMxu9zMAHMo';
 		
 		// Initialize the Supabase client using the global object
 		const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
+		
+		
 		// Fetch and display records
 		async function fetchRecords() {
 		  const { data, error } = await supabaseClient.from('Arguments').select('*');
@@ -54,24 +55,9 @@
 			showArg(childOf('0'), parent);
 			expandArg(childOf('0'));	
 		}
-
-		/* Add record to database
-		document.getElementById('dataForm').addEventListener('submit', async (event) => {
-		  event.preventDefault();
-		  const Assertion = document.getElementById('assInp').value;
-		  const Reasoning = document.getElementById('resInp').value;
-		  const Parent = document.getElementById('parInp').value;
-
-		  const { error } = await supabaseClient.from('Arguments').insert([{ Assertion, Reasoning, Parent }]);
-		  if (error) {
-			console.error('Error adding record:', error);
-			return;
-		  }
-
-		  document.getElementById('dataForm').reset();
-		  fetchRecords();
-		});*/
-
+		
+		
+	  document.addEventListener('DOMContentLoaded', () => {
 		// Initialize records fetching
 		fetchRecords();
 	});
@@ -236,39 +222,33 @@
 			}
 		}
 
-		function createArg(parent)
+		function createArg(Parent)
 		{
-			let lastN=0;
-			let found=1;
-			IDs=idList();
-			while(found==1)
-			{
-				found=0;
-				lastN++;
-				for(i=0; i<IDs.length; i++)
-				{
-					if(lastN+'-'+parent==IDs[i])
-						found=1;
-				}
-			}
-			
-			id=lastN+'-'+parent;
-			
-			const p=document.getElementById('AddA-'+parent);
-			
+			const p=document.getElementById('AddA-'+Parent);
 			const AI=document.createElement('input');
-			AI.id='AI-'+id;
+			AI.id='AI-'+Parent;
 			AI.classList.add("AssertionInput");
 			AI.textContent='';
 			
 			AI.addEventListener('keyup', function onEvent(e) {
 				if (event.key === "Enter") {
-					appArg(AI.id.slice(3), AI.value, 'Write here the reasoning');
 					
-					const graph=document.getElementById("graph");
+					var Assertion = AI.value;
+					var Reasoning = 'Write here the reasoning';
+					supabaseClient
+					.from('Arguments')
+					.insert([{ Assertion: Assertion, Reasoning: Reasoning, Parent: Parent }])
+					.then(function(response) {
+					  if (response.error) {
+						console.log('Error adding record:', response.error.message);
+					  } else {
+						console.log('Record added successfully:', response.data);
+						document.getElementById('dataForm').reset(); // Reset form
+					  }
+					});
+					
 					graph.innerHTML = "";
-					showArg('0', graph);
-					expandArg(AI.id.slice(3));
+					fetchRecords();
 				}
 			});
 			
