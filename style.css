@@ -118,6 +118,24 @@
 	background: #87c; 
 }
 
+.saveBtn{
+	background: #aad;
+	width: 40%;
+}
+
+.saveBtn:hover{
+	background: #87c; 
+}
+
+.delBtn{
+	background: #aad;
+	width: 40%;
+}
+
+.delBtn:hover{
+	background: #87c; 
+}
+
 div.BtnDiv * {
 	display: inline-block; 
 	margin: 0 5px; 
