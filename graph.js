@@ -9,23 +9,66 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 // Initialize the Supabase client using the global object
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// Fetch and display records
+const evidenceList = [];
+class Evidence {
+  constructor(id, explanation, source, parent) {
+	this.id = id;
+    this.explanation = explanation; 
+    this.source = source;
+    this.parent = parent;
+  }
+}
+
+const argumentList = [];
+class Argument {
+  constructor(id, assertion, reasoning, parent) {
+	this.id = id;
+    this.assertion = assertion; 
+    this.reasoing = reasoning;
+    this.parent = parent;
+  }
+}
+
+
+
+
+
 async function fetchRecords() {
-    const {
-        data,
-        error
-    } = await supabaseClient.from('Arguments').select('*');
-    if (error) {
-        console.error('Error fetching records:', error);
-        return;
-    }
 	
-	const argData = document.getElementById('argument-data');
-    argData.innerHTML='';
-    
-    data.forEach(argument => {
-        argData.innerHTML += '#' + argument.Parent + '-' + argument.id + '{' + argument.Assertion + '}{' + argument.Reasoning + '}\n';
-    });
+	{
+		const {
+			data,
+			error
+		} = await supabaseClient.from('Argument').select('*');
+		if (error) {
+			console.error('Error fetching records:', error);
+			return;
+		}
+		
+		const argData = document.getElementById('argument-data');
+		argData.innerHTML='';
+		
+		data.forEach(argument => {
+			argData.innerHTML += '#' + argument.Parent + '-' + argument.id + '{' + argument.Assertion + '}{' + argument.Reasoning + '}\n';
+			const newArgument = new Argument(argument.id, argument.Assertion, argument.Reasoning, argument.Parent);
+			argumentList.push(newArgument);
+		});
+	}
+	{	
+		const {
+			data,
+			error
+		} = await supabaseClient.from('Evidence').select('*');
+		if (error) {
+			console.error('Error fetching records:', error);
+			return;
+		}
+		
+		data.forEach(evidence => {
+			const newEvidence = new Evidence(evidence.id, evidence.Explaination, evidence.Source, evidence.Parent);
+			evidenceList.push(newEvidence);
+			});		
+	}
 	
     parent = document.getElementById("graph");
     parent.innerHTML='';
@@ -84,22 +127,20 @@ function showArg(id, parent) {
     el.align = 'center';
     expanded.appendChild(el);
 
-    IDs = evList();
-    for (let i = 0; i < IDs.length; i++) {
-        if (isEvidenceOf(id, IDs[i])) {
-
+    IDs = evIdList();
+    for (let i = 0; i < evidenceList.length; i++) {
+        if (id==evidenceList[i].parent) {
+			
             const ev = document.createElement('div');
-            ev.id = IDs[i];
+            ev.id = evidenceList[i].id;
             ev.classList.add("Evidence");
-            ev.textContent = primaryTextEvidence(IDs[i]);
-            //ev.onclick=function() { expandEvidence(ev.id) };
+            ev.textContent = evidenceList[i].explanation;
             el.appendChild(ev);
 
             const sr = document.createElement('p');
-            sr.id = 'SRC-' + IDs[i];
+            sr.id = 'SRC-' + evidenceList[i].id;
             sr.classList.add("Source");
-            sr.textContent = secondaryTextEvidence(IDs[i]);
-            //sr.style.display="none";
+            sr.textContent = evidenceList[i].source;
             ev.appendChild(sr);
         }
     }
@@ -136,9 +177,8 @@ function showArg(id, parent) {
     main.appendChild(lowline);
 	
     {
-        IDs = idList();
-        for (let i = 0; i < IDs.length; i++) {
-            if (parentOf(IDs[i]) == id) {
+        for (let i = 0; i < argumentList.length; i++) {
+            if (argumentList[i].parent == id) {
                 const hline = document.createElement('div');
                 hline.classList.add("horizontal-line");
                 main.appendChild(hline);
@@ -153,9 +193,9 @@ function showArg(id, parent) {
     sal.classList.add("SubArgList");
     main.appendChild(sal);
 
-    IDs = idList();
+    IDs = argIdList();
     for (let i = 0; i < IDs.length; i++) {
-        if (parentOf(IDs[i]) == id) {
+        if (argParentOf(IDs[i]) == id) {
             showArg(IDs[i], sal);
         }
     }
@@ -178,7 +218,7 @@ function showArg(id, parent) {
 }
 
 function expandArg(id) {
-    IDs = idList();
+    IDs = argIdList();
     for (let i = 0; i < IDs.length; i++) {
         val = ""
         if (IDs[i] == id)
@@ -190,71 +230,30 @@ function expandArg(id) {
     }
 }
 
-function createArg(Parent) {
-    const p = document.getElementById('AddA-' + Parent);
-    const AI = document.createElement('input');
-    
-    AI.id = 'AI-' + Parent;
-    AI.classList.add("AssertionInput");
-    AI.textContent = '';
+function createEvidence(parent) {
+	
+	const EI = document.createElement('input');
+    EI.id = 'EI-' + parent;
+    EI.classList.add("AssertionInput");
+    EI.textContent = '';
 
-    AI.addEventListener('keyup', function onEvent(e) {
+    EI.addEventListener('keyup', function onEvent(e) {
         if (event.key === "Enter") {
-
-            var Assertion = AI.value;
-            var Reasoning = 'Write here the reasoning';
-            supabaseClient
-                .from('Arguments')
+			supabaseClient
+                .from('Evidence')
                 .insert([{
-                    Assertion: Assertion,
-                    Reasoning: Reasoning,
-                    Parent: Parent
+                    Explaination: EI.value,
+					Source: 'Source missing',
+                    Parent: parent
                 }])
                 .then(function(response) {
                     if (response.error) {
                         console.log('Error adding record:', response.error.message);
                     } else {
                         console.log('Record added successfully:', response.data);
-                        document.getElementById('dataForm').reset(); // Reset form
                     }
                 });
             fetchRecords();
-        }
-    });
-
-    p.replaceWith(AI);
-}
-
-function createEvidence(parent) {
-    let lastN = 0;
-    let found = 1;
-    IDs = evList();
-    while (found == 1) {
-        found = 0;
-        lastN++;
-        for (i = 0; i < IDs.length; i++) {
-            if (lastN + 'E-' + parent == IDs[i])
-                found = 1;
-        }
-    }
-
-    id = lastN + 'E-' + parent;
-
-    const EI = document.createElement('input');
-    EI.id = 'EI-' + id;
-    EI.classList.add("AssertionInput");
-    EI.textContent = '';
-
-    EI.addEventListener('keyup', function onEvent(e) {
-        if (event.key === "Enter") {
-            appEv(EI.id.slice(3), EI.value, 'Write here the sources');
-
-            id = EI.id.slice(3);
-            id = id.slice(id.search("E-") + 2);
-            const graph = document.getElementById("graph");
-            graph.innerHTML = "";
-            showArg('0', graph);
-            expandArg(id);
         }
     });
 
@@ -262,10 +261,10 @@ function createEvidence(parent) {
 }
 
 function expandOption(id) {
-    modifyMode(id);
+    modifyArg(id);
 }
 
-function parentOf(id) {
+function argParentOf(id) {
     rows = listArg();
 
     if (rows[0].length == 0) {
@@ -305,7 +304,7 @@ function childOf(id) {
     return -1;
 }
 
-function idList() {
+function argIdList() {
     rows = listArg();
 
     if (rows[0].length == 0) {
@@ -320,24 +319,12 @@ function idList() {
     return rows;
 }
 
-function evList() {
-    const argData = document.getElementById('evidence-data').textContent;
-    let rows = argData.split('\n');
-
-    if (rows[0].length == 0) {
-        rows = rows.slice(1);
+function evIdList() {
+	var ret=[];
+    for (let i = 0; i < evidenceList.length; i++) {
+        ret.push(evidenceList[i].id);
     }
-
-    for (let i = 0; i < rows.length; i++) {
-        let ind = rows[i].search("{");
-        rows[i] = rows[i].slice(0, ind).trim();
-    }
-    return rows;
-}
-
-function isEvidenceOf(parent, child) {
-    ind = child.search("E-");
-    return (child.slice(ind + 2) == parent && child != parent);
+    return ret;
 }
 
 function primaryText(id) {
@@ -369,46 +356,12 @@ function secondaryText(id) {
     return "ERRORE!!";
 }
 
-function primaryTextEvidence(id) {
-    const argData = document.getElementById('evidence-data').textContent;
-    let rows = argData.split('\n');
-
-    for (let i = 0; i < rows.length; i++) {
-        let ind = rows[i].search("{");
-        if (rows[i].slice(0, ind).trim() == id) {
-            let end = rows[i].search("}{");
-            return rows[i].slice(ind + 1, end);
-        }
-    }
-    return "ERRORE!!";
-}
-
-function secondaryTextEvidence(id) {
-    const argData = document.getElementById('evidence-data').textContent;
-    let rows = argData.split('\n');
-
-    for (let i = 0; i < rows.length; i++) {
-        let ind = rows[i].search("{");
-        if (rows[i].slice(0, ind).trim() == id) {
-            ind = rows[i].search("}{") + 2;
-            let end = rows[i].slice(ind).search("}");
-            return rows[i].slice(ind, ind + end);
-        }
-    }
-    return "ERRORE!!";
-}
-
 function appArg(id, prim, sec) {
     toAdd = '#' + id + '{' + prim + '}{' + sec + '}\n';
     document.getElementById('argument-data').append(toAdd);
 }
 
-function appEv(id, prim, sec) {
-    toAdd = '#' + id + '{' + prim + '}{' + sec + '}\n';
-    document.getElementById('evidence-data').append(toAdd);
-}
-
-function modifyMode(id) {
+function modifyArg(id) {
     const ass = document.getElementById('A-' + id);
     const divA = document.createElement('div');
     divA.classList.add("grow-wrap");
@@ -454,7 +407,7 @@ function modifyMode(id) {
     saveBtn.classList.add("saveBtn");
     saveBtn.textContent = "save";
     saveBtn.onclick = function() {
-        alert('saving');
+        updateArg(id, AI.value, RI.value);
     };
     optBtn.replaceWith(saveBtn);
     
@@ -470,23 +423,74 @@ function modifyMode(id) {
 		}
 		else
 		{
-			alert('deleting');
-			deleteRecord(id);
-			alert('deleted');
+			deleteArg(id);
 		}
     };
     addE.replaceWith(delBtn);
 }
 
 
- async function deleteRecord(id) {
-    const { error } = await supabaseClient.from('Arguments').delete().eq('id', id);
+function createArg(Parent) {
+    const p = document.getElementById('AddA-' + Parent);
+    const AI = document.createElement('input');
+    
+    AI.id = 'AI-' + Parent;
+    AI.classList.add("AssertionInput");
+    AI.textContent = '';
+
+    AI.addEventListener('keyup', function onEvent(e) {
+        if (event.key === "Enter") {
+
+            var Assertion = AI.value;
+            var Reasoning = 'Write here the reasoning';
+            supabaseClient
+                .from('Argument')
+                .insert([{
+                    Assertion: Assertion,
+                    Reasoning: Reasoning,
+                    Parent: Parent
+                }])
+                .then(function(response) {
+                    if (response.error) {
+                        console.log('Error adding record:', response.error.message);
+                    } else {
+                        console.log('Record added successfully:', response.data);
+                        document.getElementById('dataForm').reset(); // Reset form
+                    }
+                });
+            fetchRecords();
+        }
+    });
+
+    p.replaceWith(AI);
+}
+
+ async function deleteArg(id) {
+    const { error } = await supabaseClient.from('Argument').delete().eq('id', id);
     if (error) {
       alert('Error deleting record:'+error);
       return;
     }
     fetchRecords();
  }
+
+async function updateArg(id, Assertion, Reasoning) {
+  const { error } = await supabaseClient
+    .from('Argument')
+    .update([{
+                    Assertion: Assertion,
+                    Reasoning: Reasoning,
+                    Parent: argParentOf(id)
+                }])
+    .eq('id', id);
+
+  if (error) {
+    alert('Error updating record: ' + error.message);
+    return;
+  }
+
+  fetchRecords();
+}
 
 function subAss(id, arg) {
     rows = document.getElementById('argument-data').textContent;
