@@ -9,7 +9,7 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 // Initialize the Supabase client using the global object
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-const evidenceList = [];
+var evidenceList = [];
 class Evidence {
   constructor(id, explanation, source, parent) {
 	this.id = id;
@@ -19,12 +19,12 @@ class Evidence {
   }
 }
 
-const argumentList = [];
+var argumentList = [];
 class Argument {
   constructor(id, assertion, reasoning, parent) {
 	this.id = id;
     this.assertion = assertion; 
-    this.reasoing = reasoning;
+    this.reasoning = reasoning;
     this.parent = parent;
   }
 }
@@ -47,9 +47,8 @@ async function fetchRecords() {
 		
 		const argData = document.getElementById('argument-data');
 		argData.innerHTML='';
-		
+		argumentList=[];
 		data.forEach(argument => {
-			argData.innerHTML += '#' + argument.Parent + '-' + argument.id + '{' + argument.Assertion + '}{' + argument.Reasoning + '}\n';
 			const newArgument = new Argument(argument.id, argument.Assertion, argument.Reasoning, argument.Parent);
 			argumentList.push(newArgument);
 		});
@@ -63,7 +62,7 @@ async function fetchRecords() {
 			console.error('Error fetching records:', error);
 			return;
 		}
-		
+		evidenceList=[];
 		data.forEach(evidence => {
 			const newEvidence = new Evidence(evidence.id, evidence.Explaination, evidence.Source, evidence.Parent);
 			evidenceList.push(newEvidence);
@@ -104,7 +103,7 @@ function showArg(id, parent) {
     const ass = document.createElement('p');
     ass.id = 'A-' + id;
     ass.classList.add("Assertion");
-    ass.textContent = primaryText(id);
+    ass.textContent = findArg(id).assertion;
     trunk.appendChild(ass);
 
     //Secondary elements container
@@ -117,7 +116,7 @@ function showArg(id, parent) {
     const res = document.createElement('p');
     res.id = 'R-' + id;
     res.classList.add("Reasoning");
-    res.textContent = secondaryText(id);
+    res.textContent = findArg(id).reasoning;
     expanded.appendChild(res);
 
     //Evidence List
@@ -193,10 +192,9 @@ function showArg(id, parent) {
     sal.classList.add("SubArgList");
     main.appendChild(sal);
 
-    IDs = argIdList();
-    for (let i = 0; i < IDs.length; i++) {
-        if (argParentOf(IDs[i]) == id) {
-            showArg(IDs[i], sal);
+    for (let i = 0; i < argumentList.length; i++) {
+        if (argumentList[i].parent == id) {
+            showArg(argumentList[i].id, sal);
         }
     }
     const addBtnDiv = document.createElement('div');
@@ -218,15 +216,14 @@ function showArg(id, parent) {
 }
 
 function expandArg(id) {
-    IDs = argIdList();
-    for (let i = 0; i < IDs.length; i++) {
+    for (let i = 0; i < argumentList.length; i++) {
         val = ""
-        if (IDs[i] == id)
+        if (argumentList[i].id == id)
             val = "block";
         else
             val = "none";
 
-        document.getElementById('EXP-' + IDs[i]).style.display = val;
+        document.getElementById('EXP-' + argumentList[i].id).style.display = val;
     }
 }
 
@@ -264,43 +261,12 @@ function expandOption(id) {
     modifyArg(id);
 }
 
-function argParentOf(id) {
-    rows = listArg();
-
-    if (rows[0].length == 0) {
-        rows = rows.slice(1);
-    }
-
-    for (let i = 0; i < rows.length; i++) {
-        let ind = rows[i].search("{");
-        let tmp = rows[i].slice(0, ind).trim();
-        ind = tmp.search("-");
-        let parent = tmp.slice(0, ind);
-        let child = tmp.slice(ind + 1);
-        if (child == id) {
-            return parent;
-        }
-    }
-    return -1;
-}
-
 function childOf(id) {
-    rows = listArg();
-
-    if (rows[0].length == 0) {
-        rows = rows.slice(1);
-    }
-
-    for (let i = 0; i < rows.length; i++) {
-        let ind = rows[i].search("{");
-        let tmp = rows[i].slice(0, ind).trim();
-        ind = tmp.search("-");
-        let parent = tmp.slice(0, ind);
-        let child = tmp.slice(ind + 1);
-        if (parent == id) {
-            return child;
-        }
-    }
+    for(i=0; i<argumentList.length; i++)
+    {
+		if(argumentList[i].parent==id)
+			return argumentList[i].id;
+	}
     return -1;
 }
 
@@ -325,40 +291,6 @@ function evIdList() {
         ret.push(evidenceList[i].id);
     }
     return ret;
-}
-
-function primaryText(id) {
-    rows = listArg();
-
-    for (let i = 0; i < rows.length; i++) {
-        let start = rows[i].search("-") + 1;
-        let ind = rows[i].search("{");
-        if (rows[i].slice(start, ind).trim() == id) {
-            end = rows[i].search("}{");
-            return rows[i].slice(ind + 1, end);
-        }
-    }
-    return "ERRORE!!";
-}
-
-function secondaryText(id) {
-    rows = listArg();
-
-    for (let i = 0; i < rows.length; i++) {
-        let start = rows[i].search("-") + 1;
-        let ind = rows[i].search("{");
-        if (rows[i].slice(start, ind).trim() == id) {
-            ind = rows[i].search("}{") + 2;
-            let end = rows[i].slice(ind).search("}");
-            return rows[i].slice(ind, ind + end);
-        }
-    }
-    return "ERRORE!!";
-}
-
-function appArg(id, prim, sec) {
-    toAdd = '#' + id + '{' + prim + '}{' + sec + '}\n';
-    document.getElementById('argument-data').append(toAdd);
 }
 
 function modifyArg(id) {
@@ -429,6 +361,14 @@ function modifyArg(id) {
     addE.replaceWith(delBtn);
 }
 
+function findArg(id){
+	for(i=0; i<argumentList.length; i++)
+	{
+		if(argumentList[i].id == id)
+			return argumentList[i];
+	}
+	return null;
+}
 
 function createArg(Parent) {
     const p = document.getElementById('AddA-' + Parent);
@@ -480,7 +420,7 @@ async function updateArg(id, Assertion, Reasoning) {
     .update([{
                     Assertion: Assertion,
                     Reasoning: Reasoning,
-                    Parent: argParentOf(id)
+                    Parent: findArg(id).parent
                 }])
     .eq('id', id);
 
@@ -488,53 +428,8 @@ async function updateArg(id, Assertion, Reasoning) {
     alert('Error updating record: ' + error.message);
     return;
   }
-
+	alert(argumentList.length);
   fetchRecords();
+  alert(argumentList.length)
 }
 
-function subAss(id, arg) {
-    rows = document.getElementById('argument-data').textContent;
-    fID = '';
-    pos = 0;
-    while (fID != id) {
-        txt = rows.slice(pos + 1);
-        fID = txt.slice(0, txt.search('{'));
-        if (fID != id) {
-            pos += txt.search('\n') + 1;
-        }
-    }
-    beforeRows = rows.slice(0, pos);
-    afterRows = txt.slice(txt.search('\n') + 1);
-    final = beforeRows + '\n#' + id + '{' + arg + '}{' + secondaryText(id) + '}\n' + afterRows;
-    document.getElementById('argument-data').textContent = final;
-}
-
-function subRes(id, arg) {
-    rows = document.getElementById('argument-data').textContent;
-    fID = '';
-    pos = 0;
-    while (fID != id) {
-        txt = rows.slice(pos + 1);
-        fID = txt.slice(0, txt.search('{'));
-        if (fID != id) {
-            pos += txt.search('\n') + 1;
-        }
-    }
-    beforeRows = rows.slice(0, pos);
-    afterRows = txt.slice(txt.search('\n') + 1);
-    final = beforeRows + '\n#' + id + '{' + primaryText(id) + '}{' + arg + '}\n' + afterRows;
-    document.getElementById('argument-data').textContent = final;
-}
-
-function listArg() {
-    rows = document.getElementById('argument-data').textContent;
-    rows = rows.split("#");
-
-    rows = rows.slice(1);
-
-    for (i = 0; i < rows.length; i++) {
-        rows[i] = rows[i].trim();
-    }
-
-    return rows;
-}
