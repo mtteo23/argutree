@@ -30,9 +30,6 @@ class Argument {
 }
 
 
-
-
-
 async function fetchRecords() {
 	
 	{
@@ -127,18 +124,7 @@ function showArg(id, parent) {
     IDs = evIdList();
     for (let i = 0; i < evidenceList.length; i++) {
         if (id==evidenceList[i].parent) {
-			
-            const ev = document.createElement('div');
-            ev.id = 'EV'+evidenceList[i].id;
-            ev.classList.add("Evidence");
-            ev.textContent = evidenceList[i].explanation;
-            el.appendChild(ev);
-
-            const sr = document.createElement('p');
-            sr.id = 'SRC-' + evidenceList[i].id;
-            sr.classList.add("Source");
-            sr.textContent = evidenceList[i].source;
-            ev.appendChild(sr);
+			showEv(evidenceList[i], el);
         }
     }
 
@@ -229,6 +215,19 @@ function expandOption(id) {
     modify(id);
 }
 
+function showEv(evidence, el){
+	const ev = document.createElement('div');
+    ev.id = 'EV'+evidence.id;
+    ev.classList.add("Evidence");
+    ev.textContent = evidence.explanation;
+    el.appendChild(ev);
+
+    const sr = document.createElement('p');
+    sr.id = 'SRC-' + evidence.id;
+    sr.classList.add("Source");
+    sr.textContent = evidence.source;
+    ev.appendChild(sr);
+}
 
 function modify(id) {
     const ass = document.getElementById('A-' + id);
@@ -269,44 +268,45 @@ function modify(id) {
     divR.appendChild(RI);
     res.replaceWith(divR);
     /*
-    for(){
-    {		
-		const exp = document.getElementById('EV-' + id);
-		const divA = document.createElement('div');
-		divA.classList.add("grow-wrap");
-		divA.dataset.replicatedValue = ass.textContent;
+    for(i=0; i<evidenceList.length; i++){
+    if(evidenceList[i].parent==id){		
+		const divE = document.getElementById('EV-' + id);
+		const modEvDiv = document.createElement('div');
+		modEvDiv.classList.add("grow-wrap");
+		modEvDiv.dataset.replicatedValue = ass.textContent;
 
-		const AI = document.createElement('textarea');
-		AI.id = 'AI-' + id;
-		AI.classList.add("AssertionModify");
-		AI.value = ass.textContent;
-		AI.spellcheck = false;
-		AI.cols = 30;
+		const EI = document.createElement('textarea');
+		EI.id = 'EI-' + id;
+		EI.classList.add("AssertionModify");
+		EI.value = ass.textContent;
+		EI.spellcheck = false;
+		EI.cols = 30;
 
-		AI.oninput = function() {
+		EI.oninput = function() {
 			this.parentNode.dataset.replicatedValue = this.value;
 		};
 
-		divA.appendChild(AI);
-		ass.replaceWith(divA);
+		divE.appendChild(EI);
+		ass.replaceWith(divE);
 
-		const divR = document.createElement('div');
-		divR.classList.add("grow-wrap");
-		divR.dataset.replicatedValue = res.textContent;
+		const divS = document.createElement('div');
+		divS.classList.add("grow-wrap");
+		divS.dataset.replicatedValue = res.textContent;
 
-		const RI = document.createElement('textarea');
-		RI.id = 'RI-' + id;
-		RI.classList.add("AssertionModify");
-		RI.value = res.textContent;
-		RI.spellcheck = false;
-		RI.cols = 30;
+		const SI = document.createElement('textarea');
+		SI.id = 'SI-' + id;
+		SI.classList.add("AssertionModify");
+		SI.value = res.textContent;
+		SI.spellcheck = false;
+		SI.cols = 30;
 
-		RI.oninput = function() {
+		SI.oninput = function() {
 			this.parentNode.dataset.replicatedValue = this.value;
 		};
 
-		divR.appendChild(RI);	
-	}*/
+		divS.appendChild(SI);	
+	}
+	 }*/
 	
     const optBtn = document.getElementById('OPT-' + id);
     const saveBtn = document.createElement('p');
@@ -395,9 +395,7 @@ async function updateArg(id, Assertion, Reasoning) {
     alert('Error updating record: ' + error.message);
     return;
   }
-	alert(argumentList.length);
   fetchRecords();
-  alert(argumentList.length)
 }
 
 
