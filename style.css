@@ -76,6 +76,16 @@
     border: 0px;
 }
 
+.ExplanationModify {
+    background: #99e;
+    border: 0px;
+}
+
+.SourceModify {
+	background: #99e;
+    border: 0px;
+}
+
 .AddBtnArg {
 	background: #99e; 
 	border: 5px solid #88d; 

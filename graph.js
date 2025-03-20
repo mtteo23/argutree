@@ -59,7 +59,7 @@ async function fetchRecords() {
 		}
 		evidenceList=[];
 		data.forEach(evidence => {
-			const newEvidence = new Evidence(evidence.id, evidence.Explaination, evidence.Source, evidence.Parent);
+			const newEvidence = new Evidence(evidence.id, evidence.Explanation, evidence.Source, evidence.Parent);
 			evidenceList.push(newEvidence);
 			});		
 	}
@@ -217,7 +217,7 @@ function expandOption(id) {
 
 function showEv(evidence, el){
 	const ev = document.createElement('div');
-    ev.id = 'EV'+evidence.id;
+    ev.id = 'EV-'+evidence.id;
     ev.classList.add("Evidence");
     ev.textContent = evidence.explanation;
     el.appendChild(ev);
@@ -267,46 +267,47 @@ function modify(id) {
 
     divR.appendChild(RI);
     res.replaceWith(divR);
-    /*
+    
     for(i=0; i<evidenceList.length; i++){
-    if(evidenceList[i].parent==id){		
-		const divE = document.getElementById('EV-' + id);
+    if(evidenceList[i].parent==id){
+		const divE = document.getElementById('EV-' + evidenceList[i].id);
 		const modEvDiv = document.createElement('div');
 		modEvDiv.classList.add("grow-wrap");
 		modEvDiv.dataset.replicatedValue = ass.textContent;
 
 		const EI = document.createElement('textarea');
-		EI.id = 'EI-' + id;
-		EI.classList.add("AssertionModify");
-		EI.value = ass.textContent;
+		EI.id = 'EI-' + evidenceList[i].id;
+		EI.classList.add("ExplanationModify");
+		EI.value = evidenceList[i].explanation;
 		EI.spellcheck = false;
-		EI.cols = 30;
+		EI.cols = 24;
 
 		EI.oninput = function() {
 			this.parentNode.dataset.replicatedValue = this.value;
 		};
 
-		divE.appendChild(EI);
-		ass.replaceWith(divE);
+		modEvDiv.appendChild(EI);
 
 		const divS = document.createElement('div');
 		divS.classList.add("grow-wrap");
 		divS.dataset.replicatedValue = res.textContent;
 
 		const SI = document.createElement('textarea');
-		SI.id = 'SI-' + id;
-		SI.classList.add("AssertionModify");
-		SI.value = res.textContent;
+		SI.id = 'SI-' + evidenceList[i].id;
+		SI.classList.add("SourceModify");
+		SI.value = evidenceList[i].source;
 		SI.spellcheck = false;
-		SI.cols = 30;
+		SI.cols = 24;
 
 		SI.oninput = function() {
 			this.parentNode.dataset.replicatedValue = this.value;
 		};
 
-		divS.appendChild(SI);	
-	}
-	 }*/
+		divS.appendChild(SI);
+		document.getElementById('EL-' + id).appendChild(divS);
+		
+		divE.replaceWith(modEvDiv);
+	}}
 	
     const optBtn = document.getElementById('OPT-' + id);
     const saveBtn = document.createElement('p');
@@ -315,6 +316,13 @@ function modify(id) {
     saveBtn.textContent = "save";
     saveBtn.onclick = function() {
         updateArg(id, AI.value, RI.value);
+        for(i=0; i<evidenceList.length; i++){
+			if(evidenceList[i].parent==id){	
+				const EI=document.getElementById('EI-' + evidenceList[i].id);
+				const SI=document.getElementById('SI-' + evidenceList[i].id);
+				updateEv(evidenceList[i].id, EI.value, SI.value);
+			}
+		}
     };
     optBtn.replaceWith(saveBtn);
     
@@ -411,7 +419,7 @@ function createEv(parent) {
 			supabaseClient
                 .from('Evidence')
                 .insert([{
-                    Explaination: EI.value,
+                    Explanation: EI.value,
 					Source: 'Source missing',
                     Parent: parent
                 }])
@@ -438,13 +446,13 @@ async function deleteEv(id) {
     fetchRecords();
  }
 
-async function updateEv(id, Explaination, Source) {
+async function updateEv(id, Explanation, Source) {
   const { error } = await supabaseClient
-    .from('Argument')
+    .from('Evidence')
     .update([{
-                    Explaination: Explaination,
+                    Explanation: Explanation,
                     Source: Source,
-                    Parent: indEv(id).parent
+                    Parent: findEv(id).parent
                 }])
     .eq('id', id);
 
