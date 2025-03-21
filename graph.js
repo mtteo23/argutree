@@ -271,6 +271,7 @@ function modify(id) {
     for(i=0; i<evidenceList.length; i++){
     if(evidenceList[i].parent==id){
 		const divE = document.getElementById('EV-' + evidenceList[i].id);
+		
 		const modEvDiv = document.createElement('div');
 		modEvDiv.classList.add("grow-wrap");
 		modEvDiv.dataset.replicatedValue = ass.textContent;
@@ -304,7 +305,18 @@ function modify(id) {
 		};
 
 		divS.appendChild(SI);
-		document.getElementById('EL-' + id).appendChild(divS);
+		
+		const delEvBtn=document.createElement('p');
+		delEvBtn.id = 'delEvBtn-' + evidenceList[i].id;
+		delEvBtn.classList.add("delEvBtn");
+		delEvBtn.textContent = "X";
+		delEvBtn.onclick = function() {
+		deleteEv(delEvBtn.id.slice(9));
+    };
+		
+		modEvDiv.appendChild(divS);
+		
+		modEvDiv.appendChild(delEvBtn);
 		
 		divE.replaceWith(modEvDiv);
 	}}

@@ -115,13 +115,13 @@
 	width: 40%;
 }
 
+.OptBtn:hover {
+	background: #87c; 
+}
+
 .AddBtnEvidence {
 	background: #aad; 
 	width: 40%;
-}
-
-.OptBtn:hover {
-	background: #87c; 
 }
 
 .AddBtnEvidence:hover {
@@ -143,6 +143,15 @@
 }
 
 .delBtn:hover{
+	background: #87c; 
+}
+
+.delEvBtn{
+	background: #aad;
+	width: 40%;
+}
+
+.delEvBtn:hover{
 	background: #87c; 
 }
 
