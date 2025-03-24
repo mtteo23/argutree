@@ -120,8 +120,7 @@ function showArg(id, parent) {
     el.classList.add("EvidenceList");
     el.align = 'center';
     expanded.appendChild(el);
-
-    IDs = evIdList();
+	
     for (let i = 0; i < evidenceList.length; i++) {
         if (id==evidenceList[i].parent) {
 			showEv(evidenceList[i], el);
@@ -382,7 +381,6 @@ function createArg(Parent) {
                         console.log('Error adding record:', response.error.message);
                     } else {
                         console.log('Record added successfully:', response.data);
-                        document.getElementById('dataForm').reset(); // Reset form
                     }
                 });
             fetchRecords();
@@ -393,11 +391,19 @@ function createArg(Parent) {
 }
 
 async function deleteArg(id) {
+	
+    for (let i = 0; i < evidenceList.length; i++) {
+        if (id==evidenceList[i].parent) {
+			deleteEv(evidenceList[i].id);
+        }
+    }
+    
     const { error } = await supabaseClient.from('Argument').delete().eq('id', id);
     if (error) {
-      alert('Error deleting record:'+error);
+      alert('Error deleting argument:'+error);
       return;
     }
+    
     fetchRecords();
  }
 
@@ -452,7 +458,7 @@ function createEv(parent) {
 async function deleteEv(id) {
     const { error } = await supabaseClient.from('Evidence').delete().eq('id', id);
     if (error) {
-      alert('Error deleting record:'+error);
+      alert('Error deleting evidence:'+error);
       return;
     }
     fetchRecords();
@@ -518,4 +524,3 @@ function childOf(id) {
 	}
     return -1;
 }
-
