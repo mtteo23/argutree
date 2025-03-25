@@ -57,6 +57,7 @@
 <body>
   <div class="register-container">
     <h2>Register</h2>
+    <input type="username" id="username" placeholder="Username" required>
     <input type="text" id="email" placeholder="Email" required>
     <input type="password" id="password" placeholder="Password" required>
     <button onclick="register()">Register</button>
@@ -64,32 +65,55 @@
   </div>
 
   <script>
-    // Use a different variable name to avoid conflicts with the global "supabase" object.
     const supabaseUrl = 'https://htbxgsolhsxacotnprjq.supabase.co';
 	const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0Ynhnc29saHN4YWNvdG5wcmpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE2MzQ2MzAsImV4cCI6MjA1NzIxMDYzMH0.OJy9IdF8aWh_YuqU3WIdvuqAX-2GAfTTjMxu9zMAHMo';
 	const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-    async function register() {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      const errorDiv = document.getElementById('error');
+	async function register() {
+	  const email = document.getElementById('email').value;
+	  const password = document.getElementById('password').value;
+	  const username = document.getElementById('username').value;
+	  const errorDiv = document.getElementById('error');
 
-      // Clear previous error messages
-      errorDiv.textContent = '';
+	  // Clear previous error messages
+	  errorDiv.textContent = '';
 
-      try {
-        // Use the renamed supabaseClient for registration
-        const { data, error } = await supabaseClient.auth.signUp({ email, password });
-        if (error) {
-          throw error;
-        }
-        // On success, you can redirect the user or show a success message.
-        alert('Registration successful! Please check your email to confirm your account.');
-        console.log(data);
-      } catch (err) {
-        errorDiv.textContent = err.message;
-      }
-    }
+	  try {
+		// Step 1: Sign up the user
+		const { data: authData, error: authError } = await supabaseClient.auth.signUp({ email, password });
+		if (authError) {
+		  console.error('Auth error:', authError);
+		  throw new Error('Failed to sign up the user: ' + authError.message);
+		}
+
+		if (!authData?.user?.id) {
+		  throw new Error('User ID is missing after sign-up.');
+		}
+
+		// Step 2: Insert the username into the database
+		const { data: profileData, error: profileError } = await supabaseClient
+		  .from('profiles') // Replace with your actual table name
+		  .insert([
+			{
+			  id: authData.user.id, // Use the user's ID from auth
+			  username: username, // Insert the username
+			},
+		  ]);
+
+		if (profileError) {
+		  console.error('Insert error:', profileError);
+		  throw new Error('Failed to add username to the database: ' + profileError.message);
+		}
+
+		// Success message
+		alert('Registration successful! Please check your email to confirm your account.');
+		console.log('Profile created:', profileData);
+	  } catch (err) {
+		console.error('Registration error:', err);
+		errorDiv.textContent = err.message;
+	  }
+	}
+
   </script>
 </body>
 </html>

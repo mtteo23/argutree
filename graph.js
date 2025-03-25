@@ -136,7 +136,7 @@ function showArg(id, parent) {
     //Add Button Evidence
     const addE = document.createElement('p');
     addE.id = 'AddE-' + id;
-    addE.classList.add("AddBtnEvidence");
+    addE.classList.add("AddEvBtn");
     addE.textContent = "+";
     addE.onclick = function() {
         createEv(addE.id.slice(5))
@@ -190,7 +190,7 @@ function showArg(id, parent) {
     //Add Button Argument
     const addA = document.createElement('p');
     addA.id = 'AddA-' + id;
-    addA.classList.add("AddBtnArg");
+    addA.classList.add("AddArgBtn");
     addA.textContent = "+";
     addA.onclick = function() {
         createArg(addA.id.slice(5))

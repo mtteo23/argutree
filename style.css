@@ -86,7 +86,7 @@
     border: 0px;
 }
 
-.AddBtnArg {
+.AddArgBtn {
 	background: #99e; 
 	border: 5px solid #88d; 
 	border-radius: 15px; 
@@ -98,7 +98,7 @@
 	margin: 0px;
 }
 
-.AddBtnArg:hover {
+.AddArgBtn:hover {
 	background: #b9e; 
 	border: 5px solid #a8d; 
 	border-radius: 15px; 
@@ -110,21 +110,36 @@
 	margin: 0px;
 }
 
+
+.BtnDiv {
+	background: #99e;
+	width: 100%;	
+}
+
+div.BtnDiv * {
+	display: inline-block; 
+	margin: 0 0px; 
+}
+
 .OptBtn {
 	background: #aad;
-	width: 40%;
+	width: 50%;
+	margin: 0;
+	padding: 0px;
 }
 
 .OptBtn:hover {
 	background: #87c; 
 }
 
-.AddBtnEvidence {
+.AddEvBtn {
 	background: #aad; 
-	width: 40%;
+	width: 50%;
+	margin: 0;
+	padding: 0px;
 }
 
-.AddBtnEvidence:hover {
+.AddEvBtn:hover {
 	background: #87c; 
 }
 
@@ -153,11 +168,6 @@
 
 .delEvBtn:hover{
 	background: #87c; 
-}
-
-div.BtnDiv * {
-	display: inline-block; 
-	margin: 0 5px; 
 }
 
 .AssertionInput {
@@ -198,13 +208,6 @@ div.BtnDiv * {
 .Evidence:hover p.Source{
 	background: #99e;
 	display: block;
-}
-
-.BtnDiv {
-	background: #9ae;
-	width: 100%;
-	
-	
 }
 
 .horizontal-line {
@@ -250,3 +253,33 @@ body {
   font: inherit;
   grid-area: 1 / 1 / 2 / 2;
 }
+
+
+
+#banner {
+  width: 100%;              /* Ensures it spans the full width of the viewport */
+  height: 50px;             /* Fixed height */
+  background-color: black;  /* Background color */
+  display: flex;            /* Use Flexbox */
+  align-items: center;      /* Vertically center items */
+  justify-content: flex-end;/* Align items to the right */
+  gap: 20px;                /* Add space between items */
+  box-sizing: border-box;   /* Includes padding in the element's width/height */
+  padding: 0 20px;          /* Adds padding inside the banner without affecting width */
+  overflow: hidden;         /* Ensures no overflow of content */
+}
+
+#banner a {
+  color: white;            /* Set link text color */
+  text-decoration: none;   /* Remove underline */
+  font-size: 16px;         /* Adjust font size */
+  padding: 5px 10px;       /* Add some padding around the link */
+  border-radius: 5px;      /* Add rounded corners */
+  transition: background-color 0.3s, color 0.3s; /* Smooth hover effect */
+}
+
+#banner a:hover {
+  background-color: white; /* Background on hover */
+  color: black;            /* Text color on hover */
+}
+
