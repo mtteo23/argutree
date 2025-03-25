@@ -38,7 +38,7 @@
     background: #99e;
     border: 0px;
     margin: 15px;
-    font-size: 14px;
+    font-size: 18px;
     width: auto;
     min-width: 50px;
     max-width: 300px;
@@ -122,7 +122,7 @@ div.BtnDiv * {
 }
 
 .OptBtn {
-	background: #aad;
+	background: #88d;
 	width: 50%;
 	margin: 0;
 	padding: 0px;
@@ -133,7 +133,7 @@ div.BtnDiv * {
 }
 
 .AddEvBtn {
-	background: #aad; 
+	background: #88d; 
 	width: 50%;
 	margin: 0;
 	padding: 0px;
@@ -144,8 +144,10 @@ div.BtnDiv * {
 }
 
 .saveBtn{
-	background: #aad;
-	width: 40%;
+	background: #88d; 
+	width: 50%;
+	margin: 0;
+	padding: 0px;
 }
 
 .saveBtn:hover{
@@ -153,8 +155,10 @@ div.BtnDiv * {
 }
 
 .delBtn{
-	background: #aad;
-	width: 40%;
+	background: #88d; 
+	width: 50%;
+	margin: 0;
+	padding: 0px;
 }
 
 .delBtn:hover{
@@ -162,8 +166,10 @@ div.BtnDiv * {
 }
 
 .delEvBtn{
-	background: #aad;
-	width: 40%;
+	background: #88d; 
+	width: 50%;
+	margin: 0;
+	padding: 0px;
 }
 
 .delEvBtn:hover{
