@@ -20,7 +20,22 @@
 	</body>
 
 	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-	<script src="graph.js"></script>
+	<script>
+        // Extract username and project from URL
+        const pathParts = window.location.pathname.split('/').filter(Boolean);
+        const username = pathParts[0] || "default-user";
+        const project = pathParts[1] || "default-project";
+
+        // Load show-graph.js dynamically
+        const script = document.createElement('script');
+        script.src = 'graph.js';
+        script.onload = () => {
+            if (typeof initializeGraph === 'function') {
+                initializeGraph(username, project);
+            }
+        };
+        document.head.appendChild(script);
+    </script>
 </html>
 
 

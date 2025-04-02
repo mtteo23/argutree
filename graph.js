@@ -1,12 +1,5 @@
-document.addEventListener('DOMContentLoaded', () => {
-    fetchRecords();
-});
-
-// Supabase configuration
 const SUPABASE_URL = 'https://htbxgsolhsxacotnprjq.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0Ynhnc29saHN4YWNvdG5wcmpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE2MzQ2MzAsImV4cCI6MjA1NzIxMDYzMH0.OJy9IdF8aWh_YuqU3WIdvuqAX-2GAfTTjMxu9zMAHMo';
-
-// Initialize the Supabase client using the global object
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 var evidenceList = [];
@@ -29,6 +22,62 @@ class Argument {
   }
 }
 
+let headId=0;
+
+async function initializeGraph(username, project) {
+	headId = await fetchHeadId('admin', 'pasta');
+	//const headId = await fetchHeadId(username, project);
+	
+	reload();
+       
+}
+
+async function reload(focus){
+	
+	if(focus==null)
+		focus=headId;
+	
+	await fetchRecords();
+    
+    parent = document.getElementById("graph");
+    parent.innerHTML='';
+    
+    showArg(headId, parent);
+    expandArg(focus);
+}
+
+async function fetchHeadId(username, project) {
+    
+    const { data: userData, error: userError } = await supabaseClient
+        .from('User')  
+        .select('id')
+        .eq('username', username)
+        .single(); 
+
+    if (userError || !userData) {
+        console.error('Error fetching user ID:', userError);
+        return null;
+    }
+
+    const userId = parseInt(userData.id, 10);
+    
+    
+    const { data: treeData, error: treeError } = await supabaseClient
+        .from('Tree')
+        .select('head')
+        .eq('name', project)
+        .eq('user', userId) 
+        .single(); 
+
+    if (treeError || !treeData) {
+        console.error('Error fetching head ID:', treeError);
+        return null;
+    }
+    
+    const headId = parseInt(treeData.head, 10);
+	
+    return headId;
+}
 
 async function fetchRecords() {
 	
@@ -63,11 +112,6 @@ async function fetchRecords() {
 			evidenceList.push(newEvidence);
 			});		
 	}
-	
-    parent = document.getElementById("graph");
-    parent.innerHTML='';
-    showArg(childOf('0'), parent);
-    expandArg(childOf('0'));
 }
 
 function showArg(id, parent) {
@@ -382,8 +426,8 @@ function createArg(Parent) {
                     } else {
                         console.log('Record added successfully:', response.data);
                     }
+                    reload(Parent);
                 });
-            fetchRecords();
         }
     });
 
@@ -391,6 +435,7 @@ function createArg(Parent) {
 }
 
 async function deleteArg(id) {
+	const parent=findArg(id).parent;
 	
     for (let i = 0; i < evidenceList.length; i++) {
         if (id==evidenceList[i].parent) {
@@ -404,7 +449,7 @@ async function deleteArg(id) {
       return;
     }
     
-    fetchRecords();
+    reload(parent);
  }
 
 async function updateArg(id, Assertion, Reasoning) {
@@ -421,7 +466,7 @@ async function updateArg(id, Assertion, Reasoning) {
     alert('Error updating record: ' + error.message);
     return;
   }
-  fetchRecords();
+  reload(id);
 }
 
 
@@ -448,7 +493,7 @@ function createEv(parent) {
                         console.log('Record added successfully:', response.data);
                     }
                 });
-            fetchRecords();
+            reload(parent);
         }
     });
 
@@ -456,12 +501,13 @@ function createEv(parent) {
 }
 
 async function deleteEv(id) {
+	const parent=findEv(id).parent;
     const { error } = await supabaseClient.from('Evidence').delete().eq('id', id);
     if (error) {
       alert('Error deleting evidence:'+error);
       return;
     }
-    fetchRecords();
+    reload(parent);
  }
 
 async function updateEv(id, Explanation, Source) {
@@ -478,7 +524,7 @@ async function updateEv(id, Explanation, Source) {
     alert('Error updating record: ' + error.message);
     return;
   }
-  fetchRecords();
+  reload();
 }
 
 
