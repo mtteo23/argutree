@@ -25,8 +25,8 @@ class Argument {
 let headId=0;
 
 async function initializeGraph(username, project) {
-	headId = await fetchHeadId('admin', 'pasta');
-	//const headId = await fetchHeadId(username, project);
+	//headId = await fetchHeadId('admin', 'pasta');
+	headId = await fetchHeadId(username, project);
 	
 	reload();
        
@@ -80,37 +80,41 @@ async function fetchHeadId(username, project) {
 }
 
 async function fetchRecords() {
-	
 	{
-		const {
-			data,
-			error
-		} = await supabaseClient.from('Argument').select('*');
+		const { data, error } = await supabaseClient.rpc('get_argument_descendants', {
+		  p_head_id: headId
+		});
+
 		if (error) {
-			console.error('Error fetching records:', error);
-			return;
+		  console.error("Error fetching descendants:", error);
+		} else {
+		  //console.log("Descendants:", data);
 		}
-		
+			
 		argumentList=[];
 		data.forEach(argument => {
 			const newArgument = new Argument(argument.id, argument.Assertion, argument.Reasoning, argument.Parent);
 			argumentList.push(newArgument);
 		});
 	}
-	{	
-		const {
-			data,
-			error
-		} = await supabaseClient.from('Evidence').select('*');
+	
+	{
+		const { data, error } = await supabaseClient.rpc('get_evidence_for_argument_descendants', {
+		  p_head_id: headId
+		});
+
 		if (error) {
-			console.error('Error fetching records:', error);
-			return;
+		  console.error("Error fetching evidence:", error);
+		} else {
+		  //console.log("Evidence records:", data);
 		}
+		
+		
 		evidenceList=[];
 		data.forEach(evidence => {
 			const newEvidence = new Evidence(evidence.id, evidence.Explanation, evidence.Source, evidence.Parent);
 			evidenceList.push(newEvidence);
-			});		
+			});	
 	}
 }
 

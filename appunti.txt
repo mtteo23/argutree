@@ -1,0 +1,54 @@
+create or replace function get_argument_descendants(p_head_id int)
+returns table (
+  id int,
+  "Parent" int,
+  "Assertion" text,
+  "Reasoning" text
+) as $$
+  with recursive descendants as (
+    -- Start from the head argument
+    select id, "Parent", "Assertion", "Reasoning"
+    from "Argument"
+    where id = p_head_id
+
+    union all
+
+    -- Recursively join to get children
+    select a.id, a."Parent", a."Assertion", a."Reasoning"
+    from "Argument" a
+    inner join descendants d on a."Parent" = d.id
+  )
+  -- Optionally, exclude the head argument itself:
+  select id, "Parent", "Assertion", "Reasoning"
+  from descendants
+$$ language sql stable;
+
+
+create or replace function get_evidence_for_argument_descendants(p_head_id int)
+returns table (
+  evidence_id int,
+  argument_id int,
+  "Explanation" text,
+  "Source" text
+) as $$
+  with recursive descendants as (
+    -- Start with the head argument
+    select id
+    from "Argument"
+    where id = p_head_id
+
+    union all
+
+    -- Recursively join to get children
+    select a.id
+    from "Argument" a
+    inner join descendants d on a."Parent" = d.id
+  )
+  select e.id as evidence_id,
+         e."Parent" as argument_id,
+         e."Explanation" as "Explanation",
+         e."Source" as "Source"
+  from "Evidence" e
+  inner join descendants d on e."Parent" = d.id;
+$$ language sql stable;
+
