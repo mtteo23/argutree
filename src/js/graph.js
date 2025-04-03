@@ -25,7 +25,6 @@ class Argument {
 let headId=0;
 
 async function initializeGraph(username, project) {
-	//headId = await fetchHeadId('admin', 'pasta');
 	headId = await fetchHeadId(username, project);
 	
 	reload();
