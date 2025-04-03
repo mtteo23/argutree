@@ -1,7 +1,7 @@
 <html lang="en">
 	<head>
-		<link rel="stylesheet" href="src/css/style-general.css">
-		<link rel="stylesheet" href="src/css/style-graph.css">
+		<link rel="stylesheet" href="/src/css/style-general.css">
+		<link rel="stylesheet" href="/src/css/style-graph.css">
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Argument Tree</title>
@@ -21,6 +21,7 @@
 
 	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 	<script>
+		console.log("Full pathname:", window.location.pathname);
 		const pathParts = window.location.pathname.split('/').filter(Boolean);
 		const username = pathParts[0] || "#no-user#";
 		const project = pathParts[1] || "#no-project#";
@@ -31,7 +32,7 @@
 			if(project!="#no-project#")
 			{
 				const script = document.createElement('script');
-				script.src = 'src/js/graph.js';
+				script.src = '/src/js/graph.js';
 				script.onload = () => {
 					if (typeof initializeGraph === 'function') {
 						initializeGraph(username, project);
@@ -94,5 +95,3 @@
         } 
     </script>
 </html>
-
-
