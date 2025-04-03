@@ -30,7 +30,7 @@ html, body {
   color: black;
 }
 
-#banner a #signup{
+#banner a#signup{
   color: black;
   background-color: white;
   text-decoration: none;
@@ -40,7 +40,7 @@ html, body {
   transition: background-color 0.3s, color 0.3s;
 }
 
-#banner a:hover #signup{
+#banner a:hover#signup{
   background-color: black;
   color: white;
 }

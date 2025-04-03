@@ -26,28 +26,31 @@
 		const username = pathParts[0] || "#no-user#";
 		const project = pathParts[1] || "#no-project#";
 		
-		if(project!="#no-project#")
+		if(username!="#no-user#")
 		{
-			const script = document.createElement('script');
-			script.src = '/src/js/graph.js';
-			script.onload = () => {
-				if (typeof initializeGraph === 'function') {
-					initializeGraph(username, project);
-				}
-			};
-			document.head.appendChild(script);
+		
+			if(project!="#no-project#")
+			{
+				const script = document.createElement('script');
+				script.src = '/src/js/graph.js';
+				script.onload = () => {
+					if (typeof initializeGraph === 'function') {
+						initializeGraph(username, project);
+					}
+				};
+				document.head.appendChild(script);
+			}
+			else
+			{
+				const profileDiv = document.createElement("div");
+				profileDiv.className = "profile";
+				const heading = document.createElement("h1");
+				heading.innerHTML = 'Welcome, <span id="username">Loading...</span>';
+				profileDiv.appendChild(heading);
+				document.body.appendChild(profileDiv);
+				loadUserProfile();
+			}	
 		}
-		else
-		{
-			const profileDiv = document.createElement("div");
-			profileDiv.className = "profile";
-			const heading = document.createElement("h1");
-			heading.innerHTML = 'Welcome, <span id="username">Loading...</span>';
-			profileDiv.appendChild(heading);
-			document.body.appendChild(profileDiv);
-			loadUserProfile();
-		}
-	}
 		
 		async function loadUserProfile() {
             try {
