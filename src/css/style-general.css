@@ -30,6 +30,21 @@ html, body {
   color: black;
 }
 
+#banner a #signup{
+  color: black;
+  background-color: white;
+  text-decoration: none;
+  font-size: 16px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+#banner a:hover #signup{
+  background-color: black;
+  color: white;
+}
+
 .login-container,
 .signup-container {
   max-width: 400px;
