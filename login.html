@@ -43,10 +43,44 @@
                     throw error;
                 }
 
-                // Redirect or show success message
-                window.location.href = "profile.html";
+                // Redirect or show success message						
+				
+                window.location.href = await loadUserProfile();
             } catch (error) {
                 errorDiv.textContent = error.message;
+            }
+        }
+        
+        async function loadUserProfile() {
+            try {
+                // Get the logged-in user's UUID
+                const { data: { user }, error } = await supabaseClient.auth.getUser();
+
+                if (error || !user) {
+                    console.error('Error fetching user:', error);
+                    return 'Guest';
+                }
+
+                // User UUID
+                const userUuid = user.id;
+
+                // Fetch the username from the related table
+                const { data, error: profileError } = await supabaseClient
+                    .from('User')        // Replace 'profiles' with your table name
+                    .select('username')      // Replace 'username' with the column name for the username
+                    .eq('user_id', userUuid); // Match the user's UUID in the 'user_id' column
+
+                if (profileError || !data || data.length === 0) {
+                    console.error('Error fetching profile:', profileError);
+                    return 'Unknown User';
+                }
+
+                // Display username
+                return data[0].username;
+
+            } catch (err) {
+                console.error('Unexpected error:', err);
+                return 'Error';
             }
         }
     </script>

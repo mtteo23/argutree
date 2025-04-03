@@ -1,7 +1,7 @@
 <html lang="en">
 	<head>
-		<link rel="stylesheet" href="src/css/style-general.css">
-		<link rel="stylesheet" href="src/css/style-graph.css">
+		<link rel="stylesheet" href="style-general.css">
+		<link rel="stylesheet" href="style-graph.css">
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Argument Tree</title>
@@ -21,17 +21,18 @@
 
 	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 	<script>
-		const pathParts = window.location.pathname.split('/').filter(Boolean);
-		const username = pathParts[0] || "#no-user#";
-		const project = pathParts[1] || "#no-project#";
-
+        const pathParts = window.location.pathname.split('/').filter(Boolean);
+        //const username = pathParts[1] || "#no-user#";
+        //const project = pathParts[2] || "#no-project#";
+        const username = "admin";
+        const project = "#no-project#";
         alert(username+' '+project);
         if(username!="#no-user#")
         {
 			if(project!="#no-project#")
 			{
 				const script = document.createElement('script');
-				script.src = 'src/js/graph.js';
+				script.src = 'graph.js';
 				script.onload = () => {
 					if (typeof initializeGraph === 'function') {
 						initializeGraph(username, project);
@@ -49,15 +50,13 @@
 
 				profileDiv.appendChild(heading);
 				document.body.appendChild(profileDiv);
-				loadUserProfile();
-			}
-		}
-		else
-		{
+				
+				// Initialize Supabase client
+        const supabaseUrl = 'https://htbxgsolhsxacotnprjq.supabase.co';
+		const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0Ynhnc29saHN4YWNvdG5wcmpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE2MzQ2MzAsImV4cCI6MjA1NzIxMDYzMH0.OJy9IdF8aWh_YuqU3WIdvuqAX-2GAfTTjMxu9zMAHMo';
+		const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 			
-		}
-		
-		async function loadUserProfile() {
+        async function loadUserProfile() {
             try {
 				
                 // Get the logged-in user's UUID
@@ -91,7 +90,18 @@
                 console.error('Unexpected error:', err);
                 document.getElementById('username').innerText = 'Error';
             }
-        } 
+        }
+
+        // Load the user profile on page load
+        loadUserProfile();
+			}
+		}
+		else
+		{
+			
+		}
+        
+        
     </script>
 </html>
 
