@@ -70,8 +70,8 @@
 				Projects.forEach(project=>{
 					alert('it works!');
 					const but=document.createElement("a");
-					but.innerHtml=project;
-					but.href="/"+username+"/"+project;
+					but.innerHtml=project.name;
+					but.href="/"+username+"/"+project.name;
 					document.body.appendChild(but);
 				});
 			}	
