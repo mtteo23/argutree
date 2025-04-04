@@ -14,6 +14,24 @@
 			<a href="login.html">Log in</a>
 			<a id="signup" href="signup.html">Sign up</a>
 		</div>
+		<h3>Welcome here! There is little to see</h3>
+		<script>
+		<html lang="en">
+	<head>
+		<link rel="stylesheet" href="/src/css/style-general.css">
+		<link rel="stylesheet" href="/src/css/style-graph.css">
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Argument Tree</title>
+	</head>
+
+	<body>
+		<div id="banner">
+			<a href="index.html" align="center">Main Page</a>
+			<a href="explore.html">Explore</a>
+			<a href="login.html">Log in</a>
+			<a id="signup" href="signup.html">Sign up</a>
+		</div>
 		
 		<div id="graph" align="center"></div>
 		
@@ -42,50 +60,43 @@
 			}
 			else
 			{
-				const profileDiv = document.createElement("div");
-				profileDiv.className = "profile";
-				const heading = document.createElement("h1");
-				heading.innerHTML = 'Welcome, <span id="username">Loading...</span>';
-				profileDiv.appendChild(heading);
-				document.body.appendChild(profileDiv);
-				loadUserProfile();
+				
+				checkUser();
+				const logged=False;
+				if(logged)
+				{
+					const profileDiv = document.createElement("div");
+					profileDiv.className = "profile";
+					const heading = document.createElement("h1");
+					heading.innerHTML = 'Welcome <span id="username">'+username+'</span>';
+					profileDiv.appendChild(heading);
+					document.body.appendChild(profileDiv);
+				}
+				else
+				{						
+					const profileDiv = document.createElement("div");
+					profileDiv.className = "profile";
+					const heading = document.createElement("h1");
+					heading.innerHTML = 'Archive of <span id="username">'+username+'</span>';
+					profileDiv.appendChild(heading);
+					document.body.appendChild(profileDiv);
+				}
 			}	
 		}
 		
-		async function loadUserProfile() {
-            try {
-				
-                // Get the logged-in user's UUID
-                const { data: { user }, error } = await supabaseClient.auth.getUser();
+		async function checkUser() {
+		const supabaseUrl = 'https://htbxgsolhsxacotnprjq.supabase.co'; // Replace with your Supabase URL
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0Ynhnc29saHN4YWNvdG5wcmpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE2MzQ2MzAsImV4cCI6MjA1NzIxMDYzMH0.OJy9IdF8aWh_YuqU3WIdvuqAX-2GAfTTjMxu9zMAHMo'; // Replace with your Supabase Anon Key
+        const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+		  const { data: { user } } = await supabaseClient.auth.getUser();
 
-                if (error || !user) {
-                    console.error('Error fetching user:', error);
-                    document.getElementById('username').innerText = 'Guest';
-                    return;
-                }
+		  if (user) {
+			console.log('User is logged in:', user);
+		  } else {
+			console.log('No user logged in');
+		  }
+		}
 
-                // User UUID
-                const userUuid = user.id;
-
-                // Fetch the username from the related table
-                const { data, error: profileError } = await supabaseClient
-                    .from('User')        // Replace 'profiles' with your table name
-                    .select('username')      // Replace 'username' with the column name for the username
-                    .eq('user_id', userUuid); // Match the user's UUID in the 'user_id' column
-
-                if (profileError || !data || data.length === 0) {
-                    console.error('Error fetching profile:', profileError);
-                    document.getElementById('username').innerText = 'Unknown User';
-                    return;
-                }
-
-                // Display username
-                document.getElementById('username').innerText = data[0].username;
-
-            } catch (err) {
-                console.error('Unexpected error:', err);
-                document.getElementById('username').innerText = 'Error';
-            }
-        } 
-    </script>
+		</script>
+	</body>
 </html>
