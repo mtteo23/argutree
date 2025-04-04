@@ -16,23 +16,16 @@
 			<a id="signup" href="signup.html">Sign up</a>
 		</div>
 		<h3>Welcome here! There is little to see</h3>
-		
-
-	<body>
-		<div id="banner">
-			<a href="index.html" align="center">Main Page</a>
-			<a href="explore.html">Explore</a>
-			<a href="login.html">Log in</a>
-			<a id="signup" href="signup.html">Sign up</a>
-		</div>
-		
-		<div id="graph" align="center"></div>
-		
 	</body>
 
 	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 	<script>
+		
 		window.onload = async function() {
+		const supabaseUrl = 'https://htbxgsolhsxacotnprjq.supabase.co'; // Replace with your Supabase URL
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0Ynhnc29saHN4YWNvdG5wcmpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE2MzQ2MzAsImV4cCI6MjA1NzIxMDYzMH0.OJy9IdF8aWh_YuqU3WIdvuqAX-2GAfTTjMxu9zMAHMo'; // Replace with your Supabase Anon Key
+        const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+        
 		console.log("Full pathname:", window.location.pathname);
 		const pathParts = window.location.pathname.split('/').filter(Boolean);
 		const username = pathParts[0] || "#no-user#";
@@ -54,9 +47,7 @@
 			}
 			else
 			{
-				
-				checkUser();
-				const logged=false;
+				const logged=checkUser();
 				if(logged)
 				{
 					const profileDiv = document.createElement("div");
@@ -75,19 +66,50 @@
 					profileDiv.appendChild(heading);
 					document.body.appendChild(profileDiv);
 				}
+				
+				getProjects(username).forEach(project=>{
+					const but=document.createElement("a");
+					but.innerHtml=project;
+					but.href="/"+username+"/"+project;
+					document.body.appendChild(but);
+				});
 			}	
 		}
 	}
+		async function getProjects(username) {
+			const { data: userData, error: userError } = await supabaseClient
+			.from('User')  
+			.select('id')
+			.eq('username', username)
+			.single(); 
+
+			if (userError || !userData) {
+				console.error('Error fetching user ID:', userError);
+				return null;
+			}
+
+			const userId = parseInt(userData.id, 10);
+			
+			
+			const { data: treeData, error: treeError } = await supabaseClient
+				.from('Tree')
+				.select('name')
+				.eq('user', userId)
+			return treeData;
+		}
 		async function checkUser() {
 		const supabaseUrl = 'https://htbxgsolhsxacotnprjq.supabase.co'; // Replace with your Supabase URL
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0Ynhnc29saHN4YWNvdG5wcmpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE2MzQ2MzAsImV4cCI6MjA1NzIxMDYzMH0.OJy9IdF8aWh_YuqU3WIdvuqAX-2GAfTTjMxu9zMAHMo'; // Replace with your Supabase Anon Key
         const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+			
 		  const { data: { user } } = await supabaseClient.auth.getUser();
 
 		  if (user) {
 			console.log('User is logged in:', user);
+			return true;
 		  } else {
 			console.log('No user logged in');
+			return false;
 		  }
 		}
 
