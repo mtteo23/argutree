@@ -36,8 +36,7 @@
 		
 			if(project!="#no-project#")
 			{
-				const logged=checkUser();
-				alert(logged);
+				const logged= await checkUser();
 				const script = document.createElement('script');
 				script.src = '/src/js/graph.js';
 				script.onload = () => {

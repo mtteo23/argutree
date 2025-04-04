@@ -52,3 +52,37 @@ returns table (
   inner join descendants d on e."Parent" = d.id;
 $$ language sql stable;
 
+
+create or replace function get_head_argument(p_arg_id int)
+returns int as $$
+declare
+  v_head int;
+begin
+  -- If the current argument is a head (no parent), return its id.
+  select id into v_head
+  from "Argument"
+  where id = p_arg_id and parent is null;
+
+  if v_head is not null then
+    return v_head;
+  else
+    -- Otherwise, get the parent of the current argument and recurse.
+    return get_head_argument((select parent from "Argument" where id = p_arg_id));
+  end if;
+end;
+$$ language plpgsql stable;
+
+
+create policy "Enable delete for users based on user_id"
+on "public"."Argument"
+as PERMISSIVE
+for DELETE
+to public
+using (
+  auth.uid() = (
+    select t.user_id
+    from "Tree" t
+    where t.head = get_head_argument("Argument".id)
+  )
+);
+
