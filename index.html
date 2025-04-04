@@ -94,7 +94,8 @@
 			const { data: treeData, error: treeError } = await supabaseClient
 				.from('Tree')
 				.select('name')
-				.eq('user', userId)
+				.eq('user', userId);
+			console.log("tree", treeData);
 			return treeData;
 		}
 		async function checkUser() {
