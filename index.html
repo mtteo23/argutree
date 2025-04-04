@@ -68,6 +68,7 @@
 				}
 				const Projects= await getProjects(username)
 				Projects.forEach(project=>{
+					alert('it works!');
 					const but=document.createElement("a");
 					but.innerHtml=project;
 					but.href="/"+username+"/"+project;
