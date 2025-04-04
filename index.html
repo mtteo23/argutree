@@ -15,7 +15,7 @@
 			<a href="login.html">Log in</a>
 			<a id="signup" href="signup.html">Sign up</a>
 		</div>
-		<h3>Welcome here! There is little to see</h3>
+		<div id="graph"></div>
 	</body>
 
 	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
@@ -70,7 +70,7 @@
 				Projects.forEach(project=>{
 					alert('it works!');
 					const but=document.createElement("a");
-					but.innerHtml=project.name;
+					but.textContent=project.name;
 					but.href="/"+username+"/"+project.name;
 					document.body.appendChild(but);
 				});
