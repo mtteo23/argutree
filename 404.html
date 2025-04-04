@@ -15,7 +15,7 @@
 			<a href="login.html">Log in</a>
 			<a id="signup" href="signup.html">Sign up</a>
 		</div>
-		<div id="graph"></div>
+		<div id="graph" align="center"></div>
 	</body>
 
 	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
@@ -36,6 +36,8 @@
 		
 			if(project!="#no-project#")
 			{
+				const logged=checkUser();
+				alert(logged);
 				const script = document.createElement('script');
 				script.src = '/src/js/graph.js';
 				script.onload = () => {
@@ -56,6 +58,8 @@
 					heading.innerHTML = 'Welcome <span id="username">'+username+'</span>';
 					profileDiv.appendChild(heading);
 					document.body.appendChild(profileDiv);
+					
+					
 				}
 				else
 				{						
@@ -68,7 +72,6 @@
 				}
 				const Projects= await getProjects(username)
 				Projects.forEach(project=>{
-					alert('it works!');
 					const but=document.createElement("a");
 					but.textContent=project.name;
 					but.href="/"+username+"/"+project.name;
