@@ -66,7 +66,7 @@
 					profileDiv.appendChild(heading);
 					document.body.appendChild(profileDiv);
 				}
-				const Projects=getProjects(username)
+				const Projects= await getProjects(username)
 				Projects.forEach(project=>{
 					const but=document.createElement("a");
 					but.innerHtml=project;
@@ -86,8 +86,8 @@
 			.from('User')  
 			.select('id')
 			.eq('username', username)
-			.single(); 
-			alert(2);
+			.single();
+			
 			if (userError || !userData) {
 				console.error('Error fetching user ID:', userError);
 				return null;
@@ -95,15 +95,12 @@
 
 			const userId = parseInt(userData.id, 10);
 			
-			alert(3);
 			const { data: treeData, error: treeError } = await supabaseClient
 				.from('Tree')
 				.select('name')
 				.eq('user', userId);
 				
-			alert(4);
 			console.log("tree", treeData);
-			alert(5);
 			
 			return treeData;
 		}
