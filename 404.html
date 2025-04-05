@@ -131,7 +131,7 @@
 		  const { data, error } = await supabaseClient
 			.from('User') // your public user table
 			.select('username')
-			.eq('user_uuid', userId) // match on auth uuid
+			.eq('user_id', userId) // match on auth uuid
 			.single(); // Expecting exactly one match
 
 		  if (error) {
