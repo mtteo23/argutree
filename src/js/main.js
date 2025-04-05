@@ -27,7 +27,7 @@
 			}
 			else
 			{
-				const logged= username===(await getUsername());
+				const logged = (username)=>{if(username==await getUsername()) return true; else return false;};
 				if(logged)
 				{
 					const profileDiv = document.createElement("div");
@@ -84,18 +84,6 @@
 			console.log("tree", treeData);
 			
 			return treeData;
-		}
-		async function checkUser() {
-			
-		  const { data: { user } } = await supabaseClient.auth.getUser();
-
-		  if (user) {
-			console.log('User is logged in:', user);
-			return true;
-		  } else {
-			console.log('No user logged in');
-			return false;
-		  }
 		}
 		async function getUsername() {
 			const supabaseUrl = 'https://htbxgsolhsxacotnprjq.supabase.co'; // Replace with your Supabase URL
