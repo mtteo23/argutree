@@ -49,7 +49,6 @@
 			else
 			{
 				const logged= await checkUser();
-				alert(logged);
 				if(logged)
 				{
 					const profileDiv = document.createElement("div");
@@ -75,6 +74,7 @@
 					const but=document.createElement("a");
 					but.textContent=project.name;
 					but.href="/"+username+"/"+project.name;
+					but.classList.add("project-link");
 					document.body.appendChild(but);
 				});
 			}	
