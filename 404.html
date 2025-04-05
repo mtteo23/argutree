@@ -32,10 +32,15 @@
 		
 		if(username!="#no-user#")
 		{
-		
+			let logged=false;
+				if(username == await getUsername()){
+					logged=true;
+				}
+				else{
+					logged=false;
+				}
 			if(project!="#no-project#")
 			{
-				const logged= await checkUser();
 				const script = document.createElement('script');
 				script.src = '/src/js/graph.js';
 				script.onload = () => {
@@ -47,12 +52,6 @@
 			}
 			else
 			{
-				let logged=false;
-				if(username == await getUsername())
-					logged=true;
-				else
-					logged=false;
-				
 				if(logged)
 				{
 					const profileDiv = document.createElement("div");
@@ -115,7 +114,6 @@
 			const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0Ynhnc29saHN4YWNvdG5wcmpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE2MzQ2MzAsImV4cCI6MjA1NzIxMDYzMH0.OJy9IdF8aWh_YuqU3WIdvuqAX-2GAfTTjMxu9zMAHMo'; // Replace with your Supabase Anon Key
 			const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 		
-		  // Step 1: Get the logged-in user
 		  const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
 
 		  if (userError) {
@@ -129,12 +127,11 @@
 		  }
 
 		  const userId = user.id;
-
-		  // Step 2: Query the `users` table for the username
+			
 		  const { data, error } = await supabaseClient
 			.from('User') // your public user table
 			.select('username')
-			.eq('uuid', userId) // match on auth uuid
+			.eq('user_uuid', userId) // match on auth uuid
 			.single(); // Expecting exactly one match
 
 		  if (error) {
