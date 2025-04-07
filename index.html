@@ -45,7 +45,7 @@
       script.src = '/src/js/graph.js';
       script.onload = () => {
         if (typeof initializeGraph === 'function') {
-          drawGraph(username, project, 'watch');
+          drawGraph(username, project);
         }
       };
       document.head.appendChild(script);

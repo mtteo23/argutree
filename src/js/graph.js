@@ -23,10 +23,10 @@ class Argument {
 }
 
 let headId=0;
-let mode="watch";
+//let mode="watch";
 
-async function drawGraph(username, project, inpMode) {
-	mode=inpMode;
+async function drawGraph(username, project) {
+	//mode=inpMode;
   headId = await fetchHeadId(username, project);
 	
 	reload();
