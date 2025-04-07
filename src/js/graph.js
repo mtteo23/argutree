@@ -204,27 +204,20 @@ function showArg(id, parent) {
     }
 	
     //Connecting lines
-    const lowline = document.createElement('div');
-    lowline.classList.add("vertical-line");
-    main.appendChild(lowline);
-	
-    {
-        let nChild=0;
-        if(mode=='modify')
-          nChild=1;
-        for (let i = 0; i < argumentList.length; i++) {
-            if (argumentList[i].parent == id)
-              nChild+=1;
-            
-            if(nChild==2) {
-                const hline = document.createElement('div');
-                hline.classList.add("horizontal-line");
-                main.appendChild(hline);
-                break;
-            }
-        }
+    if(mode=="modify" || nChild(id)>0)
+    {    
+      const lowline = document.createElement('div');
+      lowline.classList.add("vertical-line");
+      main.appendChild(lowline);
     }
-
+    
+    if(nChild(id)>=2 || (nChild(id)>=1 && mode=='modify'))
+    {
+      const hline = document.createElement('div');
+      hline.classList.add("horizontal-line");
+      main.appendChild(hline);
+    }
+    
     //SubArgument List
     const sal = document.createElement('ul');
     sal.id = 'SAL-' + id;
@@ -403,7 +396,7 @@ function modify(id) {
     delBtn.classList.add("delBtn");
     delBtn.textContent = "delete";
     delBtn.onclick = function() {
-        if(childOf(id)!=-1)
+        if(nChild(id)>0)
 		{
 			alert('This node cannote be deleted. It still has attached childs');
 		}
@@ -578,11 +571,12 @@ function findEv(id){
 	return null;
 }
 
-function childOf(id) {
-    for(i=0; i<argumentList.length; i++)
-    {
+function nChild(id) {
+  let cont=0;
+  for(i=0; i<argumentList.length; i++)
+  {
 		if(argumentList[i].parent==id)
-			return argumentList[i].id;
+      cont++;
 	}
-    return -1;
+  return cont;
 }
