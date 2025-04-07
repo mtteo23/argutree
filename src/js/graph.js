@@ -23,12 +23,13 @@ class Argument {
 }
 
 let headId=0;
+let mode="watch";
 
-async function initializeGraph(username, project) {
-	headId = await fetchHeadId(username, project);
+async function drawGraph(username, project, inpMode) {
+	mode=inpMode;
+  headId = await fetchHeadId(username, project);
 	
 	reload();
-       
 }
 
 async function reload(focus){
@@ -173,34 +174,36 @@ function showArg(id, parent) {
 			showEv(evidenceList[i], el);
         }
     }
+    if(mode=="modify")
+    {      
+      //Button Div
+      const but = document.createElement('div');
+      but.id = 'B-' + id;
+      but.classList.add("BtnDiv");
+      expanded.appendChild(but);
 
-    //Button Div
-    const but = document.createElement('div');
-    but.id = 'B-' + id;
-    but.classList.add("BtnDiv");
-    expanded.appendChild(but);
+      //Add Button Evidence
+      const addE = document.createElement('p');
+      addE.id = 'AddE-' + id;
+      addE.classList.add("AddEvBtn");
+      addE.textContent = "+";
+      addE.onclick = function() {
+          createEv(addE.id.slice(5))
+      };
+      but.appendChild(addE);
 
-    //Add Button Evidence
-    const addE = document.createElement('p');
-    addE.id = 'AddE-' + id;
-    addE.classList.add("AddEvBtn");
-    addE.textContent = "+";
-    addE.onclick = function() {
-        createEv(addE.id.slice(5))
-    };
-    but.appendChild(addE);
-
-    //More Options Button
-    const opt = document.createElement('p');
-    opt.id = 'OPT-' + id;
-    opt.classList.add("OptBtn");
-    opt.textContent = "...";
-    opt.onclick = function() {
-        expandOption(opt.id.slice(4))
-    };
-    but.appendChild(opt);
+      //More Options Button
+      const opt = document.createElement('p');
+      opt.id = 'OPT-' + id;
+      opt.classList.add("OptBtn");
+      opt.textContent = "...";
+      opt.onclick = function() {
+          expandOption(opt.id.slice(4))
+      };
+      but.appendChild(opt);
+    }
 	
-	//Connecting lines
+    //Connecting lines
     const lowline = document.createElement('div');
     lowline.classList.add("vertical-line");
     main.appendChild(lowline);
@@ -233,16 +236,19 @@ function showArg(id, parent) {
     const butupline = document.createElement('div');
     butupline.classList.add("vertical-line");
     addBtnDiv.appendChild(butupline);
-
-    //Add Button Argument
-    const addA = document.createElement('p');
-    addA.id = 'AddA-' + id;
-    addA.classList.add("AddArgBtn");
-    addA.textContent = "+";
-    addA.onclick = function() {
-        createArg(addA.id.slice(5))
-    };
-    addBtnDiv.appendChild(addA);
+    
+    if(mode=="modify")
+    {     
+      //Add Button Argument
+      const addA = document.createElement('p');
+      addA.id = 'AddA-' + id;
+      addA.classList.add("AddArgBtn");
+      addA.textContent = "+";
+      addA.onclick = function() {
+          createArg(addA.id.slice(5))
+      };
+      addBtnDiv.appendChild(addA); 
+    }
 }
 
 function expandArg(id) {
