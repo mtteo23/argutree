@@ -210,8 +210,12 @@ function showArg(id, parent) {
     main.appendChild(lowline);
 	
     {
+        let nChild=0;
         for (let i = 0; i < argumentList.length; i++) {
-            if (argumentList[i].parent == id) {
+            if (argumentList[i].parent == id)
+              nChild+=1;
+            
+            if(nChild==2) {
                 const hline = document.createElement('div');
                 hline.classList.add("horizontal-line");
                 main.appendChild(hline);
@@ -231,15 +235,16 @@ function showArg(id, parent) {
             showArg(argumentList[i].id, sal);
         }
     }
-    const addBtnDiv = document.createElement('div');
-    sal.appendChild(addBtnDiv);
-
-    const butupline = document.createElement('div');
-    butupline.classList.add("vertical-line");
-    addBtnDiv.appendChild(butupline);
     
     if(mode=="modify")
     {     
+      const addBtnDiv = document.createElement('div');
+      sal.appendChild(addBtnDiv);
+
+      const butupline = document.createElement('div');
+      butupline.classList.add("vertical-line");
+      addBtnDiv.appendChild(butupline);
+      
       //Add Button Argument
       const addA = document.createElement('p');
       addA.id = 'AddA-' + id;

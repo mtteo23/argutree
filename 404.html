@@ -21,7 +21,6 @@
 	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 	<script>
   window.onload = async function() {
-    alert(0);
   const supabaseUrl = 'https://htbxgsolhsxacotnprjq.supabase.co'; // Replace with your Supabase URL
   const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0Ynhnc29saHN4YWNvdG5wcmpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE2MzQ2MzAsImV4cCI6MjA1NzIxMDYzMH0.OJy9IdF8aWh_YuqU3WIdvuqAX-2GAfTTjMxu9zMAHMo'; // Replace with your Supabase Anon Key
   const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
@@ -30,9 +29,7 @@
 	const pathParts = window.location.pathname.split('/').filter(Boolean);
 	const username = pathParts[0] || "#no-user#";
 	const project = pathParts[1] || "#no-project#";
-	
-  alert(1);
-  alert(username+project);
+  
 	if(username!="#no-user#")
 	{
 		let logged=false;
@@ -44,14 +41,14 @@
 		}
     if(project!="#no-project#")
     {
-      alert(2);
       const script = document.createElement('script');
       script.src = '/src/js/graph.js';
       script.onload = () => {
         if (typeof drawGraph === 'function') {
-          alert(3);
-          drawGraph(username, project, "modify");
-          alert(4);
+          if(logged)
+            drawGraph(username, project, "modify");
+          else
+            drawGraph(username, project, "watch");
         }
       };
       document.head.appendChild(script);
