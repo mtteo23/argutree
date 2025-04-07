@@ -27,7 +27,6 @@ let mode="watch";
 
 async function drawGraph(username, project, inpMode) {
 	mode=inpMode;
-  alert('loading');
   headId = await fetchHeadId(username, project);
 	
 	reload();
@@ -127,7 +126,7 @@ function showArg(id, parent) {
     main.classList.add("Arg");
     parent.appendChild(main);
 
-    if (id != childOf('0')) {
+    if (id != headId) {
         const upline = document.createElement('div');
         upline.classList.add("vertical-line");
         main.appendChild(upline);
@@ -211,6 +210,8 @@ function showArg(id, parent) {
 	
     {
         let nChild=0;
+        if(mode=='modify')
+          nChild=1;
         for (let i = 0; i < argumentList.length; i++) {
             if (argumentList[i].parent == id)
               nChild+=1;
