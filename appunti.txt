@@ -53,7 +53,7 @@ returns table (
 $$ language sql stable;
 
 
-create or replace function get_head_argument(p_arg_id int)
+create or replace function get_head_argument(p_arg_id bigint)
 returns int as $$
 declare
   v_head int;
@@ -61,28 +61,32 @@ begin
   -- If the current argument is a head (no parent), return its id.
   select id into v_head
   from "Argument"
-  where id = p_arg_id and parent is null;
+  where id = p_arg_id and "Parent" is null;
 
   if v_head is not null then
     return v_head;
   else
     -- Otherwise, get the parent of the current argument and recurse.
-    return get_head_argument((select parent from "Argument" where id = p_arg_id));
+    return get_head_argument((select "Parent" from "Argument" where id = p_arg_id));
   end if;
 end;
 $$ language plpgsql stable;
 
 
-create policy "Enable delete for users based on user_id"
+create policy "Enable ... for users based on user_id"
 on "public"."Argument"
 as PERMISSIVE
-for DELETE
+for ...
 to public
 using (
-  auth.uid() = (
-    select t.user_id
-    from "Tree" t
-    where t.head = get_head_argument("Argument".id)
-  )
+   (auth.uid() = ( SELECT "User".user_id
+   FROM "User"
+  WHERE ("User".id = ( SELECT "Tree"."user"
+           FROM "Tree"
+          WHERE ("Tree".head = get_head_argument("Argument".id))
+          )
+        )
+      )
+    )
 );
-
+	
