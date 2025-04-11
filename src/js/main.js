@@ -1,9 +1,8 @@
+const supabaseUrl = 'https://htbxgsolhsxacotnprjq.supabase.co'; // Replace with your Supabase URL
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0Ynhnc29saHN4YWNvdG5wcmpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE2MzQ2MzAsImV4cCI6MjA1NzIxMDYzMH0.OJy9IdF8aWh_YuqU3WIdvuqAX-2GAfTTjMxu9zMAHMo'; // Replace with your Supabase Anon Key
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+  
 window.onload = async function() {
-  const supabaseUrl = 'https://htbxgsolhsxacotnprjq.supabase.co'; // Replace with your Supabase URL
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0Ynhnc29saHN4YWNvdG5wcmpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE2MzQ2MzAsImV4cCI6MjA1NzIxMDYzMH0.OJy9IdF8aWh_YuqU3WIdvuqAX-2GAfTTjMxu9zMAHMo'; // Replace with your Supabase Anon Key
-  const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
-        
-  console.log("Full pathname:", window.location.pathname);
 	const pathParts = window.location.pathname.split('/').filter(Boolean);
 	const username = pathParts[0] || "#no-user#";
 	const project = pathParts[1] || "#no-project#";
@@ -59,16 +58,130 @@ window.onload = async function() {
         but.classList.add("project-link");
         document.body.appendChild(but);
       });
+      const but=document.createElement("a");
+      but.textContent='new project';
+      but.classList.add("project-link");
+      but.onclick=createTree();
+      document.body.appendChild(but);
     }	
   }
 }
 
+function createTree(){
+  try {
+        userId=getLoggedInUserId();
+        const { data, error } = await supabaseClient
+            .from('Tree') // Replace 'Tree' with your table name
+            .insert([
+                { 
+                    name: "new-project", 
+                    user: userId, 
+                    head: 
+                }
+            ]);
+        
+        if (error) {
+            console.error('Error inserting into Tree table:', error);
+        } else {
+            console.log('New Tree element added:', data);
+        }
+    } catch (err) {
+        console.error('Unexpected error:', err);
+    }
+}
+
+async function getLoggedInUserId() {
+    try {
+        const { data: { user }, error } = await supabaseClient.auth.getUser();
+
+        if (error) {
+            console.error('Error fetching user:', error);
+            return null;
+        }
+
+        if (user) {
+            console.log('Logged-in user ID:', user.id);
+            return user.id;
+        } else {
+            console.log('No user is logged in');
+            return null;
+        }
+    } catch (err) {
+        console.error('Unexpected error:', err);
+        return null;
+    }
+}
+
+async function createArgument() {
+    try {
+        const { data, error } = await supabaseClient
+            .from('Argument') 
+            .insert([{
+                assertion: format(Title),
+                reasoning: "Explain the detail of the discussion",
+                parent: null
+            }])
+            .select('id')
+            .single();
+
+        if (error) {
+            console.error('Error inserting argument:', error);
+            return null;
+        }
+    
+        return data.id;
+    } catch (err) {
+        console.error('Unexpected error:', err);
+        return null;
+    }
+}
+
+function format(input) {
+    let formatted = input.toLowerCase();
+
+    formatted = formatted.replace(/\s+/g, '_');
+
+    formatted = formatted.replace(/[^a-z0-9_]/g, '');
+
+    if (formatted.length > 30) {
+        const words = formatted.split('_');
+        let shortened = '';
+        for (let word of words) {
+            if ((shortened + '_' + word).length > 30) {
+                break;
+            }
+            shortened += (shortened ? '_' : '') + word;
+        }
+        formatted = shortened;
+    }
+
+    return formatted;
+}
+
+async function insertTitle() {
+    const button = document.getElementById(buttonId);
+    if (!button) {
+        console.error(`Button with ID "${buttonId}" not found.`);
+        return;
+    }
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.placeholder = 'Enter value here';
+    input.style.marginLeft = '10px';
+
+    button.parentNode.replaceChild(input, button);
+
+    input.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            alert(input.value);
+            return input.value;
+        }
+    });
+}
+
 async function getProjects(username) {
-	
-  const supabaseUrl = 'https://htbxgsolhsxacotnprjq.supabase.co'; // Replace with your Supabase URL
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0Ynhnc29saHN4YWNvdG5wcmpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE2MzQ2MzAsImV4cCI6MjA1NzIxMDYzMH0.OJy9IdF8aWh_YuqU3WIdvuqAX-2GAfTTjMxu9zMAHMo'; // Replace with your Supabase Anon Key
-  const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
-       
+	     
 	const { data: userData, error: userError } = await supabaseClient
     .from('User')  
 		.select('id')
@@ -93,9 +206,6 @@ async function getProjects(username) {
 }
 		
 async function getUsername() {
-	const supabaseUrl = 'https://htbxgsolhsxacotnprjq.supabase.co'; // Replace with your Supabase URL
-	const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0Ynhnc29saHN4YWNvdG5wcmpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE2MzQ2MzAsImV4cCI6MjA1NzIxMDYzMH0.OJy9IdF8aWh_YuqU3WIdvuqAX-2GAfTTjMxu9zMAHMo'; // Replace with your Supabase Anon Key
-	const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 	
   const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
 
@@ -112,10 +222,10 @@ async function getUsername() {
   const userId = user.id;
 			
   const { data, error } = await supabaseClient
-    .from('User') // your public user table
+    .from('User')
 		.select('username')
-		.eq('user_id', userId) // match on auth uuid
-		.single(); // Expecting exactly one match
+		.eq('user_id', userId)
+		.single();
 
   if (error) {
     console.error('Error fetching username:', error.message);
