@@ -7,7 +7,7 @@ window.onload = async function() {
 	const pathParts = window.location.pathname.split('/').filter(Boolean);
 	const username = pathParts[0] || "#no-user#";
 	const project = pathParts[1] || "#no-project#";
-	
+  
 	if(username!="#no-user#")
 	{
 		let logged=false;
@@ -22,8 +22,11 @@ window.onload = async function() {
       const script = document.createElement('script');
       script.src = '/src/js/graph.js';
       script.onload = () => {
-        if (typeof initializeGraph === 'function') {
-          drawGraph(username, project, 'watch');
+        if (typeof drawGraph === 'function') {
+          if(logged)
+            drawGraph(username, project, "modify");
+          else
+            drawGraph(username, project, "watch");
         }
       };
       document.head.appendChild(script);
