@@ -62,6 +62,7 @@ window.onload = async function() {
       but.textContent='new project';
       but.classList.add("project-link");
       but.onclick=createTree();
+      but.id="new-project";
       document.body.appendChild(but);
     }	
   }
@@ -76,7 +77,7 @@ async function createTree(){
                 { 
                     name: "new-project", 
                     user: userId, 
-                    head: 15;//await createHeadArgument();
+                    head: 15//await createHeadArgument()
                 }
             ]);
         
@@ -159,6 +160,7 @@ function format(input) {
 }
 
 async function insertTitle() {
+    const buttonId="new-project";
     const button = document.getElementById(buttonId);
     if (!button) {
         console.error(`Button with ID "${buttonId}" not found.`);
