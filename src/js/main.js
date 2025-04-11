@@ -67,7 +67,7 @@ window.onload = async function() {
   }
 }
 
-function createTree(){
+async function createTree(){
   try {
         userId=getLoggedInUserId();
         const { data, error } = await supabaseClient
@@ -76,7 +76,7 @@ function createTree(){
                 { 
                     name: "new-project", 
                     user: userId, 
-                    head: 
+                    head: 15;//await createHeadArgument();
                 }
             ]);
         
@@ -112,7 +112,7 @@ async function getLoggedInUserId() {
     }
 }
 
-async function createArgument() {
+async function createHeadArgument() {
     try {
         const { data, error } = await supabaseClient
             .from('Argument') 
