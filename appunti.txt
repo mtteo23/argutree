@@ -89,4 +89,26 @@ using (
       )
     )
 );
+
+CREATE OR REPLACE FUNCTION create_tree_and_argument(
+    p_name text
+) RETURNS void AS $$
+DECLARE
+    new_argument_id bigint;
+    authenticated_user_id bigint;
+BEGIN
+    -- Get the authenticated user's ID
+    SELECT id INTO authenticated_user_id FROM "User" WHERE user_id = auth.uid();
+
+    -- Insert a new Argument
+    INSERT INTO "Argument" ("Assertion", "Reasoning")
+    VALUES (p_name, 'Write here the conditions')
+    RETURNING id INTO new_argument_id;
+
+    -- Insert a new Tree with the new Argument ID and authenticated user ID
+    INSERT INTO "Tree" ("user", head, name, public)
+    VALUES (authenticated_user_id, new_argument_id, p_name, true);
+END;
+$$ LANGUAGE plpgsql;
+
 	

@@ -68,26 +68,18 @@ window.onload = async function() {
   }
 }
 
-async function createTree(){
-  try {
-        userId=getLoggedInUserId();
-        const { data, error } = await supabaseClient
-            .from('Tree') // Replace 'Tree' with your table name
-            .insert([
-                { 
-                    name: "new-project", 
-                    user: userId, 
-                    head: 15//await createHeadArgument()
-                }
-            ]);
-        
-        if (error) {
-            console.error('Error inserting into Tree table:', error);
-        } else {
-            console.log('New Tree element added:', data);
-        }
-    } catch (err) {
-        console.error('Unexpected error:', err);
+async function createTree(name) {
+    const { data, error } = await supabaseClient
+        .rpc('create_tree_and_argument', {
+            p_name: name,
+        });
+    
+    console.log('User:', await getLoggedInUserId());
+
+    if (error) {
+        console.error('Error creating tree and argument:', error);
+    } else {
+        console.log('Tree and argument created successfully:', data);
     }
 }
 
