@@ -61,7 +61,7 @@ window.onload = async function() {
       const but=document.createElement("a");
       but.textContent='new project';
       but.classList.add("project-link");
-      but.onclick=function insertTitle();
+      but.onclick=function (){insertTitle();};
       but.id="new-project";
       document.body.appendChild(but);
     }	
