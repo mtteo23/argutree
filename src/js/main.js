@@ -7,6 +7,7 @@ window.onload = async function() {
 }
 
 async function start() {
+  document.body.innerHTML = ''; 
   const pathParts = window.location.pathname.split('/').filter(Boolean);
 	const username = pathParts[0] || "#no-user#";
 	const project = pathParts[1] || "#no-project#";
