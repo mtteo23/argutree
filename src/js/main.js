@@ -61,7 +61,7 @@ window.onload = async function() {
       const but=document.createElement("a");
       but.textContent='new project';
       but.classList.add("project-link");
-      but.onclick=insertTitle();
+      but.onclick=function insertTitle();
       but.id="new-project";
       document.body.appendChild(but);
     }	
@@ -136,7 +136,6 @@ function format(input) {
 }
 
 async function insertTitle() {
-    alert('start insert title');
     const buttonId="new-project";
     const button = document.getElementById(buttonId);
     if (!button) {
