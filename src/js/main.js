@@ -3,7 +3,11 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
   
 window.onload = async function() {
-	const pathParts = window.location.pathname.split('/').filter(Boolean);
+	start();
+}
+
+async function start() {
+  const pathParts = window.location.pathname.split('/').filter(Boolean);
 	const username = pathParts[0] || "#no-user#";
 	const project = pathParts[1] || "#no-project#";
   
@@ -81,6 +85,7 @@ async function createTree(name) {
     } else {
         console.log('Tree and argument created successfully:', data);
     }
+    return start();
 }
 
 async function getLoggedInUserId() {
