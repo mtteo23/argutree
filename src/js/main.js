@@ -7,7 +7,7 @@ window.onload = async function() {
 }
 
 async function start() {
-  document.body.innerHTML = ''; 
+  document.getElementById('graph').innerHTML = ''; 
   const pathParts = window.location.pathname.split('/').filter(Boolean);
 	const username = pathParts[0] || "#no-user#";
 	const project = pathParts[1] || "#no-project#";
@@ -44,7 +44,7 @@ async function start() {
         const heading = document.createElement("h1");
         heading.innerHTML = 'Welcome <span id="username">'+username+'</span>';
         profileDiv.appendChild(heading);
-        document.body.appendChild(profileDiv);
+        document.getElementById('graph').appendChild(profileDiv);
       }
       else
       {						
@@ -53,7 +53,7 @@ async function start() {
         const heading = document.createElement("h1");
         heading.innerHTML = 'Archive of <span id="username">'+username+'</span>';
         profileDiv.appendChild(heading);
-        document.body.appendChild(profileDiv);
+        document.getElementById('graph').appendChild(profileDiv);
       }
       const Projects= await getProjects(username)
       Projects.forEach(project=>{
@@ -61,14 +61,14 @@ async function start() {
         but.textContent=project.name;
         but.href="/"+username+"/"+project.name;
         but.classList.add("project-link");
-        document.body.appendChild(but);
+        document.getElementById('graph').appendChild(but);
       });
       const but=document.createElement("a");
       but.textContent='new project';
       but.classList.add("project-link");
       but.onclick=function (){insertTitle();};
       but.id="new-project";
-      document.body.appendChild(but);
+      document.getElementById('graph').appendChild(but);
     }	
   }
 }
