@@ -70,22 +70,21 @@ async function start() {
         // Create the delete button
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "x";
-        deleteButton.classList.add("delete-button");
+        deleteButton.classList.add("delete-button-project");
         deleteButton.onclick = () => {
             // Define your delete logic here
             console.log(`Deleting project: ${project.name}`);
-            projectContainer.remove(); // Remove the container from the DOM
+            //deleteTree(project.name);
         };
 
         // Create the modify button
         const modifyButton = document.createElement("button");
         modifyButton.textContent = "Modify";
-        modifyButton.classList.add("modify-button");
+        modifyButton.classList.add("modify-button-project");
         modifyButton.onclick = () => {
             // Define your modify logic here
             console.log(`Modifying project: ${project.name}`);
-            // For example, you could open a modal or redirect to a modification page
-            // openModifyModal(project); // Example function to handle modification
+            //renameTitle(project.name);
         };
 
         // Append the link, modify button, and delete button to the container
@@ -108,6 +107,38 @@ async function start() {
 }
 
 async function createTree(name) {
+    const { data, error } = await supabaseClient
+        .rpc('create_tree_and_argument', {
+            p_name: name
+        });
+    
+    console.log('User:', await getLoggedInUserId());
+
+    if (error) {
+        console.error('Error creating tree and argument:', error);
+    } else {
+        console.log('Tree and argument created successfully:', data);
+    }
+    return start();
+}
+
+async function deleteTree(id) {
+    const { data, error } = await supabaseClient
+        .rpc('create_tree_and_argument', {
+            p_name: name
+        });
+    
+    console.log('User:', await getLoggedInUserId());
+
+    if (error) {
+        console.error('Error creating tree and argument:', error);
+    } else {
+        console.log('Tree and argument created successfully:', data);
+    }
+    return start();
+}
+
+async function modifyTree(id, name) {
     const { data, error } = await supabaseClient
         .rpc('create_tree_and_argument', {
             p_name: name
@@ -188,6 +219,27 @@ async function insertTitle() {
         }
     });
 }
+
+async function renameTitle(id) {
+    const button = document.getElementById(id);
+    if (!button) {
+        console.error(`Button with ID "${buttonId}" not found.`);
+        return;
+    }
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.placeholder = 'Enter value here';
+    input.style.marginLeft = '10px';
+
+    button.parentNode.replaceChild(input, button);
+
+    input.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            modifyTree(format(id, input.value));
+        }
+    });
+}
   
 async function getProjects(username) {
 	     
@@ -209,7 +261,6 @@ async function getProjects(username) {
 		.select('name')
 		.eq('user', userId);
 		
-	console.log("tree", treeData);
 		
 	return treeData;
 }
@@ -240,7 +291,6 @@ async function getUsername() {
     console.error('Error fetching username:', error.message);
 		return null;
   }
-
-	console.log('Username:', data.username);
+  
 	return data.username;
 }
