@@ -136,6 +136,7 @@ function format(input) {
 }
 
 async function insertTitle() {
+    alert('start insert title');
     const buttonId="new-project";
     const button = document.getElementById(buttonId);
     if (!button) {
@@ -156,6 +157,7 @@ async function insertTitle() {
         }
     });
 }
+  
 async function getProjects(username) {
 	     
 	const { data: userData, error: userError } = await supabaseClient
