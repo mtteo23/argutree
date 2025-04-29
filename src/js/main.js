@@ -61,25 +61,33 @@ window.onload = async function() {
       const but=document.createElement("a");
       but.textContent='new project';
       but.classList.add("project-link");
-      but.onclick=createTree();
+      but.onclick=insertTitle();
       but.id="new-project";
       document.body.appendChild(but);
     }	
   }
 }
 
-async function createTree(name) {
-    const { data, error } = await supabaseClient
-        .rpc('create_tree_and_argument', {
-            p_name: name,
-        });
-    
-    console.log('User:', await getLoggedInUserId());
-
-    if (error) {
-        console.error('Error creating tree and argument:', error);
-    } else {
-        console.log('Tree and argument created successfully:', data);
+async function createTree(){
+  try {
+        userId=getLoggedInUserId();
+        const { data, error } = await supabaseClient
+            .from('Tree') // Replace 'Tree' with your table name
+            .insert([
+                { 
+                    name: "new-project", 
+                    user: userId, 
+                    head: 15//await createHeadArgument()
+                }
+            ]);
+        
+        if (error) {
+            console.error('Error inserting into Tree table:', error);
+        } else {
+            console.log('New Tree element added:', data);
+        }
+    } catch (err) {
+        console.error('Unexpected error:', err);
     }
 }
 
@@ -99,30 +107,6 @@ async function getLoggedInUserId() {
             console.log('No user is logged in');
             return null;
         }
-    } catch (err) {
-        console.error('Unexpected error:', err);
-        return null;
-    }
-}
-
-async function createHeadArgument() {
-    try {
-        const { data, error } = await supabaseClient
-            .from('Argument') 
-            .insert([{
-                assertion: format(Title),
-                reasoning: "Explain the detail of the discussion",
-                parent: null
-            }])
-            .select('id')
-            .single();
-
-        if (error) {
-            console.error('Error inserting argument:', error);
-            return null;
-        }
-    
-        return data.id;
     } catch (err) {
         console.error('Unexpected error:', err);
         return null;
@@ -168,12 +152,10 @@ async function insertTitle() {
 
     input.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
-            alert(input.value);
-            return input.value;
+            createTree(format(input.value));
         }
     });
 }
-
 async function getProjects(username) {
 	     
 	const { data: userData, error: userError } = await supabaseClient
