@@ -56,13 +56,47 @@ async function start() {
         document.getElementById('graph').appendChild(profileDiv);
       }
       const Projects= await getProjects(username)
-      Projects.forEach(project=>{
-        const but=document.createElement("a");
-        but.textContent=project.name;
-        but.href="/"+username+"/"+project.name;
-        but.classList.add("project-link");
-        document.getElementById('graph').appendChild(but);
-      });
+      Projects.forEach(project => {
+        // Create a container div for each project
+        const projectContainer = document.createElement("div");
+        projectContainer.classList.add("project-container");
+
+        // Create the anchor element (button) for the project
+        const projectLink = document.createElement("a");
+        projectLink.textContent = project.name;
+        projectLink.href = "/" + username + "/" + project.name;
+        projectLink.classList.add("project-link");
+
+        // Create the delete button
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "x";
+        deleteButton.classList.add("delete-button");
+        deleteButton.onclick = () => {
+            // Define your delete logic here
+            console.log(`Deleting project: ${project.name}`);
+            projectContainer.remove(); // Remove the container from the DOM
+        };
+
+        // Create the modify button
+        const modifyButton = document.createElement("button");
+        modifyButton.textContent = "Modify";
+        modifyButton.classList.add("modify-button");
+        modifyButton.onclick = () => {
+            // Define your modify logic here
+            console.log(`Modifying project: ${project.name}`);
+            // For example, you could open a modal or redirect to a modification page
+            // openModifyModal(project); // Example function to handle modification
+        };
+
+        // Append the link, modify button, and delete button to the container
+        projectContainer.appendChild(projectLink);
+        projectContainer.appendChild(modifyButton);
+        projectContainer.appendChild(deleteButton);
+
+        // Append the container to the 'graph' element
+        document.getElementById('graph').appendChild(projectContainer);
+    });
+
       const but=document.createElement("a");
       but.textContent='new project';
       but.classList.add("project-link");
@@ -76,7 +110,7 @@ async function start() {
 async function createTree(name) {
     const { data, error } = await supabaseClient
         .rpc('create_tree_and_argument', {
-            p_name: name,
+            p_name: name
         });
     
     console.log('User:', await getLoggedInUserId());

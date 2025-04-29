@@ -98,17 +98,23 @@ DECLARE
     authenticated_user_id bigint;
 BEGIN
     -- Get the authenticated user's ID
-    SELECT id INTO authenticated_user_id FROM "User" WHERE user_id = auth.uid();
+    SELECT id INTO authenticated_user_id 
+    FROM "User" 
+    WHERE user_id = auth.uid()::uuid;
+
+    -- Check if the authenticated user exists
+    IF authenticated_user_id IS NULL THEN
+        RAISE EXCEPTION 'Authenticated user not found: %', auth.uid();
+    END IF;
 
     -- Insert a new Argument
     INSERT INTO "Argument" ("Assertion", "Reasoning")
-    VALUES (p_name, 'Write here the conditions')
+    VALUES ('Assertion', 'Reasoning')
     RETURNING id INTO new_argument_id;
 
     -- Insert a new Tree with the new Argument ID and authenticated user ID
     INSERT INTO "Tree" ("user", head, name, public)
-    VALUES (authenticated_user_id, new_argument_id, p_name, true);
+    VALUES (authenticated_user_id, new_argument_id, p_name, TRUE);
 END;
 $$ LANGUAGE plpgsql;
-
 	
