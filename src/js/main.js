@@ -126,11 +126,14 @@ async function getTreeId(name) {
     user=getLoggedInUserId();
     const { data, error } = await supabaseClient
       .from('Tree')
-      .select('id')
-      .eq('name', name)
-      .eq('user', user)
-      .single(); // Assuming "name" and "user" uniquely identify a row
-
+      .select('id');
+      
+      //.eq('name', name)
+      //.eq('user', user)
+      //.single(); // Assuming "name" and "user" uniquely identify a row
+    
+     console.log('Tree: ', data);
+    
     if (error) throw error;
     if (!data) throw new Error('Tree not found');
 
@@ -199,13 +202,9 @@ async function getLoggedInUserId() {
             return null;
         }
 
-        if (user) {
-            console.log('Logged-in user ID:', user.id);
-            return user.id;
-        } else {
+        if (!user) {
             console.log('No user is logged in');
             return null;
-        }
     } catch (err) {
         console.error('Unexpected error:', err);
         return null;
