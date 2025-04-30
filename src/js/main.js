@@ -60,6 +60,7 @@ async function start() {
         // Create a container div for each project
         const projectContainer = document.createElement("div");
         projectContainer.classList.add("project-container");
+        projectContainer.id=project.name;
 
         // Create the anchor element (button) for the project
         const projectLink = document.createElement("a");
@@ -73,9 +74,7 @@ async function start() {
         deleteButton.classList.add("delete-button-project");
         deleteButton.onclick = async function() {
             // Define your delete logic here
-            console.log(`Deleting project: ${project.name}`);
             const id= await getTreeId(project.name);
-            alert(id);
             deleteTree(id);
         };
 
@@ -84,7 +83,6 @@ async function start() {
         modifyButton.textContent = "Modify";
         modifyButton.classList.add("modify-button-project");
         modifyButton.onclick = async function() {
-            console.log(`Modifying project: ${project.name}`);
             const id= await getTreeId(project.name);
             renameTitle(id);
         };
@@ -116,8 +114,6 @@ async function createTree(name) {
 
     if (error) {
         console.error('Error creating tree and argument:', error);
-    } else {
-        console.log('Tree and argument created successfully:', data);
     }
     return start();
 }
@@ -131,8 +127,6 @@ async function getTreeId(name) {
       .eq('user', user)
       .eq('name', name)
       .single(); // Assuming "name" and "user" uniquely identify a row
-    
-     console.log('Tree: ', data);
     
     if (error) throw error;
     if (!data) throw new Error('Tree not found');
@@ -154,7 +148,6 @@ async function deleteTree(treeId) {
       
       if (error) throw error;
 
-      console.log(`Tree "${name}" deleted successfully.`);
     } catch (error) {
       console.error('Error deleting tree:', error.message);
   }
@@ -209,10 +202,6 @@ async function getLoggedInUserId() {
             .select('id')
             .eq('user_id', uuid)
             .single();
-          
-          alert(uuid);
-          alert(userData.id);  
-          
           return userData.id;
         }
     } catch (err) {
@@ -265,8 +254,8 @@ async function insertTitle() {
     });
 }
 
-async function renameTitle(id) {
-    const button = document.getElementById(id);
+async function renameTitle(name) {
+    const button = document.getElementById(name);
     if (!button) {
         console.error(`Button with ID "${buttonId}" not found.`);
         return;
@@ -281,6 +270,7 @@ async function renameTitle(id) {
 
     input.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
+            const id= await getTreeId(name);
             modifyTree(format(id, input.value));
         }
     });
