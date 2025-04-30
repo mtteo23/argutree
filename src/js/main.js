@@ -75,6 +75,7 @@ async function start() {
             // Define your delete logic here
             console.log(`Deleting project: ${project.name}`);
             const id=getTreeId(project.name);
+            alert(id);
             deleteTree(id);
         };
 
@@ -145,11 +146,6 @@ async function getTreeId(name) {
 
 async function deleteTree(treeId) {
     try {
-      if (!treeId) {
-        console.error('Tree not found or could not fetch ID.');
-        return false;
-      }
-
       // Delete the tree by ID
       const { error } = await supabaseClient
         .from('Tree')
