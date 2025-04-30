@@ -123,7 +123,7 @@ async function createTree(name) {
 
 async function getTreeId(name) {
   try {
-    user=getLoggedInUserId();
+    user= await getLoggedInUserId();
     const { data, error } = await supabaseClient
       .from('Tree')
       .select('id')
