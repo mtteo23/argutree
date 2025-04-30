@@ -151,7 +151,7 @@ async function deleteTree(treeId) {
       }
 
       // Delete the tree by ID
-      const { error } = await supabase
+      const { error } = await supabaseClient
         .from('Tree')
         .delete()
         .eq('id', treeId);
