@@ -127,8 +127,8 @@ async function getTreeId(name) {
     const { data, error } = await supabaseClient
       .from('Tree')
       .select('id')
-      .eq('user', user);
-      .eq('name', name);
+      .eq('user', user)
+      .eq('name', name)
       .single(); // Assuming "name" and "user" uniquely identify a row
     
      console.log('Tree: ', data);
