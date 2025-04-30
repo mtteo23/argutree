@@ -137,8 +137,90 @@ async function getTreeId(name) {
   }
 }
 
+async function deleteDependentArgs(username, project) {
+    
+    const { data: userData, error: userError } = await supabaseClient
+        .from('User')  
+        .select('id')
+        .eq('username', username)
+        .single(); 
+
+    if (userError || !userData) {
+        console.error('Error fetching user ID:', userError);
+        return null;
+    }
+
+    const userId = parseInt(userData.id, 10);
+    
+    
+    const { data: treeData, error: treeError } = await supabaseClient
+        .from('Tree')
+        .select('head')
+        .eq('name', project)
+        .eq('user', userId) 
+        .single(); 
+
+    if (treeError || !treeData) {
+        console.error('Error fetching head ID:', treeError);
+        return null;
+    }
+    
+    const headId = parseInt(treeData.head, 10);
+    alert(headId);
+  {
+		const { data, error } = await supabaseClient.rpc('get_argument_descendants', {
+		  p_head_id: headId
+		});
+
+		if (error) {
+		  console.error("Error fetching descendants:", error);
+		} else {
+		  //console.log("Descendants:", data);
+		}
+    
+		data.forEach(argument => {
+      /*
+      const { error } = await supabaseClient
+        .from('Argument')
+        .delete()
+        .eq('id', argument.id);
+      */
+      console.log("ArgId:", argument.id);
+      if (error) console.log("Error! ArgId:", error);
+		});
+	}
+	
+	{
+		const { data, error } = await supabaseClient.rpc('get_evidence_for_argument_descendants', {
+		  p_head_id: headId
+		});
+
+		if (error) {
+		  console.error("Error fetching evidence:", error);
+		} else {
+		  //console.log("Evidence records:", data);
+		}
+		
+		data.forEach(evidence => {
+      /*
+      const { error } = await supabaseClient
+        .from('Evidence')
+        .delete()
+        .eq('id', evidence.id);
+      */
+        console.log("ArgId:", argument.id);
+			});	
+	}
+}
+
+
 async function deleteTree(treeId) {
     try {
+      //Delete all tree Args
+      
+      
+      
+      
       // Delete the tree by ID
       const { error } = await supabaseClient
         .from('Tree')
@@ -270,6 +352,7 @@ async function renameTitle(name) {
     input.addEventListener('keydown', async function (event) {
         if (event.key === 'Enter') {
             const id= await getTreeId(name);
+            alert(input.value);
             modifyTree(format(id, input.value));
         }
     });
