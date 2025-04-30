@@ -166,6 +166,7 @@ async function deleteDependentArgs(treeId) {
         .from('Argument')
         .delete()
         .eq('id', argument.id);
+      alert(argument.id);
       if (error) console.log("Error! ArgId:", error);
 		});
 	}
