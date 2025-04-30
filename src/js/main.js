@@ -128,8 +128,8 @@ async function getTreeId(name) {
       .from('Tree')
       .select('id')
       .eq('user', user);
-      //.eq('name', name);
-      //.single(); // Assuming "name" and "user" uniquely identify a row
+      .eq('name', name);
+      .single(); // Assuming "name" and "user" uniquely identify a row
     
      console.log('Tree: ', data);
     
