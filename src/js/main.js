@@ -221,8 +221,6 @@ async function modifyTree(id, newName) {
         
       if (error) throw error;
 
-      console.log(`Tree name updated from "${currentName}" to "${newName}".`);
-
     } catch (error) {
       console.error('Error updating tree name:', error.message);
 
