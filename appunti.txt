@@ -76,7 +76,6 @@ $$ language plpgsql stable;
 create policy "Enable ... for users based on user_id"
 on "public"."Argument"
 as PERMISSIVE
-for ...
 to public
 using (
    (auth.uid() = ( SELECT "User".user_id
@@ -118,3 +117,29 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 	
+	
+CREATE POLICY "Enable delete for users based on user_id" 
+ON "public"."Tree" 
+AS PERMISSIVE 
+FOR DELETE 
+TO public 
+USING (
+    auth.uid() = (
+        SELECT "User".user_id
+        FROM "User"
+        WHERE "User".id = "Tree".user
+    )
+);
+
+CREATE POLICY "Enable update for users based on user_id" 
+ON "public"."Tree" 
+AS PERMISSIVE 
+FOR UPDATE 
+TO public 
+USING (
+    auth.uid() = (
+        SELECT "User".user_id
+        FROM "User"
+        WHERE "User".id = "Tree".user
+    )
+);

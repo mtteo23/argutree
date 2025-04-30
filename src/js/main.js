@@ -74,7 +74,8 @@ async function start() {
         deleteButton.onclick = () => {
             // Define your delete logic here
             console.log(`Deleting project: ${project.name}`);
-            //deleteTree(project.name);
+            const id=getTreeId(project.name);
+            deleteTree(id);
         };
 
         // Create the modify button
@@ -82,9 +83,9 @@ async function start() {
         modifyButton.textContent = "Modify";
         modifyButton.classList.add("modify-button-project");
         modifyButton.onclick = () => {
-            // Define your modify logic here
             console.log(`Modifying project: ${project.name}`);
-            //renameTitle(project.name);
+            const id=getTreeId(project.name);
+            renameTitle(id);
         };
 
         // Append the link, modify button, and delete button to the container
@@ -111,8 +112,6 @@ async function createTree(name) {
         .rpc('create_tree_and_argument', {
             p_name: name
         });
-    
-    console.log('User:', await getLoggedInUserId());
 
     if (error) {
         console.error('Error creating tree and argument:', error);
@@ -122,14 +121,27 @@ async function createTree(name) {
     return start();
 }
 
-async function deleteTree(id) {
-    const { data, error } = await supabaseClient
-        .rpc('create_tree_and_argument', {
-            p_name: name
-        });
-    
-    console.log('User:', await getLoggedInUserId());
+async function getTreeId(name) {
+  try {
+    user=getLoggedInUserId();
+    const { data, error } = await supabase
+      .from('Tree')
+      .select('id')
+      .eq('name', name)
+      .eq('user', user)
+      .single(); // Assuming "name" and "user" uniquely identify a row
 
+    if (error) throw error;
+    if (!data) throw new Error('Tree not found');
+
+    return data.id;
+  } catch (error) {
+    console.error('Error fetching tree ID:', error.message);
+    return null;
+  }
+}
+
+async function deleteTree(id) {
     if (error) {
         console.error('Error creating tree and argument:', error);
     } else {
@@ -143,8 +155,6 @@ async function modifyTree(id, name) {
         .rpc('create_tree_and_argument', {
             p_name: name
         });
-    
-    console.log('User:', await getLoggedInUserId());
 
     if (error) {
         console.error('Error creating tree and argument:', error);
