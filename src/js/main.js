@@ -268,7 +268,7 @@ async function renameTitle(name) {
 
     button.parentNode.replaceChild(input, button);
 
-    input.addEventListener('keydown', async function (event) => {
+    input.addEventListener('keydown', async function (event) {
         if (event.key === 'Enter') {
             const id= await getTreeId(name);
             modifyTree(format(id, input.value));
