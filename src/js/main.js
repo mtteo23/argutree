@@ -124,7 +124,7 @@ async function createTree(name) {
 async function getTreeId(name) {
   try {
     user=getLoggedInUserId();
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from('Tree')
       .select('id')
       .eq('name', name)
@@ -142,25 +142,51 @@ async function getTreeId(name) {
 }
 
 async function deleteTree(id) {
-    if (error) {
-        console.error('Error creating tree and argument:', error);
-    } else {
-        console.log('Tree and argument created successfully:', data);
-    }
+    try {
+      // Get the tree ID
+      const treeId = await getTreeId(name, user);
+      if (!treeId) {
+        console.error('Tree not found or could not fetch ID.');
+        return false;
+      }
+
+      // Delete the tree by ID
+      const { error } = await supabase
+        .from('Tree')
+        .delete()
+        .eq('id', treeId);
+      
+      if (error) throw error;
+
+      console.log(`Tree "${name}" deleted successfully.`);
+    } catch (error) {
+      console.error('Error deleting tree:', error.message);
+  }
     return start();
 }
 
 async function modifyTree(id, name) {
-    const { data, error } = await supabaseClient
-        .rpc('create_tree_and_argument', {
-            p_name: name
-        });
+    try {
+      // Update the tree name
+      const { data, error } = await supabase
+        .from('Tree')
+        .update({ name: newName }) // Update the name column
+        .eq('name', currentName)  // Match the current name
+        .eq('user', user);        // Match the user
 
-    if (error) {
-        console.error('Error creating tree and argument:', error);
-    } else {
-        console.log('Tree and argument created successfully:', data);
-    }
+      if (error) throw error;
+
+      if (data.length === 0) {
+        console.error('Tree not found or update failed.');
+
+      }
+
+      console.log(`Tree name updated from "${currentName}" to "${newName}".`);
+
+    } catch (error) {
+      console.error('Error updating tree name:', error.message);
+
+  }
     return start();
 }
 
