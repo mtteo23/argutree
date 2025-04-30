@@ -71,7 +71,7 @@ async function start() {
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "x";
         deleteButton.classList.add("delete-button-project");
-        deleteButton.onclick = () => {
+        deleteButton.onclick = async function() {
             // Define your delete logic here
             console.log(`Deleting project: ${project.name}`);
             const id= await getTreeId(project.name);
@@ -83,9 +83,9 @@ async function start() {
         const modifyButton = document.createElement("button");
         modifyButton.textContent = "Modify";
         modifyButton.classList.add("modify-button-project");
-        modifyButton.onclick = () => {
+        modifyButton.onclick = async function() {
             console.log(`Modifying project: ${project.name}`);
-            const id=getTreeId(project.name);
+            const id= await getTreeId(project.name);
             renameTitle(id);
         };
 
