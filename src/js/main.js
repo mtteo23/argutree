@@ -83,8 +83,7 @@ async function start() {
         modifyButton.textContent = "Modify";
         modifyButton.classList.add("modify-button-project");
         modifyButton.onclick = async function() {
-            const id= await getTreeId(project.name);
-            renameTitle(id);
+            renameTitle(project.name);
         };
 
         // Append the link, modify button, and delete button to the container
