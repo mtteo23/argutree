@@ -186,6 +186,8 @@ async function modifyTree(id, name) {
     return start();
 }
 
+
+
 async function getLoggedInUserId() {
     try {
         const { data: { user }, error } = await supabaseClient.auth.getUser();
@@ -199,6 +201,7 @@ async function getLoggedInUserId() {
             console.log('No user is logged in');
             return null;
         }
+        return user.id;
     } catch (err) {
         console.error('Unexpected error:', err);
         return null;
