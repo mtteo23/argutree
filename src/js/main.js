@@ -163,13 +163,10 @@ async function deleteDependentArgs(treeId) {
 		}
     
 		data.forEach(argument => {
-      /*
       const { error } = await supabaseClient
         .from('Argument')
         .delete()
         .eq('id', argument.id);
-      */
-      console.log("ArgId:", argument.id);
       if (error) console.log("Error! ArgId:", error);
 		});
 	}
@@ -186,14 +183,11 @@ async function deleteDependentArgs(treeId) {
 		}
 		
 		data.forEach(evidence => {
-      /*
       const { error } = await supabaseClient
         .from('Evidence')
         .delete()
         .eq('id', evidence.id);
-      */
-        console.log("ArgId:", argument.id);
-			});	
+      });	
 	}
 }
 
@@ -217,7 +211,7 @@ async function deleteTree(treeId) {
     return start();
 }
 
-async function modifyTree(id, name) {
+async function modifyTree(id, newName) {
     try {
       // Update the tree name
       const { data, error } = await supabaseClient
