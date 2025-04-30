@@ -137,27 +137,11 @@ async function getTreeId(name) {
   }
 }
 
-async function deleteDependentArgs(username, project) {
-    
-    const { data: userData, error: userError } = await supabaseClient
-        .from('User')  
-        .select('id')
-        .eq('username', username)
-        .single(); 
-
-    if (userError || !userData) {
-        console.error('Error fetching user ID:', userError);
-        return null;
-    }
-
-    const userId = parseInt(userData.id, 10);
-    
-    
+async function deleteDependentArgs(treeId) {
     const { data: treeData, error: treeError } = await supabaseClient
         .from('Tree')
         .select('head')
-        .eq('name', project)
-        .eq('user', userId) 
+        .eq('id', treeId)
         .single(); 
 
     if (treeError || !treeData) {
@@ -217,9 +201,7 @@ async function deleteDependentArgs(username, project) {
 async function deleteTree(treeId) {
     try {
       //Delete all tree Args
-      
-      
-      
+      deleteDependentArgs(treeId);
       
       // Delete the tree by ID
       const { error } = await supabaseClient
@@ -292,6 +274,9 @@ async function getLoggedInUserId() {
 }
 
 function format(input) {
+    
+    input = String(input);
+  
     let formatted = input.toLowerCase();
 
     formatted = formatted.replace(/\s+/g, '_');
