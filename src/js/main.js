@@ -162,7 +162,7 @@ async function deleteDependentArgs(treeId) {
 		  //console.log("Descendants:", data);
 		}
     
-		data.forEach(argument => {
+		data.forEach(async function(argument) {
       const { error } = await supabaseClient
         .from('Argument')
         .delete()
@@ -182,11 +182,12 @@ async function deleteDependentArgs(treeId) {
 		  //console.log("Evidence records:", data);
 		}
 		
-		data.forEach(evidence => {
+		data.forEach(async function(evidence) {
       const { error } = await supabaseClient
         .from('Evidence')
         .delete()
         .eq('id', evidence.id);
+        if (error) console.log("Error! EvId:", error);
       });	
 	}
 }
