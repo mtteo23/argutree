@@ -201,7 +201,20 @@ async function getLoggedInUserId() {
             console.log('No user is logged in');
             return null;
         }
-        return user.id;
+        const uuid=user.id;
+        if(uuid){
+          
+          const { data: userData, error: userError } = await supabaseClient
+            .from('User')  
+            .select('id')
+            .eq('user_id', uuid)
+            .single();
+          
+          alert(uuid);
+          alert(userData.id);  
+          
+          return userData.id;
+        }
     } catch (err) {
         console.error('Unexpected error:', err);
         return null;
