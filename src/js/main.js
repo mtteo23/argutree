@@ -257,7 +257,7 @@ async function insertTitle() {
 async function renameTitle(name) {
     const button = document.getElementById(name);
     if (!button) {
-        console.error(`Button with ID "${buttonId}" not found.`);
+        console.error(`Button with ID "${name}" not found.`);
         return;
     }
 
