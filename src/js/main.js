@@ -150,7 +150,6 @@ async function deleteDependentArgs(treeId) {
     }
     
     const headId = parseInt(treeData.head, 10);
-    alert(headId);
   {
 		const { data, error } = await supabaseClient.rpc('get_argument_descendants', {
 		  p_head_id: headId
@@ -218,9 +217,8 @@ async function modifyTree(id, newName) {
       const { data, error } = await supabaseClient
         .from('Tree')
         .update({ name: newName }) // Update the name column
-        .eq('name', currentName)  // Match the current name
-        .eq('user', user);        // Match the user
-
+        .eq('id', id);
+        
       if (error) throw error;
 
       if (data.length === 0) {
@@ -332,7 +330,6 @@ async function renameTitle(name) {
     input.addEventListener('keydown', async function (event) {
         if (event.key === 'Enter') {
             const id= await getTreeId(name);
-            alert(input.value);
             modifyTree(format(id, input.value));
         }
     });
