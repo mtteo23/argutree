@@ -220,7 +220,7 @@ async function deleteTree(treeId) {
 async function modifyTree(id, name) {
     try {
       // Update the tree name
-      const { data, error } = await supabase
+      const { data, error } = await supabaseClient
         .from('Tree')
         .update({ name: newName }) // Update the name column
         .eq('name', currentName)  // Match the current name
