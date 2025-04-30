@@ -74,7 +74,7 @@ async function start() {
         deleteButton.onclick = () => {
             // Define your delete logic here
             console.log(`Deleting project: ${project.name}`);
-            const id=getTreeId(project.name);
+            const id= await getTreeId(project.name);
             alert(id);
             deleteTree(id);
         };
