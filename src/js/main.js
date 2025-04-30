@@ -205,6 +205,7 @@ async function getLoggedInUserId() {
         if (!user) {
             console.log('No user is logged in');
             return null;
+        }
     } catch (err) {
         console.error('Unexpected error:', err);
         return null;
