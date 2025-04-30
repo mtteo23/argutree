@@ -143,10 +143,8 @@ async function getTreeId(name) {
   }
 }
 
-async function deleteTree(id) {
+async function deleteTree(treeId) {
     try {
-      // Get the tree ID
-      const treeId = await getTreeId(name, user);
       if (!treeId) {
         console.error('Tree not found or could not fetch ID.');
         return false;
