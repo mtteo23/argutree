@@ -25,59 +25,115 @@
 	</body>
 	<script>
     const supabaseUrl = 'https://htbxgsolhsxacotnprjq.supabase.co';
-	const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0Ynhnc29saHN4YWNvdG5wcmpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE2MzQ2MzAsImV4cCI6MjA1NzIxMDYzMH0.OJy9IdF8aWh_YuqU3WIdvuqAX-2GAfTTjMxu9zMAHMo';
-	const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
-		
-	async function signup() {
-	  const email = document.getElementById('email').value;
-	  const password = document.getElementById('password').value;
-	  const username = document.getElementById('username').value;
-	  const errorDiv = document.getElementById('error');
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0Ynhnc29saHN4YWNvdG5wcmpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE2MzQ2MzAsImV4cCI6MjA1NzIxMDYzMH0.OJy9IdF8aWh_YuqU3WIdvuqAX-2GAfTTjMxu9zMAHMo';
+    const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+    
+    async function signup() {
+    const email    = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const username = document.getElementById('username').value;
+    const errorDiv = document.getElementById('error');
+    let   problem  = false;
 
-	  // Clear previous error messages
-	  errorDiv.textContent = '';
+    // Clear previous error messages
+    errorDiv.textContent = '';
 
-	  try {
-		// Sign up the user
-		const { data: authData, error: authError } = await supabaseClient.auth.signUp({ email, password });
-		if (authError) {
-		  console.error('Auth error:', authError);
-		  throw new Error('Failed to sign up the user: ' + authError.message);
+    if (!await controlUsername(username)) problem = true;
+    if (!await controlEmail(email))       problem = true;
+
+    if (!problem) {
+      try {
+        // Sign up the user in Auth
+        const { data: authData, error: authError } = await supabaseClient.auth.signUp({ email, password });
+        if (authError) throw new Error(authError.message);
+        if (!authData?.user?.id) throw new Error('User ID is missing after sign-up.');
+
+        // Insert the profile row with username & user_id
+        const { data, error } = await supabaseClient
+          .from('User')
+          .insert([{ user_id: authData.user.id, username }]);
+        if (error) console.error('Error inserting display name:', error);
+        else       console.log('Display name inserted successfully:', data);
+      } catch (err) {
+        errorDiv.textContent = err.message;
+        return;
+      }
+
+      // Auto-login after signup
+      login(email, password);
+    }
+  }
+
+  async function controlUsername(username) {
+    const errorDiv = document.getElementById('error');
+
+    if (!username) {
+      errorDiv.textContent = 'Username cannot be empty.';
+      return false;
+    }
+
+    // Query for any existing row with this username
+    const { data, error } = await supabaseClient
+      .from('User')
+      .select('user_id', { count: 'exact' })
+      .eq('username', username)
+      .limit(1);
+
+    if (error) {
+      console.error('Error checking username:', error);
+      errorDiv.textContent = 'Unable to verify username uniqueness.';
+      return false;
+    }
+
+    if (data.length > 0) {
+      errorDiv.textContent = 'That username is already taken.';
+      return false;
+    }
+
+    return true;
+  }
+
+  async function controlEmail(email) {
+    const errorDiv = document.getElementById('error');
+
+    if (!email) {
+      errorDiv.textContent = 'Email cannot be empty.';
+      return false;
+    }
+
+    // If your "User" table also stores emails:
+    const { data, error } = await supabaseClient
+      .from('User')
+      .select('user_id', { count: 'exact' })
+      .eq('email', email)
+      .limit(1);
+
+    if (error) {
+      console.error('Error checking email:', error);
+      errorDiv.textContent = 'Unable to verify email uniqueness.';
+      return false;
+    }
+
+    if (data.length > 0) {
+      errorDiv.textContent = 'That email is already registered.';
+      return false;
+    }
+
+    return true;
+  }
+
+  async function login(email, password){
+    try {
+      const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+
+      if (error)
+        throw error;
+        
+      // Redirect or show success message
+      window.location.href = "profile.html";
+    } catch (error) {
+      errorDiv.textContent = error.message;
 		}
-
-		if (!authData?.user?.id) {
-		  throw new Error('User ID is missing after sign-up.');
-		}
-		
-		// Add username
-		const { data, error } = await supabaseClient
-		  .from('User')
-		  .insert([{ user_id: authData.user.id, username: username }]);
-
-		if (error) {
-		  console.error('Error inserting display name:', error);
-		} else {
-		  console.log('Display name inserted successfully:', data);
-		}
-	  } catch (error) {
-		// Display error message to the user
-		errorDiv.textContent = error.message;
-	  }
-	  
-	  // auto login
-	  
-	  try {
-		const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-
-        if (error) {
-			throw error;
-       }
-
-       // Redirect or show success message
-       window.location.href = "profile.html";
-      } catch (error) {
-		errorDiv.textContent = error.message;
-		}
-	}	
+  }
   </script>
 </html>
