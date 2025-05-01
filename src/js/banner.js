@@ -7,7 +7,7 @@ async function loadBanner() {
   const username=await getUsername();
   
   const mainPage = document.createElement('a');
-  mainPage.href = "index.html";
+  mainPage.href = "/";
   mainPage.textContent = "Main Page";
   mainPage.setAttribute('align', 'center');
   banner.appendChild(mainPage);
