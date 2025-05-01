@@ -138,48 +138,48 @@ async function getTreeId(name) {
 }
 
 async function deleteDependentArgs(treeId) {
-    const { data: treeData, error: treeError } = await supabaseClient
-        .from('Tree')
-        .select('head')
-        .eq('id', treeId)
-        .single(); 
+  const { data: treeData, error: treeError } = await supabaseClient
+      .from('Tree')
+      .select('head')
+      .eq('id', treeId)
+      .single(); 
 
-    if (treeError || !treeData) {
-        console.error('Error fetching head ID:', treeError);
-        return null;
-    }
-    
-    const headId = parseInt(treeData.head, 10);
-  {
-		const { data, error } = await supabaseClient.rpc('get_argument_descendants', {
-		  p_head_id: headId
-		});
+  if (treeError || treeData==null) {
+      console.log(treeData);
+      console.error('Error fetching head ID:', treeError);
+      return null;
+  }
+     
+  const headId = parseInt(treeData.head, 10);
+  
+  
+  const { data: argsData, error: headError } = await supabaseClient.rpc('get_argument_descendants', {
+	  p_head_id: headId
+	});
 
-		if (error) {
-		  console.error("Error fetching descendants:", error);
-		} else {
-		  console.log("Descendants:", data);
-		}
-    
-		data.forEach(async function(argument) {
-      const { error } = await supabaseClient
-        .from('Argument')
-        .delete()
-        .eq('id', argument.id);
-      alert(argument.id);
-      if (error) console.log("Error! ArgId:", error);
-		});
+	if (headError) {
+	  console.error("Error fetching descendants:", headError);
+	} else {
+	  console.log("Descendants:", argsData);
 	}
-	
+   
+	argsData.forEach(async function(argument) {
+    const { argError } = await supabaseClient
+      .from('Argument')
+      .delete()
+      .eq('id', argument.id);
+    alert(argument.id);
+    if (argError) console.log("Error! ArgId:", argError);
+  });
 	{
-		const { data, error } = await supabaseClient.rpc('get_evidence_for_argument_descendants', {
+		const { data: evData, error: evError } = await supabaseClient.rpc('get_evidence_for_argument_descendants', {
 		  p_head_id: headId
 		});
 
-		if (error) {
-		  console.error("Error fetching evidence:", error);
+		if (evError) {
+		  console.error("Error fetching evidence:", evError);
 		} else {
-		  console.log("Evidence records:", data);
+		  console.log("Evidence records:", evData);
 		}
 		
 		data.forEach(async function(evidence) {
@@ -213,7 +213,7 @@ async function deleteTree(treeId) {
 }
 
 async function modifyTree(id, newName) {
-    console.debug("modifyTree called with:", { id, newName }); // Log function inputs
+    //console.debug("modifyTree called with:", { id, newName }); // Log function inputs
 
   try {
     // Update the tree name
@@ -222,14 +222,14 @@ async function modifyTree(id, newName) {
       .update({ name: newName }) // Update the name column
       .eq('id', id);
 
-    console.debug("Supabase response:", { data, error }); // Log response from Supabase
+    //console.debug("Supabase response:", { data, error }); // Log response from Supabase
 
     if (error) {
       console.error('Error updating tree name:', error.message);
       throw error; // Re-throw the error for external handling
     }
 
-    console.info("Tree updated successfully:", { id, newName, data });
+    //console.info("Tree updated successfully:", { id, newName, data });
   } catch (error) {
     console.error('Unexpected error in modifyTree:', error);
   }
@@ -331,7 +331,7 @@ async function renameTitle(name) {
 
     input.addEventListener('keydown', async function (event) {
         if (event.key === 'Enter') {
-            const id= await getTreeId(name);
+            const id = await getTreeId(name);
             modifyTree(id, format(input.value));
         }
     });
