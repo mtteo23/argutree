@@ -181,7 +181,7 @@ async function deleteDependentArgs(treeId) {
 	  console.log("Evidence records:", evData);
 	}
 		
-	data.forEach(async function(evidence) {
+	evData.forEach(async function(evidence) {
     const { error } = await supabaseClient
       .from('Evidence')
       .delete()
