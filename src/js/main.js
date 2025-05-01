@@ -61,46 +61,51 @@ async function start() {
         const projectContainer = document.createElement("div");
         projectContainer.classList.add("project-container");
         projectContainer.id=project.name;
-
-        // Create the anchor element (button) for the project
-        const projectLink = document.createElement("a");
-        projectLink.textContent = project.name;
-        projectLink.href = "/" + username + "/" + project.name;
-        projectLink.classList.add("project-link");
-
-        // Create the delete button
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "x";
-        deleteButton.classList.add("delete-button-project");
-        deleteButton.onclick = async function() {
-            // Define your delete logic here
-            const id= await getTreeId(project.name);
-            deleteTree(id);
-        };
-
-        // Create the modify button
-        const modifyButton = document.createElement("button");
-        modifyButton.textContent = "Modify";
-        modifyButton.classList.add("modify-button-project");
-        modifyButton.onclick = async function() {
-            renameTitle(project.name);
-        };
-
-        // Append the link, modify button, and delete button to the container
+        
         projectContainer.appendChild(projectLink);
-        projectContainer.appendChild(modifyButton);
-        projectContainer.appendChild(deleteButton);
+        
+        if(logged){
+          // Create the anchor element (button) for the project
+          const projectLink = document.createElement("a");
+          projectLink.textContent = project.name;
+          projectLink.href = "/" + username + "/" + project.name;
+          projectLink.classList.add("project-link");
+
+          // Create the delete button
+          const deleteButton = document.createElement("button");
+          deleteButton.textContent = "x";
+          deleteButton.classList.add("delete-button-project");
+          deleteButton.onclick = async function() {
+              // Define your delete logic here
+              const id= await getTreeId(project.name);
+              deleteTree(id);
+          };
+
+          // Create the modify button
+          const modifyButton = document.createElement("button");
+          modifyButton.textContent = "Modify";
+          modifyButton.classList.add("modify-button-project");
+          modifyButton.onclick = async function() {
+              renameTitle(project.name);
+          };
+
+          // Append the link, modify button, and delete button to the container
+          
+          projectContainer.appendChild(modifyButton);
+          projectContainer.appendChild(deleteButton);
+        }
 
         // Append the container to the 'graph' element
         document.getElementById('graph').appendChild(projectContainer);
     });
-
-      const but=document.createElement("a");
-      but.textContent='new project';
-      but.classList.add("project-link");
-      but.onclick=function (){insertTitle();};
-      but.id="new-project";
-      document.getElementById('graph').appendChild(but);
+    if(logged){
+        const but=document.createElement("a");
+        but.textContent='new project';
+        but.classList.add("project-link");
+        but.onclick=function (){insertTitle();};
+        but.id="new-project";
+        document.getElementById('graph').appendChild(but);
+      }
     }	
   }
 }
