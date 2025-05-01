@@ -19,8 +19,6 @@ async function loadBanner() {
   banner.appendChild(explore);
   banner.appendChild(document.createTextNode(' '));
   
-  alert(username);
-  
   if(username==null){
     const loginLink = document.createElement('a');
     loginLink.href = "login.html";
@@ -34,7 +32,14 @@ async function loadBanner() {
     signupLink.id = "signup";
     banner.appendChild(signupLink);
   } else {
+    const logout = document.createElement('a');
+    logout.onclick=async function(){await supabaseClient.auth.signOut();};
+    logout.textContent = 'logout';
+    banner.appendChild(logout);
+    banner.appendChild(document.createTextNode(' '));
+    
     const profile = document.createElement('a');
+    profile.id='profile';
     profile.href = username;
     profile.textContent = username;
     banner.appendChild(profile);
