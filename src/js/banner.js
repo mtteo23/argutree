@@ -28,6 +28,6 @@ function loadBanner() {
   signupLink.id = "signup";
   banner.appendChild(signupLink);
 
-  document.body.appendChild(banner);
+  banner.appendChild(banner);
 }
 document.addEventListener("DOMContentLoaded", loadBanner);
