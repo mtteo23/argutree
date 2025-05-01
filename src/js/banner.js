@@ -4,7 +4,7 @@ const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
 async function loadBanner() {
   const banner = document.getElementById('banner');
-  const username=await getLoggedInUsername();
+  const username=await getUsername();
   
   const mainPage = document.createElement('a');
   mainPage.href = "index.html";
@@ -43,28 +43,32 @@ async function loadBanner() {
 }
 document.addEventListener("DOMContentLoaded", loadBanner);
 
-async function getLoggedInUsername() {
-  const user = supabaseClient.auth.getSession();
+async function getUsername() {
+	
+  const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
+
+  if (userError) {
+    console.error('Error getting user:', userError.message);
+		return null;
+  }
+
+	 if (!user) {
+		console.log('No user logged in');
+		return null;
+  }
+
+  const userId = user.id;
+			
+  const { data, error } = await supabaseClient
+    .from('User')
+		.select('username')
+		.eq('user_id', userId)
+		.single();
+
+  if (error) {
+    console.error('Error fetching username:', error.message);
+		return null;
+  }
   
-  if (!user) {
-    return null;
-  }
-
-  try {
-    const { data, error } = await supabaseClient
-      .from('User')
-      .select('username')
-      .eq('user_id', user.id)
-      .single();
-
-    if (error) {
-      console.error('Error fetching username:', error);
-      return null;
-    }
-
-    return data.username || null; // Return the username or null if not found
-  } catch (err) {
-    console.error('Unexpected error:', err);
-    return null;
-  }
+	return data.username;
 }
