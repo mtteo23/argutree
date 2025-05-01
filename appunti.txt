@@ -152,3 +152,22 @@ AS $$
   );
 $$ LANGUAGE sql STABLE SECURITY DEFINER;
 
+
+-- 1) ENABLE RLS (if you haven’t already)
+ALTER TABLE "User" ENABLE ROW LEVEL SECURITY;
+
+-- 2) ALLOW SELECT on just the fields you need for the username check
+CREATE POLICY "Users: allow public read minimal"
+  ON "User"
+  FOR SELECT
+  USING ( true );
+
+-- restrict the exposed columns at the table‐level
+GRANT SELECT (user_id, username) ON "User" TO authenticated, anon;
+
+-- 3) ALLOW each authenticated user to INSERT *their* own profile row
+CREATE POLICY "Users: insert own profile"
+  ON "User"
+  FOR INSERT
+  WITH CHECK ( auth.uid() = user_id );
+

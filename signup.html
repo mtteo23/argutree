@@ -53,9 +53,6 @@
           .insert([{ user_id: authData.user.id, username }]);
         if (insertError) console.error('Profile insert failed', insertError);
 
-        // now login
-        await login(email, password);
-
       } catch (err) {
         console.error(err);
         errorDiv.textContent = err.message || 'Something went wrong.';
@@ -74,21 +71,6 @@
       }
       return true;
     }
-
-  async function login(email, password){
-    const errorDiv = document.getElementById('error');
-    
-    try {
-      const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-
-      if (error)
-        throw error;
-        
-      // Redirect or show success message
-      window.location.href = "profile.html";
-    } catch (error) {
-      errorDiv.textContent = error.message;
-		}
   }
   </script>
 </html>
