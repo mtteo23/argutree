@@ -63,6 +63,8 @@
     }
     
     async function controlUsername(username) {
+      const errorDiv = document.getElementById('error');
+      
       const { data: isAvailable, error } = await supabaseClient
       .rpc('check_username_available', { _username: username });
       
