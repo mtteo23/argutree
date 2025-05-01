@@ -138,12 +138,13 @@ async function getTreeId(name) {
 }
 
 async function deleteDependentArgs(treeId) {
+  alert(treeId);
   const { data: treeData, error: treeError } = await supabaseClient
       .from('Tree')
       .select('head')
       .eq('id', treeId)
       .single(); 
-
+  
   if (treeError || treeData==null) {
       console.log(treeData);
       console.error('Error fetching head ID:', treeError);
@@ -151,7 +152,6 @@ async function deleteDependentArgs(treeId) {
   }
      
   const headId = parseInt(treeData.head, 10);
-  
   
   const { data: argsData, error: headError } = await supabaseClient.rpc('get_argument_descendants', {
 	  p_head_id: headId
@@ -171,27 +171,24 @@ async function deleteDependentArgs(treeId) {
     alert(argument.id);
     if (argError) console.log("Error! ArgId:", argError);
   });
-	{
-		const { data: evData, error: evError } = await supabaseClient.rpc('get_evidence_for_argument_descendants', {
-		  p_head_id: headId
-		});
-
-		if (evError) {
-		  console.error("Error fetching evidence:", evError);
-		} else {
-		  console.log("Evidence records:", evData);
-		}
-		
-		data.forEach(async function(evidence) {
-      const { error } = await supabaseClient
-        .from('Evidence')
-        .delete()
-        .eq('id', evidence.id);
-        if (error) console.log("Error! EvId:", error);
-      });	
+	const { data: evData, error: evError } = await supabaseClient.rpc('get_evidence_for_argument_descendants', {
+	  p_head_id: headId
+	});
+  
+  if (evError) {
+	  console.error("Error fetching evidence:", evError);
+	} else {
+	  console.log("Evidence records:", evData);
 	}
+		
+	data.forEach(async function(evidence) {
+    const { error } = await supabaseClient
+      .from('Evidence')
+      .delete()
+      .eq('id', evidence.id);
+      if (error) console.log("Error! EvId:", error);
+  });	
 }
-
 
 async function deleteTree(treeId) {
     try {
