@@ -1,10 +1,33 @@
 function loadBanner() {
-    const banner = `
-      <a href="index.html" align="center">Main Page</a>
-      <a href="explore.html">Explore</a>
-      <a href="login.html">Log in</a>
-      <a id="signup" href="signup.html">Sign up</a>
-    `;
-    document.getElementById("banner").innerHTML = banner;
+  // Create a container for the banner
+  const banner = document.createElement('div');
+
+  // Create each <a> element manually
+  const mainPage = document.createElement('a');
+  mainPage.href = "index.html";
+  mainPage.textContent = "Main Page";
+  mainPage.setAttribute('align', 'center');
+  banner.appendChild(mainPage);
+  banner.appendChild(document.createTextNode(' ')); // Add space
+
+  const explore = document.createElement('a');
+  explore.href = "explore.html";
+  explore.textContent = "Explore";
+  banner.appendChild(explore);
+  banner.appendChild(document.createTextNode(' ')); // Add space
+
+  const loginLink = document.createElement('a');
+  loginLink.href = "login.html";
+  loginLink.textContent = "Log in";
+  banner.appendChild(loginLink);
+  banner.appendChild(document.createTextNode(' ')); // Add space
+
+  const signupLink = document.createElement('a');
+  signupLink.href = "signup.html";
+  signupLink.textContent = "Sign up";
+  signupLink.id = "signup";
+  banner.appendChild(signupLink);
+
+  document.body.appendChild(banner);
 }
 document.addEventListener("DOMContentLoaded", loadBanner);
