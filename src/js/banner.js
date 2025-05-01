@@ -33,7 +33,10 @@ async function loadBanner() {
     banner.appendChild(signupLink);
   } else {
     const logout = document.createElement('a');
-    logout.onclick=async function(){await supabaseClient.auth.signOut();};
+    logout.onclick=async function(){
+      await supabaseClient.auth.signOut();
+      window.location.reload();
+    };
     logout.textContent = 'logout';
     banner.appendChild(logout);
     banner.appendChild(document.createTextNode(' '));
