@@ -138,7 +138,6 @@ async function getTreeId(name) {
 }
 
 async function deleteDependentArgs(treeId) {
-  alert(treeId);
   const { data: treeData, error: treeError } = await supabaseClient
       .from('Tree')
       .select('head')
@@ -197,7 +196,7 @@ async function deleteDependentArgs(treeId) {
         .delete()
         .eq('id', evidence.id);
 
-      if (argError) {
+      if (error) {
         console.error("Error deleting EvId:", evidence.id, error.message);
       } else {
         console.log("Successfully deleted EvId:", evidence.id);
@@ -211,7 +210,7 @@ async function deleteDependentArgs(treeId) {
 async function deleteTree(treeId) {
     try {
       //Delete all tree Args
-      deleteDependentArgs(treeId);
+      await deleteDependentArgs(treeId);
       
       // Delete the tree by ID
       const { error } = await supabaseClient
