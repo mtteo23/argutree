@@ -386,7 +386,7 @@ async function getUsername() {
 		return null;
   }
 
-	 if (!user) {
+	 if (user==null) {
 		console.log('No user logged in');
 		return null;
   }
