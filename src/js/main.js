@@ -62,15 +62,16 @@ async function start() {
         projectContainer.classList.add("project-container");
         projectContainer.id=project.name;
         
-        projectContainer.appendChild(projectLink);
+        // Create the anchor element (button) for the project
+        const projectLink = document.createElement("a");
+        projectLink.textContent = project.name;
+        projectLink.href = "/" + username + "/" + project.name;
+        projectLink.classList.add("project-link");
         
-        if(logged){
-          // Create the anchor element (button) for the project
-          const projectLink = document.createElement("a");
-          projectLink.textContent = project.name;
-          projectLink.href = "/" + username + "/" + project.name;
-          projectLink.classList.add("project-link");
+        projectContainer.appendChild(projectLink);
 
+
+        if(logged){
           // Create the delete button
           const deleteButton = document.createElement("button");
           deleteButton.textContent = "x";
