@@ -27,84 +27,46 @@
     const supabaseUrl = 'https://htbxgsolhsxacotnprjq.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0Ynhnc29saHN4YWNvdG5wcmpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE2MzQ2MzAsImV4cCI6MjA1NzIxMDYzMH0.OJy9IdF8aWh_YuqU3WIdvuqAX-2GAfTTjMxu9zMAHMo';
     const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
-    
+      
     async function signup() {
       const email    = document.getElementById('email').value;
       const password = document.getElementById('password').value;
       const username = document.getElementById('username').value;
       const errorDiv = document.getElementById('error');
-      let   problem  = false;
-
-      // Clear previous error messages
       errorDiv.textContent = '';
 
-      if (!await controlUsername(username)) problem = true;
-      // we no longer need to await controlEmail – it'll always pass:
-      // if (!await controlEmail(email)) problem = true;
+      if (!await controlUsername(username)) return;
 
-      if (!problem) {
-        try {
-          // Sign up the user
-          const { data: authData, error: authError } = await supabaseClient.auth.signUp(
-            { email, password },
-            { // disable the built-in redirect so we stay in this flow
-              redirectTo: window.location.origin  
-            }
-          );
-          if (authError) {
-            // Look specifically for the "duplicate email" case:
-            if (authError.message.toLowerCase().includes('already registered') ||
-                authError.message.toLowerCase().includes('duplicate')) {
-              errorDiv.textContent = 'That email is already registered.';
-              return;    // bail out early
-            }
-            // for any other auth error, show its message
-            throw authError;
+      try {
+        const { data: authData, error: authError } = await supabaseClient.auth.signUp({ email, password });
+        if (authError) {
+          if (/duplicate|already registered/i.test(authError.message)) {
+            errorDiv.textContent = 'That email is already registered.';
+            return;                     // ← must return here
           }
-
-          if (!authData?.user?.id) {
-            throw new Error('User ID is missing after sign-up.');
-          }
-
-          // Insert the profile row with username & user_id
-          const { data, error } = await supabaseClient
-            .from('User')
-            .insert([{ user_id: authData.user.id, username }]);
-          if (error) {
-            console.error('Error inserting display name:', error);
-            // you could surface this to the user if you like
-          }
-
-          // Everything succeeded → log them in
-          login(email, password);
-
-        } catch (err) {
-          // Fallback for any unexpected errors
-          console.error(err);
-          errorDiv.textContent = err.message || 'Something went wrong.';
+          throw authError;
         }
+
+        // insert profile (either via table or RPC)
+        const { error: insertError } = await supabaseClient
+          .from('User')
+          .insert([{ user_id: authData.user.id, username }]);
+        if (insertError) console.error('Profile insert failed', insertError);
+
+        // now login
+        await login(email, password);
+
+      } catch (err) {
+        console.error(err);
+        errorDiv.textContent = err.message || 'Something went wrong.';
       }
     }
-
+    
     async function controlUsername(username) {
-      const errorDiv = document.getElementById('error');
-      if (!username) {
-        errorDiv.textContent = 'Username cannot be empty.';
-        return false;
-      }
-
-      const { data, error } = await supabaseClient
-        .from('User')                 // <-- needs RLS policy!
-        .select('user_id', { count: 'exact' })
-        .eq('username', username)
-        .limit(1);
-
-      if (error) {
-        console.error('Username check failed:', error);
-        errorDiv.textContent = 'Could not verify username.';
-        return false;
-      }
-      if (data.length > 0) {
+      const { data: isAvailable, error } = await supabaseClient
+      .rpc('check_username_available', { _username: username });
+      
+      if (!isAvailable) {
         errorDiv.textContent = 'That username is already taken.';
         return false;
       }
