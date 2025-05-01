@@ -87,34 +87,19 @@
     }
 
     async function controlUsername(username) {
-      const errorDiv = document.getElementById('error');
+      const { data: isAvailable, error } = await supabaseClient
+        .rpc('check_username_available', { _username: username });
 
-      if (!username) {
-        errorDiv.textContent = 'Username cannot be empty.';
-        return false;
-      }
-
-      const { data, error } = await supabaseClient
-        .from('User')
-        .select('user_id', { count: 'exact' })
-        .eq('username', username)
-        .limit(1);
-
-      if (error) {
-        console.error('Error checking username:', error);
-        errorDiv.textContent = 'Unable to verify username uniqueness.';
-        return false;
-      }
-
-      if (data.length > 0) {
+      if (error) { ... }
+      if (!isAvailable) {
         errorDiv.textContent = 'That username is already taken.';
         return false;
       }
-
-    return true;
-  }
+    }
 
   async function login(email, password){
+    const errorDiv = document.getElementById('error');
+    
     try {
       const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
 

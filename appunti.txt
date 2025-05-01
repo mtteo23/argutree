@@ -143,3 +143,12 @@ USING (
         WHERE "User".id = "Tree".user
     )
 );
+
+CREATE FUNCTION public.check_username_available(_username text)
+RETURNS boolean
+AS $$
+  SELECT NOT EXISTS (
+    SELECT 1 FROM "User" WHERE username = _username
+  );
+$$ LANGUAGE sql STABLE SECURITY DEFINER;
+
