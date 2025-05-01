@@ -1,4 +1,4 @@
-function loadBanner() {
+async function loadBanner() {
   const banner = document.getElementById('banner');
   const username=await getLoggedInUsername();
   
