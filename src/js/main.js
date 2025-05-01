@@ -332,7 +332,7 @@ async function renameTitle(name) {
     input.addEventListener('keydown', async function (event) {
         if (event.key === 'Enter') {
             const id= await getTreeId(name);
-            modifyTree(format(id, input.value));
+            modifyTree(id, format(input.value));
         }
     });
 }
