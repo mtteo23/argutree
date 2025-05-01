@@ -160,7 +160,7 @@ async function deleteDependentArgs(treeId) {
 	if (headError) {
 	  console.error("Error fetching descendants:", headError);
 	} else {
-	  console.log("Descendants:", argsData);
+	  //console.log("Descendants:", argsData);
 	}
    
 	for (const argument of argsData) {
@@ -169,8 +169,6 @@ async function deleteDependentArgs(treeId) {
         .from('Argument')
         .delete()
         .eq('id', argument.id);
-
-      alert(argument.id); // Alert the ID being processed
 
       if (argError) {
         console.error("Error deleting ArgId:", argument.id, argError.message);
@@ -189,7 +187,7 @@ async function deleteDependentArgs(treeId) {
   if (evError) {
 	  console.error("Error fetching evidence:", evError);
 	} else {
-	  console.log("Evidence records:", evData);
+	  //console.log("Evidence records:", evData);
 	}
   
   for (const evidence of evData) {
@@ -198,8 +196,6 @@ async function deleteDependentArgs(treeId) {
         .from('Evidence')
         .delete()
         .eq('id', evidence.id);
-
-      alert(evidence.id); // Alert the ID being processed
 
       if (argError) {
         console.error("Error deleting EvId:", evidence.id, error.message);
