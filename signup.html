@@ -87,14 +87,28 @@
     }
 
     async function controlUsername(username) {
-      const { data: isAvailable, error } = await supabaseClient
-        .rpc('check_username_available', { _username: username });
+      const errorDiv = document.getElementById('error');
+      if (!username) {
+        errorDiv.textContent = 'Username cannot be empty.';
+        return false;
+      }
 
-      if (error) { ... }
-      if (!isAvailable) {
+      const { data, error } = await supabaseClient
+        .from('User')                 // <-- needs RLS policy!
+        .select('user_id', { count: 'exact' })
+        .eq('username', username)
+        .limit(1);
+
+      if (error) {
+        console.error('Username check failed:', error);
+        errorDiv.textContent = 'Could not verify username.';
+        return false;
+      }
+      if (data.length > 0) {
         errorDiv.textContent = 'That username is already taken.';
         return false;
       }
+      return true;
     }
 
   async function login(email, password){
