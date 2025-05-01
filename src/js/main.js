@@ -158,7 +158,7 @@ async function deleteDependentArgs(treeId) {
 		if (error) {
 		  console.error("Error fetching descendants:", error);
 		} else {
-		  //console.log("Descendants:", data);
+		  console.log("Descendants:", data);
 		}
     
 		data.forEach(async function(argument) {
@@ -179,7 +179,7 @@ async function deleteDependentArgs(treeId) {
 		if (error) {
 		  console.error("Error fetching evidence:", error);
 		} else {
-		  //console.log("Evidence records:", data);
+		  console.log("Evidence records:", data);
 		}
 		
 		data.forEach(async function(evidence) {
@@ -213,19 +213,27 @@ async function deleteTree(treeId) {
 }
 
 async function modifyTree(id, newName) {
-    try {
-      // Update the tree name
-      const { data, error } = await supabaseClient
-        .from('Tree')
-        .update({ name: newName }) // Update the name column
-        .eq('id', id);
-        
-      if (error) throw error;
+    console.debug("modifyTree called with:", { id, newName }); // Log function inputs
 
-    } catch (error) {
+  try {
+    // Update the tree name
+    const { data, error } = await supabaseClient
+      .from('Tree')
+      .update({ name: newName }) // Update the name column
+      .eq('id', id);
+
+    console.debug("Supabase response:", { data, error }); // Log response from Supabase
+
+    if (error) {
       console.error('Error updating tree name:', error.message);
+      throw error; // Re-throw the error for external handling
+    }
 
+    console.info("Tree updated successfully:", { id, newName, data });
+  } catch (error) {
+    console.error('Unexpected error in modifyTree:', error);
   }
+  
     return start();
 }
 
