@@ -20,6 +20,7 @@ async function loadBanner() {
   banner.appendChild(document.createTextNode(' '));
   
   if(username==null){
+    alert('not logged in');
     const loginLink = document.createElement('a');
     loginLink.href = "login.html";
     loginLink.textContent = "Log in";
@@ -32,6 +33,7 @@ async function loadBanner() {
     signupLink.id = "signup";
     banner.appendChild(signupLink);
   } else {
+    alert('logged in');
     const profile = document.createElement('a');
     profile.href = username;
     profile.textContent = username;
