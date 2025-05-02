@@ -6,7 +6,7 @@ This website aims to present intricate flows of thought—underlying both indivi
 
 ## Use
 
-Visit the site [thoughtflow.altervista.org](https://thoughtflow.altervista.org) and start exploring
+Visit the site [argutree.netlify.app](https://argutree.netlify.app/) and start exploring
 
 ## Set up your own
 
