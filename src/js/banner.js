@@ -14,20 +14,20 @@ async function loadBanner() {
   banner.appendChild(document.createTextNode(' '));
   
   const explore = document.createElement('a');
-  explore.href = "explore.html";
+  explore.href = "/explore.html";
   explore.textContent = "Explore";
   banner.appendChild(explore);
   banner.appendChild(document.createTextNode(' '));
   
   if(username==null){
     const loginLink = document.createElement('a');
-    loginLink.href = "login.html";
+    loginLink.href = "/login.html";
     loginLink.textContent = "Log in";
     banner.appendChild(loginLink);
     banner.appendChild(document.createTextNode(' '));
     
     const signupLink = document.createElement('a');
-    signupLink.href = "signup.html";
+    signupLink.href = "/signup.html";
     signupLink.textContent = "Sign up";
     signupLink.id = "signup";
     banner.appendChild(signupLink);
@@ -43,7 +43,7 @@ async function loadBanner() {
     
     const profile = document.createElement('a');
     profile.id='profile';
-    profile.href = username;
+    profile.href = '/'+username;
     profile.textContent = username;
     banner.appendChild(profile);
     banner.appendChild(document.createTextNode(' '));
