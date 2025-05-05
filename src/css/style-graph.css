@@ -98,6 +98,8 @@
 }
 
 .AddArgBtn {
+  color: white;
+  font-weight: bold;
 	background: var(--green-light); 
 	border: 5px solid var(--green); 
 	border-radius: 15px; 
@@ -133,6 +135,8 @@ div.BtnDiv * {
 }
 
 .OptBtn {
+  color: white;
+  font-weight: bold;
 	background: var(--green);
 	width: 50%;
 	margin: 0;
@@ -144,6 +148,8 @@ div.BtnDiv * {
 }
 
 .AddEvBtn {
+  color: white;
+  font-weight: bold;
 	background: var(--green); 
 	width: 50%;
 	margin: 0;
@@ -155,6 +161,8 @@ div.BtnDiv * {
 }
 
 .saveBtn{
+  color: white;
+  font-weight: bold;
 	background: var(--green); 
 	width: 50%;
 	margin: 0;
@@ -166,6 +174,8 @@ div.BtnDiv * {
 }
 
 .delBtn{
+  color: white;
+  font-weight: bold;
 	background: var(--green); 
 	width: 50%;
 	margin: 0;
@@ -177,6 +187,8 @@ div.BtnDiv * {
 }
 
 .delEvBtn{
+  color: white;
+  font-weight: bold;
 	background: var(--green); 
 	width: 50%;
 	margin: 0;
