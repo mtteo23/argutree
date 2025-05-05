@@ -296,7 +296,7 @@ function format(input) {
 
     formatted = formatted.replace(/\s+/g, '_');
 
-    formatted = formatted.replace(/[^a-z0-9_]/g, '');
+    formatted = formatted.replace(/[^a-zA-Z0-9_-]/g, '');
 
     if (formatted.length > 30) {
         const words = formatted.split('_');
@@ -307,7 +307,10 @@ function format(input) {
             }
             shortened += (shortened ? '_' : '') + word;
         }
-        formatted = shortened;
+        if(shortened==null)
+          formatted = formatted.slice(0, 30);
+        else
+          formatted = shortened;
     }
 
     return formatted;
