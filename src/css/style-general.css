@@ -135,15 +135,14 @@ body {
   }
 }
 
-/* Container for all projects */
 #graph {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: var(--spacing);
   margin: var(--spacing) 0;
 }
 
-/* Individual project “card” */
+
 .project-container {
   display: flex;
   align-items: center;
