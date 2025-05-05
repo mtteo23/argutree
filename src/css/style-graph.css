@@ -1,146 +1,16 @@
-:root {
-  --green-light: #a5d6a7;
-  --green: #2e7d32;
-  --green-lighter: #c8e6c9;
-  --green-dark: #1b5e20;
-  --green-dark-hover: #1b5e20;
-  --green-light-hover: #81c784;
-  --off-white: #f5f9f5;
-  --line-color: #2e7d32;
-}
-
-.trunk {
-	background: var(--green-light); 
-	border: 5px solid var(--green); 
-	border-radius: 10px; 
-	display: inline-block; 
-	padding: 0px; 
-	margin: 0px auto; 
-	white-space: nowrap; 
-	box-sizing: border-box; 
-}
-
-.trunk:hover {
-	background: var(--green-light); 
-	border: 5px solid var(--green); 
-	border-radius: 10px; 
-	display: inline-block; 
-	padding: 0px; 
-	margin: 0px auto; 
-	white-space: nowrap; 
-	box-sizing: border-box; 
-}
-
-.Arg {
-	position: relative; 
-	display: inline-block; 
-}
-
-.SubArgList {
-	display: flex; 
-	flex-wrap: nowrap; 
-	justify-content: center; 
-	margin: 0px;
-	gap: 20px; 
-	
-}
-
-.Assertion {
-    background: var(--green-light);
-    border: 0px;
-    margin: 15px;
-    font-size: 18px;
-    width: auto;
-    min-width: 50px;
-    max-width: 300px;
-    overflow-wrap: break-word;
-    white-space: normal;
-
-    
-    font-family: inherit;
-    line-height: 1.2; 
-}
-
-.Reasoning {
-    background: var(--green-light);
-    border: 0px;
-    margin: 10px;
-    font-size: 14px;
-    width: auto;
-    min-width: 50px;
-    max-width: 300px;
-    overflow-wrap: break-word;
-    white-space: normal;
-
-    
-    font-family: inherit;
-    line-height: 1.2; 
-}
-
-.AssertionModify {
-    background: var(--green-light);
-    border: 0px;
-}
-
-.ReasoningModify {
-	background: var(--green-light);
-    border: 0px;
-}
-
-.ExplanationModify {
-    background: var(--green-light);
-    border: 0px;
-}
-
-.SourceModify {
-	background: var(--green-light);
-    border: 0px;
-}
-
-.AddArgBtn {
-	background: var(--green-light); 
-	border: 5px solid var(--green); 
-	border-radius: 15px; 
-	display: inline-block;  
-	white-space: nowrap; 
-	box-sizing: border-box;
-	width: 30px; 
-	height: 30px;
-	margin: 0px;
-}
-
-.AddArgBtn:hover {
-	background: var(--green-lighter); 
-	border: 5px solid var(--green-dark); 
-	border-radius: 15px; 
-	display: inline-block;  
-	white-space: nowrap; 
-	box-sizing: border-box;
-	width: 30px; 
-	height: 30px;
-	margin: 0px;
-}
-
-
-.BtnDiv {
-	background: var(--green-light);
-	width: 100%;	
-}
-
-div.BtnDiv * {
-	display: inline-block; 
-	margin: 0 0px; 
-}
-
 .OptBtn {
 	background: var(--green);
 	width: 50%;
 	margin: 0;
 	padding: 0px;
+	color: white;
+	font-weight: bold;
 }
 
 .OptBtn:hover {
 	background: var(--green-dark-hover); 
+	color: white;
+	font-weight: bold;
 }
 
 .AddEvBtn {
@@ -148,128 +18,32 @@ div.BtnDiv * {
 	width: 50%;
 	margin: 0;
 	padding: 0px;
+	color: white;
+	font-weight: bold;
 }
 
 .AddEvBtn:hover {
 	background: var(--green-dark-hover); 
+	color: white;
+	font-weight: bold;
 }
 
-.saveBtn{
+.saveBtn {
 	background: var(--green); 
 	width: 50%;
 	margin: 0;
 	padding: 0px;
+	color: white;
+	font-weight: bold;
 }
 
-.saveBtn:hover{
+.saveBtn:hover {
 	background: var(--green-dark-hover); 
+	color: white;
+	font-weight: bold;
 }
 
-.delBtn{
+.delBtn {
 	background: var(--green); 
 	width: 50%;
 	margin: 0;
-	padding: 0px;
-}
-
-.delBtn:hover{
-	background: var(--green-dark-hover); 
-}
-
-.delEvBtn{
-	background: var(--green); 
-	width: 50%;
-	margin: 0;
-	padding: 0px;
-}
-
-.delEvBtn:hover{
-	background: var(--green-dark-hover); 
-}
-
-.AssertionInput {
-	background: var(--green-light); 
-	border: 5px solid var(--green); 
-	border-radius: 10px; 
-	display: inline-block; 
-	margin: 10px auto; 
-	white-space: nowrap; 
-	box-sizing: border-box; 
-	height: 25px;
-}
-
-.EvidenceList {
-	padding: 0px;
-	margin: 0px;
-}
-
-.SubArgList {
-	padding: 0px;
-}
-
-.Evidence {
-	background: var(--off-white);
-}
-
-.Evidence:hover {
-	background: var(--green-light-hover);
-}
-
-.Source {
-	background: var(--green-light);
-	width: 90%;
-	margin: 0px;
-	display: none;
-}
-
-.Evidence:hover p.Source{
-	background: var(--green-light);
-	display: block;
-}
-
-.horizontal-line {
-  height: 2px; 
-  background-color: black;
-  margin: 0; 
-  padding: 0; 
-  display: block; 
-}
-
-.vertical-line {
-  width: 2px;  
-  height: 20px; 
-  background-color: black;
-}
-
-
-#graph {
-	margin: 2%;
-}
-
-body {
-	margin: 0px;
-}
-
-.grow-wrap {
-  display: grid;
-}
-.grow-wrap::after {
-  content: attr(data-replicated-value) " ";
-  white-space: pre-wrap;
-  visibility: hidden;
-}
-.grow-wrap > textarea {
-  resize: none;
-  overflow: hidden;
-  
-}
-.grow-wrap > textarea,
-.grow-wrap::after {
-  border: 0px;
-  padding: 0.5rem;
-  font: inherit;
-  grid-area: 1 / 1 / 2 / 2;
-}
-
-
-
