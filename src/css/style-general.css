@@ -44,6 +44,11 @@ body {
   transition: background-color var(--transition), color var(--transition);
 }
 
+
+#banner a:hover {
+  background-color: var(--green-light);
+}
+
 #banner a#signup {
   background-color: var(--white);
   color: var(--green);
@@ -54,8 +59,15 @@ body {
   color: var(--white);
 }
 
-#banner a:not(#signup):hover {
+
+#banner a#profile {
+  background-color: var(--white);
+  color: var(--green);
+}
+
+#banner a#profile:hover {
   background-color: var(--green-light);
+  color: var(--white);
 }
 
 .login-container,
@@ -242,6 +254,36 @@ body {
 
 @media (max-width: 480px) {
   .project-container {
+    width: 50%;
+  }
+}
+/* Ensure any project-input fields match card style */
+#graph input[type="text"],
+.project-container input[type="text"] {
+  width: 25%;
+  max-width: 100%;
+  padding: calc(var(--spacing) * 0.75);
+  margin: var(--spacing) 0;
+  border: 1px solid var(--green-light);
+  border-radius: var(--radius);
+  background: var(--off-white);
+  font-size: 1rem;
+  text-align: center;
+  transition: border-color var(--transition), background var(--transition), box-shadow var(--transition);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+
+#graph input[type="text"]:focus,
+.project-container input[type="text"]:focus {
+  outline: none;
+  border-color: var(--green);
+  background: var(--white);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+@media (max-width: 480px) {
+  #graph input[type="text"],
+  .project-container input[type="text"] {
     width: 50%;
   }
 }
