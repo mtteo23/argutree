@@ -134,32 +134,6 @@ body {
     padding: 15px;
   }
 }
-
-#graph {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing);
-  margin: var(--spacing) 0;
-}
-
-
-.project-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: var(--white);
-  border: 1px solid var(--green-light);
-  border-radius: var(--radius);
-  padding: calc(var(--spacing) * 0.75);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
-  transition: transform var(--transition), box-shadow var(--transition);
-}
-
-.project-container:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
-
 /* Project link inside the card */
 .project-link {
   flex: 1;
@@ -173,29 +147,6 @@ body {
 
 .project-link:hover {
   color: var(--green-light);
-}
-
-.modify-button-project,
-.delete-button-project {
-  border: none;
-  background: var(--green-light);
-  color: var(--green);
-  padding: 4px 8px;
-  margin-left: 6px;
-  border-radius: var(--radius);
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background-color var(--transition), color var(--transition);
-}
-
-.modify-button-project:hover {
-  background: var(--green);
-  color: var(--white);
-}
-
-.delete-button-project:hover {
-  background: var(--error-red);
-  color: var(--white);
 }
 
 #new-project {
@@ -214,3 +165,74 @@ body {
   background: var(--green-light);
   color: var(--green);
 }
+
+/* Layout verticale centrato */
+#graph {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing);
+  margin: var(--spacing) 0;
+}
+
+/* Card con width fissa relativa e testo centrato */
+.project-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25%;
+  background: var(--white);
+  border: 1px solid var(--green-light);
+  border-radius: var(--radius);
+  padding: calc(var(--spacing) * 0.75);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  transition: transform var(--transition), box-shadow var(--transition);
+  text-align: center; /* centra il testo multi-linea */
+}
+
+/* Hover effect inalterato */
+.project-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Posizionamento assoluto dei bottoni */
+.modify-button-project,
+.delete-button-project {
+  position: absolute;
+  top: 8px;
+  border: none;
+  background: var(--green-light);
+  color: var(--green);
+  padding: 4px 8px;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.modify-button-project {
+  right: 50px;
+}
+
+.delete-button-project {
+  right: 8px;
+}
+
+.modify-button-project:hover {
+  background: var(--green);
+  color: var(--white);
+}
+
+.delete-button-project:hover {
+  background: var(--error-red);
+  color: var(--white);
+}
+
+@media (max-width: 480px) {
+  .project-container {
+    width: 50%;
+  }
+}
+
