@@ -112,7 +112,7 @@
 }
 
 .AddArgBtn:hover {
-	background: var(--green-lighter); 
+	background: var(--green-dark); 
 	border: 5px solid var(--green-dark); 
 	border-radius: 15px; 
 	display: inline-block;  
