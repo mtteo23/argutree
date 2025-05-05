@@ -134,3 +134,84 @@ body {
     padding: 15px;
   }
 }
+
+/* Container for all projects */
+#graph {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--spacing);
+  margin: var(--spacing) 0;
+}
+
+/* Individual project “card” */
+.project-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--white);
+  border: 1px solid var(--green-light);
+  border-radius: var(--radius);
+  padding: calc(var(--spacing) * 0.75);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.project-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Project link inside the card */
+.project-link {
+  flex: 1;
+  text-decoration: none;
+  color: var(--green);
+  font-weight: bold;
+  font-size: 1rem;
+  padding-right: var(--spacing);
+  transition: color var(--transition);
+}
+
+.project-link:hover {
+  color: var(--green-light);
+}
+
+.modify-button-project,
+.delete-button-project {
+  border: none;
+  background: var(--green-light);
+  color: var(--green);
+  padding: 4px 8px;
+  margin-left: 6px;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.modify-button-project:hover {
+  background: var(--green);
+  color: var(--white);
+}
+
+.delete-button-project:hover {
+  background: var(--error-red);
+  color: var(--white);
+}
+
+#new-project {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  background: var(--green);
+  color: var(--white);
+  padding: var(--spacing);
+  border-radius: var(--radius);
+  font-weight: bold;
+  transition: background-color var(--transition);
+}
+
+#new-project:hover {
+  background: var(--green-light);
+  color: var(--green);
+}
