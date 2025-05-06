@@ -292,7 +292,7 @@ async function noRepetition(title) {
   const errorDiv = document.getElementById('error');
       
   const { data: isAvailable, error } = await supabaseClient
-    .rpc('check_project_title_available', { _username: await getUsername(), _title: title});
+    .rpc('check_project_title_available', { _user: await getLoggedInUserId(), _title: title});
       
   if (!isAvailable) {
     errorDiv.textContent = 'That name is already present.';
@@ -347,7 +347,7 @@ async function insertTitle() {
     input.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
             const tmp=format(input.value);
-            if(await noRepetition(tmp))
+            if(await noRepetion(tmp))
               createTree(tmp);
         }
     });

@@ -152,11 +152,11 @@ AS $$
   );
 $$ LANGUAGE sql STABLE SECURITY DEFINER;
 
-CREATE FUNCTION public.check_project_title_available(_username text)
+CREATE OR REPLACE FUNCTION public.check_project_title_available(_user int8, _title text)
 RETURNS boolean
 AS $$
   SELECT NOT EXISTS (
-    SELECT 1 FROM "Tree" WHERE name = _title
+    SELECT 1 FROM "Tree" WHERE name = _title AND "user" = _user
   );
 $$ LANGUAGE sql STABLE SECURITY DEFINER;
 
