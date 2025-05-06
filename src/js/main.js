@@ -292,7 +292,7 @@ async function noRepetition(title) {
   const errorDiv = document.getElementById('error');
       
   const { data: isAvailable, error } = await supabaseClient
-    .rpc('check_project_title_available', { _username: await getUsername() _title: title});
+    .rpc('check_project_title_available', { _username: await getUsername(), _title: title});
       
   if (!isAvailable) {
     errorDiv.textContent = 'That name is already present.';
