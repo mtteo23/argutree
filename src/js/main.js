@@ -288,6 +288,19 @@ async function getLoggedInUserId() {
     }
 }
 
+async function noRepetition(title) {
+  const errorDiv = document.getElementById('error');
+      
+  const { data: isAvailable, error } = await supabaseClient
+    .rpc('check_project_title_available', { _username: await getUsername() _title: title});
+      
+  if (!isAvailable) {
+    errorDiv.textContent = 'That name is already present.';
+    return false;
+  }
+  return true;
+}
+
 function format(input) {
     
     input = String(input);
@@ -333,7 +346,9 @@ async function insertTitle() {
 
     input.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
-            createTree(format(input.value));
+            const tmp=format(input.value);
+            if(await noRepetition(tmp))
+              createTree(tmp);
         }
     });
 }
@@ -355,7 +370,9 @@ async function renameTitle(name) {
     input.addEventListener('keydown', async function (event) {
         if (event.key === 'Enter') {
             const id = await getTreeId(name);
-            modifyTree(id, format(input.value));
+            const tmp=format(input.value);
+            if(await noRepetition(tmp))
+              modifyTree(id, tmp);
         }
     });
 }
