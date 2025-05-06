@@ -344,9 +344,10 @@ async function insertTitle() {
 
     button.parentNode.replaceChild(input, button);
 
-    input.addEventListener('keydown', (event) => {
+    input.addEventListener('keydown', async function(event){
         if (event.key === 'Enter') {
             const tmp=format(input.value);
+            
             if(await noRepetition(tmp))
               createTree(tmp);
         }
