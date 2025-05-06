@@ -347,7 +347,7 @@ async function insertTitle() {
     input.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
             const tmp=format(input.value);
-            if(await noRepetion(tmp))
+            if(await noRepetition(tmp))
               createTree(tmp);
         }
     });
