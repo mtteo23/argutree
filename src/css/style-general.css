@@ -124,7 +124,7 @@ body {
   background-color: var(--green-light);
 }
 
-.error {
+.error, #error {
   color: var(--error-red);
   font-size: 14px;
   margin-top: var(--spacing);
