@@ -312,21 +312,6 @@ function format(input) {
 
     formatted = formatted.replace(/[^a-zA-Z0-9_-]/g, '');
 
-    if (formatted.length > 30) {
-        const words = formatted.split('_');
-        let shortened = '';
-        for (let word of words) {
-            if ((shortened + '_' + word).length > 30) {
-                break;
-            }
-            shortened += (shortened ? '_' : '') + word;
-        }
-        if(shortened==null)
-          formatted = formatted.slice(0, 30);
-        else
-          formatted = shortened;
-    }
-
     return formatted;
 }
 
@@ -349,10 +334,21 @@ async function insertTitle() {
         if (event.key === 'Enter') {
             const tmp=format(input.value);
             
-            if(await noRepetition(tmp))
+            if(await noRepetition(tmp) && limitSize(tmp))
               createTree(tmp);
         }
     });
+}
+
+function limitSize(title) {
+  const errorDiv = document.getElementById('error');
+    
+  if(title.length()==0 || title.length()>30)
+  {
+    errorDiv.textContent = 'The name must be below 30 characters and not empty'; 
+    return false;
+  }
+  return true;
 }
 
 async function renameTitle(name) {
@@ -373,7 +369,7 @@ async function renameTitle(name) {
         if (event.key === 'Enter') {
             const id = await getTreeId(name);
             const tmp=format(input.value);
-            if(await noRepetition(tmp))
+            if(await noRepetition(tmp) && limitSize(tmp))
               modifyTree(id, tmp);
         }
     });
