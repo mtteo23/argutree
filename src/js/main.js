@@ -343,7 +343,7 @@ async function insertTitle() {
 function limitSize(title) {
   const errorDiv = document.getElementById('error');
     
-  if(title.length()==0 || title.length()>30)
+  if(title.length==0 || title.length>30)
   {
     errorDiv.textContent = 'The name must be below 30 characters and not empty'; 
     return false;
