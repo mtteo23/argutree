@@ -11,10 +11,17 @@ Visit the site [argutree.netlify.app](https://argutree.netlify.app/) and start e
 ## Set up your own
 
 ### fork this repository
+The database is connected by the API public key (it's declared in the `src/js/banner.js`). If you plan to set up your own database, remember to change that.
 
-### website (Netfly)
+### website (Netlify)
+Create an account and link your project repository
 
 ### database (Supabase)
+You can see the whole schema dump in `supabase_schema.sql`. To upload it:
+
+1. Open the Supabase dashboard and navigate to **SQL Editor**.
+2. Copy the contents of `supabase_schema.sql`.
+3. Paste it into the SQL Editor and click **Run**.
 
 ## Roadmap
 
