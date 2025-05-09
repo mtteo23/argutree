@@ -16,4 +16,68 @@
       </div>
     </div>
   </body>
+  <script>
+    window.onload = async function() {
+      IDs=await getTrees();
+      for(let i=0; i<IDs.length; i++)
+      {
+        await drawLink(IDs[i].id);
+      }
+    }
+    
+    async function drawLink(treeId) {
+      
+      const { userId, error } = await supabaseClient
+      .from('Tree')
+      .select('user')
+      .eq('id', treeId)
+      .single();
+      
+      const { userName, error } = await supabaseClient
+      .from('User')
+      .select('username')
+      .eq('id', userId.id)
+      .single();
+      
+      const username = userName.username;
+      
+      
+      const { projectName, error } = await supabaseClient
+      .from('Tree')
+      .select('name')
+      .eq('id', treeId)
+      .single();
+      
+      const projectname = projetName.name;
+      
+      
+      
+      const box = document.createElement('div');
+      
+      const user = document.createElement('a');
+      user.href='/'+username;
+      user.textContent=username;
+      box.appendChild(user);
+      
+      const separator = document.createElement('a');
+      separator.textContent='  /  ';
+      box.appendChild(separator);
+      
+      const project = document.createElement('a');
+      project.href='/'+username+'/'+projectname;
+      project.textContent=projectname;
+      box.appendChild(project);
+      
+      document.body.appendChild(box);
+    }
+    
+    async function getTrees() {
+      const { data, error } = await supabaseClient
+      .from('Tree')
+      .select('id')
+      .eq('public', true);
+      
+      return data;
+    }
+  </script>
 </html>
