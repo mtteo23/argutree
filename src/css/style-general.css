@@ -290,11 +290,11 @@ body {
 
 .explore-element {
   justify-content: center; 
-  width: 360;
+  width: 360px;
   background: var(--white);
   border: 1px solid var(--green-light);
   border-radius: var(--radius);
-  padding: calc(var(--spacing) * 0.75);
+  padding: calc(var(--spacing));
   box-shadow: 0 2px 4px rgba(0,0,0,0.08);
   text-align: center; 
   float: left;
