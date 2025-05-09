@@ -8,8 +8,8 @@ async function loadBanner() {
   
   const mainPage = document.createElement('a');
   mainPage.href = "/";
-  mainPage.textContent = "Main Page";
-  mainPage.setAttribute('align', 'center');
+  mainPage.textContent = "Arguetree";
+  mainPage.id='main-page-link';
   banner.appendChild(mainPage);
   banner.appendChild(document.createTextNode(' '));
   
