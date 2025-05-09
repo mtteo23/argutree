@@ -289,6 +289,22 @@ body {
 }
 
 .explore-div {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 25%;
+  background: var(--white);
+  border: 1px solid var(--green-light);
+  border-radius: var(--radius);
+  padding: calc(var(--spacing) * 0.75);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  transition: transform var(--transition), box-shadow var(--transition);
+  text-align: center;
+  flex-wrap: wrap;
+}
+
+.explore-div:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
