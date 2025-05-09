@@ -29,28 +29,27 @@
       const errorDiv = document.getElementById('error');
       errorDiv.textContent = '';
 
-      if (!await controlUsername(username)) return;
-
-      try {
-        const { data: authData, error: authError } = await supabaseClient.auth.signUp({ email, password });
-        if (authError) {
-          if (/duplicate|already registered/i.test(authError.message)) {
-            errorDiv.textContent = 'That email is already registered.';
-            return;                     // ← must return here
-          }
-          throw authError;
+      if (await controlUsername(username)==false) return false;
+      else{
+        if(await controlEmail(email, password)==false) return false;
+        else{
+          const { error: insertError } = await supabaseClient
+            .from('User')
+            .insert([{ user_id: authData.user.id, username }]);
+          if (insertError) console.error('Profile insert failed', insertError);
         }
-
-        // insert profile (either via table or RPC)
-        const { error: insertError } = await supabaseClient
-          .from('User')
-          .insert([{ user_id: authData.user.id, username }]);
-        if (insertError) console.error('Profile insert failed', insertError);
-
-      } catch (err) {
-        console.error(err);
-        errorDiv.textContent = err.message || 'Something went wrong.';
       }
+    }
+    
+    async function controlEmail(email, password) {
+      const { data: authData, error: authError } = await supabaseClient.auth.signUp({ email, password });
+      if (authError) {
+        if (/duplicate|already registered/i.test(authError.message)) {
+          errorDiv.textContent = 'That email is already registered.';
+          }
+          return false;
+        }
+        return true;
     }
     
     async function controlUsername(username) {

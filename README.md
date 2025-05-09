@@ -25,6 +25,10 @@ You can see the whole schema dump in `supabase_schema.sql`. To upload it:
 
 ## Roadmap
 
+### profile management
+
+Still it's not possible to delete the profile, recover your password or canging the username
+
 ### comments
 
 Attach brief texts to arguments to ask for explanation, point out problems or suggest improvements.

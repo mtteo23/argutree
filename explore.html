@@ -83,12 +83,14 @@
       project.textContent=projectname;
       box.appendChild(project);
       
-      box.appendChild(document.createElement('br'));
+      const txtDiv=document.createElement('div');
       
       const mainText =document.createElement('p');
       mainText.classList.add('explore-main-text');
       mainText.textContent=assertion;
-      box.appendChild(mainText);
+      txtDiv.appendChild(mainText);
+      
+      box.appendChild(txtDiv);
       
       document.getElementById('graph').appendChild(box);
     }
