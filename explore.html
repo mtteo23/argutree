@@ -10,7 +10,7 @@
 	</head>
 	<body>
 		<div id="banner"></div>
-	  <div id="graph">
+	  <div id="explore-div">
     </div>
   </body>
   <script>
@@ -65,7 +65,7 @@
       const assertion = headAssertion.Assertion;
       
       const box = document.createElement('div');
-      box.classList.add("explore-div");
+      box.classList.add("explore-element");
       box.align='center';
       
       const user = document.createElement('a');
@@ -92,7 +92,7 @@
       
       box.appendChild(txtDiv);
       
-      document.getElementById('graph').appendChild(box);
+      document.getElementById('explore-div').appendChild(box);
     }
     
     async function getTrees() {
