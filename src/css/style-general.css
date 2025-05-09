@@ -315,10 +315,6 @@ body {
   transition: background-color var(--transition), color var(--transition);
 }
 
-#explore-div {
-  float: left;
-}
-
 #main-page-link {
-  position: center;
+  margin: 0 auto;
 }
