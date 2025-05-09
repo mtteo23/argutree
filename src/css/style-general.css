@@ -297,8 +297,9 @@ body {
   padding: calc(var(--spacing) * 0.75);
   box-shadow: 0 2px 4px rgba(0,0,0,0.08);
   text-align: center;
-  margin: 50px;
-  width: 180px;
+  margin: 500px;
+  width: 360;
+  float: left;
 }
 
 .explore-element:hover {
