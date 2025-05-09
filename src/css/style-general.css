@@ -293,15 +293,21 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  width: 25%;
+  flex: 1 1 16.66%; /* Start with one-sixth of the parent container */
+  max-width: 200px; /* Set a maximum width */
   background: var(--white);
   border: 1px solid var(--green-light);
   border-radius: var(--radius);
   padding: calc(var(--spacing) * 0.75);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
   transition: transform var(--transition), box-shadow var(--transition);
   text-align: center;
-  flex-wrap: wrap;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping when there's not enough space */
+  gap: var(--spacing); /* Add space between elements */
 }
 
 .explore-div:hover {
