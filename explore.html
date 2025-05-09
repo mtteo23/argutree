@@ -17,7 +17,13 @@
     </div>
   </body>
   <script>
+    const supabaseUrl = 'https://htbxgsolhsxacotnprjq.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0Ynhnc29saHN4YWNvdG5wcmpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE2MzQ2MzAsImV4cCI6MjA1NzIxMDYzMH0.OJy9IdF8aWh_YuqU3WIdvuqAX-2GAfTTjMxu9zMAHMo';
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+
     window.onload = async function() {
+      
       IDs=await getTrees();
       for(let i=0; i<IDs.length; i++)
       {
@@ -27,32 +33,48 @@
     
     async function drawLink(treeId) {
       
-      const { userId, error } = await supabaseClient
+      const { data: userId, error: userIdError } = await supabaseClient
       .from('Tree')
       .select('user')
+      .eq('public', true)
       .eq('id', treeId)
       .single();
       
-      const { userName, error } = await supabaseClient
+      const { data: userName, error: userNameError } = await supabaseClient
       .from('User')
       .select('username')
-      .eq('id', userId.id)
+      .eq('id', userId.user)
       .single();
       
       const username = userName.username;
       
       
-      const { projectName, error } = await supabaseClient
+      const { data: projectName, error: projectError } = await supabaseClient
       .from('Tree')
       .select('name')
       .eq('id', treeId)
       .single();
       
-      const projectname = projetName.name;
+      const projectname = projectName.name;
+
+      const { data: headId, error: headIdError } = await supabaseClient
+      .from('Tree')
+      .select('head')
+      .eq('id', treeId)
+      .single();
+      
+      const { data: headAssertion, error: assertionError } = await supabaseClient
+      .from('Argument')
+      .select('"Assertion"')
+      .eq('id', headId.head)
+      .single();
       
       
+      const assertion = headAssertion.Assertion;
       
       const box = document.createElement('div');
+      box.classList.add("explore-div");
+      box.align='center';
       
       const user = document.createElement('a');
       user.href='/'+username;
@@ -63,12 +85,20 @@
       separator.textContent='  /  ';
       box.appendChild(separator);
       
+      
       const project = document.createElement('a');
       project.href='/'+username+'/'+projectname;
       project.textContent=projectname;
       box.appendChild(project);
       
-      document.body.appendChild(box);
+      box.appendChild(document.createElement('br'));
+      
+      const mainText =document.createElement('p');
+      mainText.classList.add('explore-main-text');
+      mainText.textContent=assertion;
+      box.appendChild(mainText);
+      
+      document.getElementById('graph').appendChild(box);
     }
     
     async function getTrees() {
