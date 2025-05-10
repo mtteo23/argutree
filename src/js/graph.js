@@ -381,6 +381,7 @@ function modify(id) {
 				const EI=document.getElementById('EI-' + evidenceList[i].id);
 				const SI=document.getElementById('SI-' + evidenceList[i].id);
 				updateEv(evidenceList[i].id, EI.value, SI.value);
+        alert(SI.value);
 			}
 		}
     };
