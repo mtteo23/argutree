@@ -374,14 +374,13 @@ function modify(id) {
     saveBtn.id = 'saveBtn-' + id;
     saveBtn.classList.add("saveBtn");
     saveBtn.textContent = "save";
-    saveBtn.onclick = function() {
+    saveBtn.onclick = async function() {
         updateArg(id, AI.value, RI.value);
-        console.log(evidenceList);
         for(i=0; i<evidenceList.length; i++){
 			if(evidenceList[i].parent==id){	
 				const EI=document.getElementById('EI-' + evidenceList[i].id);
 				const SI=document.getElementById('SI-' + evidenceList[i].id);
-				updateEv(evidenceList[i].id, EI.value, SI.value);
+				await updateEv(evidenceList[i].id, EI.value, SI.value);
         alert(SI.value);
 			}
 		}
