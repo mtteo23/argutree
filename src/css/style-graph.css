@@ -58,7 +58,7 @@
     margin: 10px 10px 0px 10px;
     font-size: 18px;
     font-weight: bold;
-    width: 100%;
+    width: calc(100%-20px);
     overflow-wrap: break-word;
     white-space: normal;
     text-align: center;
@@ -73,7 +73,7 @@
     margin: 10px 10px 10px 10px;
     font-size: 14px;
     text-align: justify;
-    width: 100%;
+    width: calc(100%-20px);
     overflow-wrap: break-word;
     white-space: normal;
 
@@ -225,7 +225,6 @@ div.BtnDiv * {
 .Evidence {
   font-size: 14px;
 	background: var(--off-white);
-  margin: 5px;
   white-space: normal;
   width: 100%;
   word-wrap: break-word;
