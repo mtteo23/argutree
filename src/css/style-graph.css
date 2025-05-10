@@ -57,6 +57,7 @@
     border: 0px;
     margin: 5px;
     font-size: 18px;
+    font-weight: bold;
     width: auto;
     min-width: 50px;
     max-width: 300px;
@@ -225,6 +226,7 @@ div.BtnDiv * {
 }
 
 .Evidence {
+  font-size: 14px;
 	background: var(--off-white);
   margin: 5px;
   white-space: normal;
