@@ -270,9 +270,10 @@ function showEv(evidence, el){
     ev.textContent = evidence.explanation;
     el.appendChild(ev);
 
-    const sr = document.createElement('p');
+    const sr = document.createElement('a');
     sr.id = 'SRC-' + evidence.id;
     sr.classList.add("Source");
+    sr.href = evidence.source;
     sr.textContent = evidence.source;
     ev.appendChild(sr);
 }
