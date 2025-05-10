@@ -11,7 +11,7 @@
 
 .trunk {
 	background: var(--green-light); 
-	border: 5px solid var(--green); 
+	border: 1px solid var(--green); 
 	border-radius: 10px; 
 	display: inline-block; 
 	padding: 0px; 
@@ -100,8 +100,7 @@
 .AddArgBtn {
   color: white;
   font-weight: bold;
-	background: var(--green); 
-	border: 5px solid var(--green); 
+	background: var(--green);  
 	border-radius: 15px; 
 	display: inline-block;  
 	white-space: nowrap; 
@@ -112,8 +111,7 @@
 }
 
 .AddArgBtn:hover {
-	background: var(--green-dark); 
-	border: 5px solid var(--green-dark); 
+	background: var(--green-dark);  
 	border-radius: 15px; 
 	display: inline-block;  
 	white-space: nowrap; 
