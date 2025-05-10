@@ -243,7 +243,7 @@ div.BtnDiv * {
 	display: none;
 }
 
-.Evidence:hover p.Source{
+.Evidence:hover .Source{
 	background: var(--green-light);
 	display: block;
 }
