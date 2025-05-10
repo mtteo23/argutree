@@ -15,7 +15,7 @@
 	border-radius: 10px; 
 	display: inline-block; 
 	padding: 0px; 
-	margin: 10px 100px 10px 100px;
+	margin: 0px 0px;
      
 	white-space: nowrap; 
 	box-sizing: border-box;
@@ -55,8 +55,7 @@
 .Assertion {
     background: var(--green-light);
     border: 0px;
-    margin-left: 10;
-    margin-right: 50;
+    margin: 10px 10px 0px 10px;
     font-size: 18px;
     font-weight: bold;
     width: 100%;
@@ -71,8 +70,7 @@
 .Reasoning {
     background: var(--green-light);
     border: 0px;
-    margin-left: 10;
-    margin-right: 50;
+    margin: 10px 10px 10px 10px;
     font-size: 14px;
     text-align: justify;
     width: 100%;
