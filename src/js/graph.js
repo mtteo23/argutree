@@ -521,12 +521,11 @@ async function updateEv(id, Explanation, Source) {
   const { error } = await supabaseClient
     .from('Evidence')
     .update({
-                    Explanation: Explanation,
-                    Source: Source,
-                    Parent: findEv(id).parent
-                })
-    .eq('id', id);
-  alert(error);
+      Explanation: Explanation,
+      Source: Source,
+      Parent: findEv(id).parent
+    })
+    .eq('id', Number(id));
   if (error) {
     console.log('Error updating record: ' + error.message);
     return;
