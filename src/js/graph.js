@@ -525,9 +525,9 @@ async function updateEv(id, Explanation, Source) {
                     Parent: findEv(id).parent
                 }])
     .eq('id', id);
-
+  alert(error);
   if (error) {
-    alert('Error updating record: ' + error.message);
+    console.log('Error updating record: ' + error.message);
     return;
   }
   reload();
