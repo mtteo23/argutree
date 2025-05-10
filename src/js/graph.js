@@ -274,6 +274,7 @@ function showEv(evidence, el){
     sr.id = 'SRC-' + evidence.id;
     sr.classList.add("Source");
     sr.href = evidence.source;
+    sr.target = "_blank";
     sr.textContent = evidence.source;
     ev.appendChild(sr);
 }
