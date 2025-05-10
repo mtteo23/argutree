@@ -220,6 +220,7 @@ div.BtnDiv * {
 
 .Evidence {
 	background: var(--off-white);
+  width: 100%;
 }
 
 .Evidence:hover {
