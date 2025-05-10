@@ -48,7 +48,7 @@
 .Assertion {
     background: var(--green-light);
     border: 0px;
-    margin: 15px;
+    margin: 5px;
     font-size: 18px;
     width: auto;
     min-width: 50px;
