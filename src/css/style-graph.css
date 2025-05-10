@@ -232,6 +232,10 @@ div.BtnDiv * {
   box-sizing: border-box;
 }
 
+.Evidence:nth-child(even){
+	background: var(--green-light);
+}
+
 .Evidence:hover {
 	background: var(--green-light-hover);
 }
