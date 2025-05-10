@@ -20,10 +20,10 @@
 	box-sizing: border-box;
   max-width: 500px;
   
-  /*overflow: hidden; /* Ensures content stays inside */
-  /*word-wrap: break-word; /* Ensures long words break */
-  /*overflow-wrap: break-word; /* Ensures compatibility */
-  /*box-sizing: border-box; /* Includes padding and border in width calculation */
+  overflow: hidden;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  box-sizing: border-box;
 
 }
 
