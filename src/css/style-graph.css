@@ -226,6 +226,8 @@ div.BtnDiv * {
 
 .Evidence {
 	background: var(--off-white);
+  margin: 5px;
+  white-space: normal;
   width: 100%;
   word-wrap: break-word;
   overflow-wrap: break-word;
