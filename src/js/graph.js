@@ -376,6 +376,7 @@ function modify(id) {
     saveBtn.textContent = "save";
     saveBtn.onclick = function() {
         updateArg(id, AI.value, RI.value);
+        console.log(evidenceList);
         for(i=0; i<evidenceList.length; i++){
 			if(evidenceList[i].parent==id){	
 				const EI=document.getElementById('EI-' + evidenceList[i].id);

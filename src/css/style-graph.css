@@ -11,7 +11,7 @@
 
 .trunk {
 	background: var(--green-light); 
-	border: 1px solid var(--green); 
+	border: 3px solid var(--green); 
 	border-radius: 10px; 
 	display: inline-block; 
 	padding: 0px; 
@@ -22,7 +22,7 @@
 
 .trunk:hover {
 	background: var(--green-light); 
-	border: 5px solid var(--green); 
+	border: 3px solid var(--green); 
 	border-radius: 10px; 
 	display: inline-block; 
 	padding: 0px; 
