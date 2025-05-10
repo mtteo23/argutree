@@ -264,7 +264,7 @@ function expandOption(id) {
 }
 
 function showEv(evidence, el){
-	const ev = document.createElement('div');
+	const ev = document.createElement('p');
     ev.id = 'EV-'+evidence.id;
     ev.classList.add("Evidence");
     ev.textContent = evidence.explanation;
