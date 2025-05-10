@@ -70,7 +70,7 @@
 .Reasoning {
     background: var(--green-light);
     border: 0px;
-    margin: 5px 10px 0px 1000000000px;
+    margin: 5px 10px 1000000px 0px;
     font-size: 14px;
     text-align: justify;
     width: 100%;
