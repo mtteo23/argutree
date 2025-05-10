@@ -383,7 +383,6 @@ function modify(id) {
 				const EI=document.getElementById('EI-' + evidenceList[i].id);
 				const SI=document.getElementById('SI-' + evidenceList[i].id);
 				await updateEv(evidenceList[i].id, EI.value, SI.value);
-        alert(SI.value);
 			}
 		}
     };
@@ -521,11 +520,11 @@ async function deleteEv(id) {
 async function updateEv(id, Explanation, Source) {
   const { error } = await supabaseClient
     .from('Evidence')
-    .update([{
+    .update({
                     Explanation: Explanation,
                     Source: Source,
                     Parent: findEv(id).parent
-                }])
+                })
     .eq('id', id);
   alert(error);
   if (error) {
