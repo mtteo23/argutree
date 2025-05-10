@@ -15,7 +15,7 @@
 	border-radius: 10px; 
 	display: inline-block; 
 	padding: 0px; 
-	margin: 1px auto; 
+	margin: 5px auto; 
 	white-space: nowrap; 
 	box-sizing: border-box;
   max-width: 450px;
@@ -33,7 +33,6 @@
 	border-radius: 10px; 
 	display: inline-block; 
 	padding: 0px; 
-	margin: 0px auto; 
 	white-space: nowrap; 
 	box-sizing: border-box; 
 }
