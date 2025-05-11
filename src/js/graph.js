@@ -381,7 +381,14 @@ function modify(id) {
 		
 		trunk.appendChild(modEvDiv);
 	}}
-    const optBtn = document.getElementById('OPT-' + id);
+  
+  
+  
+    const but = document.createElement('div');
+    but.id = 'B-' + id;
+    but.classList.add("BtnDiv");
+    expanded.appendChild(but);
+      
     const saveBtn = document.createElement('p');
     saveBtn.id = 'saveBtn-' + id;
     saveBtn.classList.add("saveBtn");
@@ -396,24 +403,23 @@ function modify(id) {
 			}
 		}
     };
-    optBtn.replaceWith(saveBtn);
+    but.appendChild(saveBtn);
     
-    const addE = document.getElementById('AddE-' + id);
     const delBtn = document.createElement('p');
     delBtn.id = 'delBtn-' + id;
     delBtn.classList.add("delBtn");
     delBtn.textContent = "delete";
     delBtn.onclick = function() {
-        if(nChild(id)>0)
-		{
-			alert('This node cannote be deleted. It still has attached childs');
-		}
-		else
-		{
-			deleteArg(id);
-		}
+      if(nChild(id)>0)
+      {
+        alert('This node cannote be deleted. It still has attached childs');
+      }
+      else
+      {
+        deleteArg(id);
+      }
     };
-    addE.replaceWith(delBtn);
+    but.appendChild(delBtn);
 }
 
 
