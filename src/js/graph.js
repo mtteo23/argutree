@@ -283,7 +283,7 @@ function showEv(evidence, el){
 function modify(id) {
     const argument = findArg(id);
     const trunk = document.getElementById('T-'+id);
-    
+    trunk.innerHTML="";
     const divA = document.createElement('div');
     divA.classList.add("grow-wrap");
     divA.dataset.replicatedValue = argument.assertion;
@@ -329,14 +329,14 @@ function modify(id) {
     };
     trunk.appendChild(confutationBtn);
     
+    const modEvDiv = document.createElement('div');
+    modEvDiv.classList.add("grow-wrap");
+    modEvDiv.dataset.replicatedValue = argument.assertion;
+        
     for(i=0; i<evidenceList.length; i++){
       if(evidenceList[i].parent==id){
         const divE = document.getElementById('EV-' + evidenceList[i].id);
-        
-        const modEvDiv = document.createElement('div');
-        modEvDiv.classList.add("grow-wrap");
-        modEvDiv.dataset.replicatedValue = argument.assertion;
-
+    
         const EI = document.createElement('textarea');
         EI.id = 'EI-' + evidenceList[i].id;
         EI.classList.add("ExplanationModify");
