@@ -256,7 +256,9 @@ function expandArg(id) {
         else
             val = "none";
 
-        document.getElementById('EXP-' + argumentList[i].id).style.display = val;
+        try{
+          document.getElementById('EXP-' + argumentList[i].id).style.display = val;
+        }
     }
 }
 
@@ -386,7 +388,6 @@ function modify(id) {
     const but = document.createElement('div');
     but.id = 'B-' + id;
     but.classList.add("BtnDiv");
-    expanded.appendChild(but);
       
     const saveBtn = document.createElement('p');
     saveBtn.id = 'saveBtn-' + id;
