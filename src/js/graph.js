@@ -256,9 +256,9 @@ function expandArg(id) {
         else
             val = "none";
 
-        try{
-          document.getElementById('EXP-' + argumentList[i].id).style.display = val;
-        }
+        
+        document.getElementById('EXP-' + argumentList[i].id).style.display = val;
+        
     }
 }
 
@@ -337,7 +337,6 @@ function modify(id) {
         
     for(i=0; i<evidenceList.length; i++){
       if(evidenceList[i].parent==id){
-        const divE = document.getElementById('EV-' + evidenceList[i].id);
     
         const EI = document.createElement('textarea');
         EI.id = 'EI-' + evidenceList[i].id;
