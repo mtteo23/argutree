@@ -282,6 +282,7 @@ function showEv(evidence, el){
 
 function modify(id) {
     const argI=findArg(id);
+    const trunk=document.getElementById('T-'+id);
     alert(argI);
     const ass = document.getElementById('A-' + id);
     const divA = document.createElement('div');
@@ -328,7 +329,7 @@ function modify(id) {
 		confutationBtn.onclick = function() {
       changeConfutationStatus(id);
     };
-    
+    trunk.appendChild(confutationBtn);
     
     for(i=0; i<evidenceList.length; i++){
     if(evidenceList[i].parent==id){
