@@ -348,8 +348,8 @@ function modify(id) {
         EI.oninput = function() {
           this.parentNode.dataset.replicatedValue = this.value;
         };
-
-        modEvDiv.appendChild(EI);
+        
+        console.log(EI);
 
         const divS = document.createElement('div');
         divS.classList.add("grow-wrap");
@@ -375,6 +375,9 @@ function modify(id) {
         delEvBtn.onclick = function() {
           deleteEv(delEvBtn.id.slice(9));
         };
+        
+        
+        modEvDiv.appendChild(EI);
         modEvDiv.appendChild(divS);
         modEvDiv.appendChild(delEvBtn);
     }
@@ -419,7 +422,6 @@ function modify(id) {
       }
     };
     but.appendChild(delBtn);
-    console.log(but);
     trunk.appendChild(but);
 }
 
