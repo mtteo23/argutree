@@ -3,11 +3,12 @@
 --
 
 -- Dumped from database version 15.8
--- Dumped by pg_dump version 15.13 (Ubuntu 15.13-1.pgdg22.04+1)
+-- Dumped by pg_dump version 17.5 (Ubuntu 17.5-1.pgdg22.04+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
@@ -2326,7 +2327,8 @@ CREATE TABLE public."Argument" (
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     "Assertion" text,
     "Reasoning" text,
-    "Parent" bigint
+    "Parent" bigint,
+    "Confutation" boolean DEFAULT false NOT NULL
 );
 
 
@@ -3657,7 +3659,7 @@ CREATE POLICY "Enable update for users based on email" ON public."Argument" FOR 
 -- Name: Evidence Enable update for users based on email; Type: POLICY; Schema: public; Owner: -
 --
 
-CREATE POLICY "Enable update for users based on email" ON public."Evidence" FOR UPDATE USING (false) WITH CHECK (false);
+CREATE POLICY "Enable update for users based on email" ON public."Evidence" FOR UPDATE USING (true) WITH CHECK (true);
 
 
 --

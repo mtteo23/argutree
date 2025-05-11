@@ -280,6 +280,7 @@ function showEv(evidence, el){
 }
 
 function modify(id) {
+    const argI=findArg(id);
     const ass = document.getElementById('A-' + id);
     const divA = document.createElement('div');
     divA.classList.add("grow-wrap");
@@ -317,6 +318,15 @@ function modify(id) {
 
     divR.appendChild(RI);
     res.replaceWith(divR);
+    
+    const confutationBtn=document.createElement('p');
+		confutationBtn.id = 'confBtn-' + argumentList[argI].id;
+		confutationBtn.classList.add("confBtn");
+		confutationBtn.textContent = "Confutation";
+		confutationBtn.onclick = function() {
+      changeConfutationStatus(id);
+    };
+    
     
     for(i=0; i<evidenceList.length; i++){
     if(evidenceList[i].parent==id){
@@ -576,4 +586,9 @@ function nChild(id) {
       cont++;
 	}
   return cont;
+}
+
+
+function changeConfutationStatus(id) {
+  alert(id);
 }
