@@ -301,7 +301,7 @@ function modify(id) {
     };
 
     divA.appendChild(AI);
-    ass.replaceWith(divA);
+    trunk.appendChild(divA);
 
     const res = document.getElementById('R-' + id);
     const divR = document.createElement('div');
@@ -320,7 +320,7 @@ function modify(id) {
     };
 
     divR.appendChild(RI);
-    res.replaceWith(divR);
+    trunk.appendChild(divR);
     
     const confutationBtn=document.createElement('p');
 		confutationBtn.id = 'confBtn-' + id;
@@ -381,7 +381,7 @@ function modify(id) {
 		
 		modEvDiv.appendChild(delEvBtn);
 		
-		divE.replaceWith(modEvDiv);
+		trunk.appendChild(modEvDiv);
 	}}
 	
     const optBtn = document.getElementById('OPT-' + id);
