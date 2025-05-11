@@ -281,18 +281,17 @@ function showEv(evidence, el){
 }
 
 function modify(id) {
-    const argI=findArg(id);
-    const trunk=document.getElementById('T-'+id);
-    alert(argI);
-    const ass = document.getElementById('A-' + id);
+    const argument = findArg(id);
+    const trunk = document.getElementById('T-'+id);
+    
     const divA = document.createElement('div');
     divA.classList.add("grow-wrap");
-    divA.dataset.replicatedValue = ass.textContent;
+    divA.dataset.replicatedValue = argument.assertion;
 
     const AI = document.createElement('textarea');
     AI.id = 'AI-' + id;
     AI.classList.add("AssertionModify");
-    AI.value = ass.textContent;
+    AI.value = argument.assertion;
     AI.spellcheck = false;
     AI.cols = 30;
 
@@ -303,15 +302,14 @@ function modify(id) {
     divA.appendChild(AI);
     trunk.appendChild(divA);
 
-    const res = document.getElementById('R-' + id);
     const divR = document.createElement('div');
     divR.classList.add("grow-wrap");
-    divR.dataset.replicatedValue = res.textContent;
+    divR.dataset.replicatedValue = argument.reasoning;
 
     const RI = document.createElement('textarea');
     RI.id = 'RI-' + id;
     RI.classList.add("AssertionModify");
-    RI.value = res.textContent;
+    RI.value = argument.reasoning;
     RI.spellcheck = false;
     RI.cols = 30;
 
@@ -354,7 +352,7 @@ function modify(id) {
 
 		const divS = document.createElement('div');
 		divS.classList.add("grow-wrap");
-		divS.dataset.replicatedValue = res.textContent;
+		divS.dataset.replicatedValue = argument.reasoning;
 
 		const SI = document.createElement('textarea');
 		SI.id = 'SI-' + evidenceList[i].id;
@@ -383,7 +381,6 @@ function modify(id) {
 		
 		trunk.appendChild(modEvDiv);
 	}}
-	
     const optBtn = document.getElementById('OPT-' + id);
     const saveBtn = document.createElement('p');
     saveBtn.id = 'saveBtn-' + id;
