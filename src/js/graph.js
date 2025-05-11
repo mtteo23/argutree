@@ -330,57 +330,56 @@ function modify(id) {
     trunk.appendChild(confutationBtn);
     
     for(i=0; i<evidenceList.length; i++){
-    if(evidenceList[i].parent==id){
-		const divE = document.getElementById('EV-' + evidenceList[i].id);
-		
-		const modEvDiv = document.createElement('div');
-		modEvDiv.classList.add("grow-wrap");
-		modEvDiv.dataset.replicatedValue = ass.textContent;
+      if(evidenceList[i].parent==id){
+        const divE = document.getElementById('EV-' + evidenceList[i].id);
+        
+        const modEvDiv = document.createElement('div');
+        modEvDiv.classList.add("grow-wrap");
+        modEvDiv.dataset.replicatedValue = ass.textContent;
 
-		const EI = document.createElement('textarea');
-		EI.id = 'EI-' + evidenceList[i].id;
-		EI.classList.add("ExplanationModify");
-		EI.value = evidenceList[i].explanation;
-		EI.spellcheck = false;
-		EI.cols = 24;
+        const EI = document.createElement('textarea');
+        EI.id = 'EI-' + evidenceList[i].id;
+        EI.classList.add("ExplanationModify");
+        EI.value = evidenceList[i].explanation;
+        EI.spellcheck = false;
+        EI.cols = 24;
 
-		EI.oninput = function() {
-			this.parentNode.dataset.replicatedValue = this.value;
-		};
+        EI.oninput = function() {
+          this.parentNode.dataset.replicatedValue = this.value;
+        };
 
-		modEvDiv.appendChild(EI);
+        modEvDiv.appendChild(EI);
 
-		const divS = document.createElement('div');
-		divS.classList.add("grow-wrap");
-		divS.dataset.replicatedValue = argument.reasoning;
+        const divS = document.createElement('div');
+        divS.classList.add("grow-wrap");
+        divS.dataset.replicatedValue = argument.reasoning;
 
-		const SI = document.createElement('textarea');
-		SI.id = 'SI-' + evidenceList[i].id;
-		SI.classList.add("SourceModify");
-		SI.value = evidenceList[i].source;
-		SI.spellcheck = false;
-		SI.cols = 24;
+        const SI = document.createElement('textarea');
+        SI.id = 'SI-' + evidenceList[i].id;
+        SI.classList.add("SourceModify");
+        SI.value = evidenceList[i].source;
+        SI.spellcheck = false;
+        SI.cols = 24;
 
-		SI.oninput = function() {
-			this.parentNode.dataset.replicatedValue = this.value;
-		};
+        SI.oninput = function() {
+          this.parentNode.dataset.replicatedValue = this.value;
+        };
 
-		divS.appendChild(SI);
-		
-		const delEvBtn=document.createElement('p');
-		delEvBtn.id = 'delEvBtn-' + evidenceList[i].id;
-		delEvBtn.classList.add("delEvBtn");
-		delEvBtn.textContent = "X";
-		delEvBtn.onclick = function() {
-		deleteEv(delEvBtn.id.slice(9));
-    };
-		
-		modEvDiv.appendChild(divS);
-		
-		modEvDiv.appendChild(delEvBtn);
-		
-		trunk.appendChild(modEvDiv);
-	}}
+        divS.appendChild(SI);
+        
+        const delEvBtn=document.createElement('p');
+        delEvBtn.id = 'delEvBtn-' + evidenceList[i].id;
+        delEvBtn.classList.add("delEvBtn");
+        delEvBtn.textContent = "X";
+        delEvBtn.onclick = function() {
+          deleteEv(delEvBtn.id.slice(9));
+        };
+        modEvDiv.appendChild(divS);
+        modEvDiv.appendChild(delEvBtn);
+    }
+  } 
+  
+  trunk.appendChild(modEvDiv);
   
   
   
