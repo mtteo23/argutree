@@ -10,11 +10,12 @@ class Evidence {
 
 var argumentList = [];
 class Argument {
-  constructor(id, assertion, reasoning, parent) {
+  constructor(id, assertion, reasoning, parent, confutation) {
 	this.id = id;
     this.assertion = assertion; 
     this.reasoning = reasoning;
     this.parent = parent;
+    this.confutation = confutation;
   }
 }
 
@@ -89,7 +90,7 @@ async function fetchRecords() {
 			
 		argumentList=[];
 		data.forEach(argument => {
-			const newArgument = new Argument(argument.id, argument.Assertion, argument.Reasoning, argument.Parent);
+			const newArgument = new Argument(argument.id, argument.Assertion, argument.Reasoning, argument.Parent, argument.Confutation);
 			argumentList.push(newArgument);
 		});
 	}

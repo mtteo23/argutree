@@ -799,25 +799,25 @@ $$;
 -- Name: get_argument_descendants(integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION public.get_argument_descendants(p_head_id integer) RETURNS TABLE(id integer, "Parent" integer, "Assertion" text, "Reasoning" text)
-    LANGUAGE sql STABLE
+CREATE FUNCTION public.get_argument_descendants(p_head_id integer) RETURNS TABLE(id integer, "Parent" integer, "Assertion" text, "Reasoning" text, "Confutation" boolean)
+    LANGUAGE sql
     AS $$
-  with recursive descendants as (
+WITH RECURSIVE descendants AS (
     -- Start from the head argument
-    select id, "Parent", "Assertion", "Reasoning"
-    from "Argument"
-    where id = p_head_id
+    SELECT id, "Parent", "Assertion", "Reasoning", "Confutation"
+    FROM "Argument"
+    WHERE id = p_head_id
 
-    union all
+    UNION ALL
 
     -- Recursively join to get children
-    select a.id, a."Parent", a."Assertion", a."Reasoning"
-    from "Argument" a
-    inner join descendants d on a."Parent" = d.id
-  )
-  -- Optionally, exclude the head argument itself:
-  select id, "Parent", "Assertion", "Reasoning"
-  from descendants
+    SELECT a.id, a."Parent", a."Assertion", a."Reasoning", a."Confutation"
+    FROM "Argument" a
+    INNER JOIN descendants d ON a."Parent" = d.id
+)
+-- Optionally, exclude the head argument itself:
+SELECT id, "Parent", "Assertion", "Reasoning", "Confutation"
+FROM descendants;
 $$;
 
 
