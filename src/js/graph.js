@@ -420,6 +420,8 @@ function modify(id) {
       }
     };
     but.appendChild(delBtn);
+    
+    trunk.appendChild(but);
 }
 
 
