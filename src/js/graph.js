@@ -282,6 +282,7 @@ function showEv(evidence, el){
 
 function modify(id) {
     const argI=findArg(id);
+    alert(argI);
     const ass = document.getElementById('A-' + id);
     const divA = document.createElement('div');
     divA.classList.add("grow-wrap");
@@ -321,7 +322,7 @@ function modify(id) {
     res.replaceWith(divR);
     
     const confutationBtn=document.createElement('p');
-		confutationBtn.id = 'confBtn-' + argumentList[argI].id;
+		confutationBtn.id = 'confBtn-' + id;
 		confutationBtn.classList.add("confBtn");
 		confutationBtn.textContent = "Confutation";
 		confutationBtn.onclick = function() {
