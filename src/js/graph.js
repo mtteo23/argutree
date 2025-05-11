@@ -335,7 +335,7 @@ function modify(id) {
         
         const modEvDiv = document.createElement('div');
         modEvDiv.classList.add("grow-wrap");
-        modEvDiv.dataset.replicatedValue = ass.textContent;
+        modEvDiv.dataset.replicatedValue = argument.assertion;
 
         const EI = document.createElement('textarea');
         EI.id = 'EI-' + evidenceList[i].id;
@@ -378,7 +378,7 @@ function modify(id) {
         modEvDiv.appendChild(delEvBtn);
     }
   } 
-  
+  console.log(modEvDiv);
   trunk.appendChild(modEvDiv);
   
   
@@ -419,7 +419,7 @@ function modify(id) {
       }
     };
     but.appendChild(delBtn);
-    
+    console.log(but);
     trunk.appendChild(but);
 }
 
