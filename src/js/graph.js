@@ -333,7 +333,11 @@ function modify(id) {
 		confutationBtn.classList.add("confBtn");
 		confutationBtn.textContent = "Confutation";
 		confutationBtn.onclick = function() {
-      changeConfutationStatus(id);
+      alert(id);
+      alert(findArg(id).confutation);
+      findArg(id).confutation=!findArg(id).confutation;
+      alert(findArg(id).confutation);
+      
     };
     exp.appendChild(confutationBtn);
     
@@ -356,7 +360,6 @@ function modify(id) {
           this.parentNode.dataset.replicatedValue = this.value;
         };
         
-        console.log(EI);
 
         const divS = document.createElement('div');
         divS.classList.add("grow-wrap");
@@ -605,6 +608,3 @@ function nChild(id) {
 }
 
 
-function changeConfutationStatus(id) {
-  alert(id);
-}
