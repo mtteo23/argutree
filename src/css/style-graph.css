@@ -409,11 +409,8 @@ body {
 }
 
 #map {
-  /*
   height: calc(100%-50px);
- */
   width: 100%;
-  height: 450px;
   position: relative;
   background-color: #ddd;
   overflow: hidden;

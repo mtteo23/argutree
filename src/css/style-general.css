@@ -328,7 +328,7 @@ body {
 
 .layout {
   display: flex;
-  width: max-content;     /* width equals the sum of sidebar+graph */
-  min-width: 100%;        /* at least viewport width */
-  height: calc(100% - 50px); /* subtract banner height if you need full-height below banner */
+  width: max-content;
+  min-width: 100%;
+  height: calc(100% - 50px);
 }
