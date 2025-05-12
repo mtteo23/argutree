@@ -36,16 +36,6 @@
 
 }
 
-.trunk:hover {
-	background: var(--green-light); 
-	border: 3px solid var(--green); 
-	border-radius: 10px; 
-	display: inline-block; 
-	padding: 0px; 
-	white-space: nowrap; 
-	box-sizing: border-box; 
-}
-
 .Confutation.trunk {
   background: var(--red-light); 
 	border: 3px solid var(--red); 
@@ -78,6 +68,10 @@
     
     font-family: inherit;
     line-height: 1.2; 
+}
+
+.Confutation .Assertion {
+    background: var(--red-light);
 }
 
 .Reasoning {

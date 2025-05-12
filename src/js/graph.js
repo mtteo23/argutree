@@ -331,7 +331,11 @@ function modify(id) {
     const confutationBtn=document.createElement('p');
 		confutationBtn.id = 'confBtn-' + id;
 		confutationBtn.classList.add("confBtn");
-		confutationBtn.textContent = "Confutation";
+    
+    confutationBtn.textContent = "set to Confutation";
+    if(findArg(id).confutation)
+      confutationBtn.textContent = "set to Argument";
+      
 		confutationBtn.onclick = function() {
       findArg(id).confutation=!findArg(id).confutation;
       const t=document.getElementById('T-'+id);
@@ -339,6 +343,11 @@ function modify(id) {
         t.classList.add('Confutation');
       else
         t.classList.remove('Confutation');
+        
+      if(findArg(id).confutation)
+        this.textContent='set to Argument';
+      else
+        this.textContent='set to Confutation';
     };
     exp.appendChild(confutationBtn);
     
