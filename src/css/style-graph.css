@@ -411,20 +411,21 @@ body {
 #map {
   width: 100%;
   height: calc(100%-50px);
-  border: 0px;
+  border: 2px solid #333;
   position: relative;
   background-color: #ddd;
   overflow: hidden;
 }
 #graph {
-  width: 100%;
-  height: calc(100%-50px);
-  background-color: #000000;
+  width: 50px;
+  height: 50px;
+  background-color: #007BFF;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   cursor: grab;
+  border-radius: 10px;
 }
 #graph:active {
   cursor: grabbing;
