@@ -180,6 +180,7 @@ body {
   align-items: center;
   gap: var(--spacing);
   margin: var(--spacing) 0;
+  overflow: hidden;
 }
 
 .project-container {
