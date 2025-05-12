@@ -286,7 +286,8 @@ function modify(id) {
     const argument = findArg(id);
     const trunk = document.getElementById('T-'+id);
     trunk.innerHTML="";
-    
+    const exp = document.createElement('div');
+    exp.id='EXP-'+id;
     
     const divA = document.createElement('div');
     divA.classList.add("grow-wrap");
@@ -323,7 +324,7 @@ function modify(id) {
     };
 
     divR.appendChild(RI);
-    trunk.appendChild(divR);
+    exp.appendChild(divR);
     
     
     
@@ -334,7 +335,7 @@ function modify(id) {
 		confutationBtn.onclick = function() {
       changeConfutationStatus(id);
     };
-    trunk.appendChild(confutationBtn);
+    exp.appendChild(confutationBtn);
     
     
     
@@ -387,7 +388,7 @@ function modify(id) {
         modEvDiv.appendChild(divS);
         modEvDiv.appendChild(delEvBtn);
         
-        trunk.appendChild(modEvDiv);
+        exp.appendChild(modEvDiv);
     }
   }
   
@@ -426,7 +427,9 @@ function modify(id) {
       }
     };
     but.appendChild(delBtn);
-    trunk.appendChild(but);
+    exp.appendChild(but);
+    
+    trunk.appendChild(exp);
 }
 
 
