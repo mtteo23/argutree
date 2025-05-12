@@ -301,7 +301,7 @@ div.BtnDiv * {
 	background: var(--green-light); 
 	border: 5px solid var(--green); 
 	border-radius: 10px; 
-	display: inline-block; 
+  display: block; 
 	margin: 10px auto; 
 	white-space: nowrap; 
 	box-sizing: border-box; 
