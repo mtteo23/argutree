@@ -133,6 +133,8 @@ function showArg(id, parent) {
     const trunk = document.createElement('div');
     trunk.id = 'T-' + id;
     trunk.classList.add("Trunk");
+    if(findArg(id).confutation)
+      trunk.classList.add("Confutation");
     trunk.align = 'center';
     trunk.onclick = function() {
         expandArg(trunk.id.slice(2))
