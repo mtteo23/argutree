@@ -34,6 +34,10 @@ body {
   align-items: center;
   justify-content: flex-end;
   padding: 0 var(--spacing);
+  
+  position: sticky;
+  z-index: 100;
+  top: 0;
 }
 
 #banner a {
@@ -320,4 +324,11 @@ body {
 
 #main-page-link {
   margin: 0 auto;
+}
+
+.layout {
+  display: flex;
+  width: max-content;     /* width equals the sum of sidebar+graph */
+  min-width: 100%;        /* at least viewport width */
+  height: calc(100% - 50px); /* subtract banner height if you need full-height below banner */
 }
