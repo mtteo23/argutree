@@ -209,6 +209,19 @@ div.BtnDiv * {
 	background: var(--green-dark-hover); 
 }
 
+.confBtn{
+  color: white;
+  font-weight: bold;
+	background: var(--green); 
+	width: 50%;
+	margin: 0;
+	padding: 0px;
+}
+
+.confBtn:hover{
+	background: var(--green-dark-hover); 
+}
+
 .AssertionInput {
 	background: var(--green-light); 
 	border: 5px solid var(--green); 
