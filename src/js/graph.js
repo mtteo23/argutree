@@ -335,7 +335,10 @@ function modify(id) {
 		confutationBtn.onclick = function() {
       findArg(id).confutation=!findArg(id).confutation;
       const t=document.getElementById('T-'+id);
-      t.classList.add('Confutation');
+      if(findArg(id).confutation)
+        t.classList.add('Confutation');
+      else
+        t.classList.remove('Confutation');
     };
     exp.appendChild(confutationBtn);
     
