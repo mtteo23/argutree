@@ -89,9 +89,17 @@
     line-height: 1.2; 
 }
 
+.Confutation .Reasoning {
+    background: var(--red-light);
+}
+
 .AssertionModify {
     background: var(--green-light);
     border: 0px;
+}
+
+.Confutation .AssertionModify{
+    background: var(--red-light);
 }
 
 .ReasoningModify {
@@ -99,14 +107,26 @@
     border: 0px;
 }
 
+.Confutation .ReasoningModify{
+    background: var(--red-light);
+}
+
 .ExplanationModify {
     background: var(--green-light);
     border: 0px;
 }
 
+.Confutation .ExplanationModify {
+    background: var(--red-light);
+}
+
 .SourceModify {
 	background: var(--green-light);
     border: 0px;
+}
+
+.Confutation .SourceModify {
+    background: var(--red-light);
 }
 
 .AddArgBtn {
@@ -137,6 +157,10 @@
 .BtnDiv {
 	background: var(--green-light);
 	width: 100%;	
+}
+
+.Confutation .BtnDiv {
+    background: var(--red-light);
 }
 
 div.BtnDiv * {
@@ -233,6 +257,11 @@ div.BtnDiv * {
 	height: 25px;
 }
 
+.Confutation .AssertionInput {
+  background: var(--red-light); 
+	border: 5px solid var(--red); 
+}
+
 .EvidenceList {
 	padding: 0px;
 	margin: 0px;
@@ -268,7 +297,6 @@ div.BtnDiv * {
 }
 
 .Evidence:hover .Source{
-	background: var(--green-light);
 	display: block;
 }
 
