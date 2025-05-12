@@ -286,6 +286,8 @@ function modify(id) {
     const argument = findArg(id);
     const trunk = document.getElementById('T-'+id);
     trunk.innerHTML="";
+    
+    
     const divA = document.createElement('div');
     divA.classList.add("grow-wrap");
     divA.dataset.replicatedValue = argument.assertion;
@@ -303,7 +305,8 @@ function modify(id) {
 
     divA.appendChild(AI);
     trunk.appendChild(divA);
-
+    
+    
     const divR = document.createElement('div');
     divR.classList.add("grow-wrap");
     divR.dataset.replicatedValue = argument.reasoning;
@@ -322,6 +325,8 @@ function modify(id) {
     divR.appendChild(RI);
     trunk.appendChild(divR);
     
+    
+    
     const confutationBtn=document.createElement('p');
 		confutationBtn.id = 'confBtn-' + id;
 		confutationBtn.classList.add("confBtn");
@@ -331,13 +336,14 @@ function modify(id) {
     };
     trunk.appendChild(confutationBtn);
     
-    const modEvDiv = document.createElement('div');
-    modEvDiv.classList.add("grow-wrap");
-    modEvDiv.dataset.replicatedValue = argument.assertion;
-        
+    
+    
     for(i=0; i<evidenceList.length; i++){
       if(evidenceList[i].parent==id){
-    
+        const modEvDiv = document.createElement('div');
+        modEvDiv.classList.add("grow-wrap");
+        modEvDiv.dataset.replicatedValue = argument.assertion;
+            
         const EI = document.createElement('textarea');
         EI.id = 'EI-' + evidenceList[i].id;
         EI.classList.add("ExplanationModify");
@@ -380,12 +386,10 @@ function modify(id) {
         modEvDiv.appendChild(EI);
         modEvDiv.appendChild(divS);
         modEvDiv.appendChild(delEvBtn);
+        
+        trunk.appendChild(modEvDiv);
     }
-  } 
-  console.log(modEvDiv);
-  trunk.appendChild(modEvDiv);
-  
-  
+  }
   
     const but = document.createElement('div');
     but.id = 'B-' + id;
@@ -396,12 +400,12 @@ function modify(id) {
     saveBtn.classList.add("saveBtn");
     saveBtn.textContent = "save";
     saveBtn.onclick = async function() {
-        updateArg(id, AI.value, RI.value);
+        updateArg(id, AI.value, RI.value, argument.confutation);
         for(i=0; i<evidenceList.length; i++){
-			if(evidenceList[i].parent==id){	
-				const EI=document.getElementById('EI-' + evidenceList[i].id);
-				const SI=document.getElementById('SI-' + evidenceList[i].id);
-				await updateEv(evidenceList[i].id, EI.value, SI.value);
+          if(evidenceList[i].parent==id){	
+            const EI=document.getElementById('EI-' + evidenceList[i].id);
+            const SI=document.getElementById('SI-' + evidenceList[i].id);
+            await updateEv(evidenceList[i].id, EI.value, SI.value);
 			}
 		}
     };
