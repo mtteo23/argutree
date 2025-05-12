@@ -47,11 +47,6 @@
 	display: inline-block; 
 }
 
-.Arg.Head {
-  position: absolute;
-  transform: translate(-50%, -50%);
-}
-
 .SubArgList {
 	display: flex; 
 	flex-wrap: nowrap; 
@@ -411,4 +406,27 @@ body {
   padding: 0.5rem;
   font: inherit;
   grid-area: 1 / 1 / 2 / 2;
+}
+
+#map {
+  width: 400px;
+  height: 400px;
+  border: 2px solid #333;
+  position: relative;
+  background-color: #ddd;
+  overflow: hidden;
+}
+#graph {
+  width: 50px;
+  height: 50px;
+  background-color: #007BFF;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: grab;
+  border-radius: 10px;
+}
+#graph:active {
+  cursor: grabbing;
 }

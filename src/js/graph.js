@@ -121,8 +121,6 @@ function showArg(id, parent) {
     const main = document.createElement('div');
     main.id = id;
     main.classList.add("Arg");
-    if(headId==id)
-      main.classList.add("Head");
     parent.appendChild(main);
 
     if (id != headId) {
@@ -622,8 +620,8 @@ function nChild(id) {
   return cont;
 }
 
-const draggable = document.getElementById(headId);
-const map = document.getElementById('graph');
+const draggable = document.getElementById('graph');
+    const map = document.getElementById('map');
 
     let isDragging = false;
     let offsetX, offsetY;
