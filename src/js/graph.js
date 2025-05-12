@@ -498,13 +498,14 @@ async function deleteArg(id) {
     reload(parent);
  }
 
-async function updateArg(id, Assertion, Reasoning) {
+async function updateArg(id, Assertion, Reasoning, Confutation) {
   const { error } = await supabaseClient
     .from('Argument')
     .update([{
                     Assertion: Assertion,
                     Reasoning: Reasoning,
-                    Parent: findArg(id).parent
+                    Parent: findArg(id).parent,
+                    Confutation: Confutation
                 }])
     .eq('id', id);
 
