@@ -412,15 +412,17 @@ body {
   height: 100%;
   width: 100%;
   position: relative;
-  background-color: #ddd;
+  background-color: #fff;
   overflow: hidden;
 }
 #graph {
   position: absolute;
+  /*
   top: 10px;
   left: 50%;
   transform: translate(-50%, -50%);
   cursor: grab;
+  */
 }
 #graph:active {
   cursor: grabbing;
