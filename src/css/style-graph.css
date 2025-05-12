@@ -168,6 +168,8 @@ div.BtnDiv * {
 	margin: 0 0px; 
 }
 
+
+
 .OptBtn {
   color: white;
   font-weight: bold;
@@ -178,7 +180,15 @@ div.BtnDiv * {
 }
 
 .OptBtn:hover {
-	background: var(--green-dark-hover); 
+	background: var(--green-dark-hover);
+}
+
+.Confutation .OptBtn{
+  background: var(--red);
+}
+
+.Confutation .OptBtn:hover{
+  background: var(--red-dark-hover);
 }
 
 .AddEvBtn {
@@ -194,6 +204,14 @@ div.BtnDiv * {
 	background: var(--green-dark-hover); 
 }
 
+.Confutation .AddEvBtn{
+  background: var(--red);
+}
+
+.Confutation .AddEvBtn:hover{
+  background: var(--red-dark-hover);
+}
+
 .saveBtn{
   color: white;
   font-weight: bold;
@@ -205,6 +223,15 @@ div.BtnDiv * {
 
 .saveBtn:hover{
 	background: var(--green-dark-hover); 
+}
+
+
+.Confutation .saveBtn{
+  background: var(--red);
+}
+
+.Confutation .saveBtn:hover{
+  background: var(--red-dark-hover);
 }
 
 .delBtn{
@@ -220,6 +247,14 @@ div.BtnDiv * {
 	background: var(--green-dark-hover); 
 }
 
+.Confutation .delBtn{
+  background: var(--red);
+}
+
+.Confutation .delBtn:hover{
+  background: var(--red-dark-hover);
+}
+
 .delEvBtn{
   color: white;
   font-weight: bold;
@@ -233,17 +268,33 @@ div.BtnDiv * {
 	background: var(--green-dark-hover); 
 }
 
+.Confutation .delEvBtn{
+  background: var(--red);
+}
+
+.Confutation .delEvBtn:hover{
+  background: var(--red-dark-hover);
+}
+
 .confBtn{
   color: white;
   font-weight: bold;
 	background: var(--green); 
-	width: 50%;
+	width: 100%;
 	margin: 0;
 	padding: 0px;
 }
 
 .confBtn:hover{
 	background: var(--green-dark-hover); 
+}
+
+.Confutation .confBtn{
+  background: var(--red);
+}
+
+.Confutation .confBtn:hover{
+  background: var(--red-dark-hover);
 }
 
 .AssertionInput {
@@ -289,11 +340,23 @@ div.BtnDiv * {
 	background: var(--green-light-hover);
 }
 
+.Confutation .Evidence:nth-child(even) {
+  background: var(--red-light);
+}
+
+.Confutation .Evidence:hover {
+  background: var(--red-light.hover);
+}
+
 .Source {
 	background: var(--green-light);
 	width: 90%;
 	margin: 0px;
 	display: none;
+}
+
+.Confutation .Source {
+  background: var(--red-light);
 }
 
 .Evidence:hover .Source{
