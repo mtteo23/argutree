@@ -637,20 +637,6 @@ const draggable = document.getElementById('graph');
       if (isDragging) {
         const newLeft = e.clientX - offsetX;
         const newTop = e.clientY - offsetY;
-
-        // Constrain within the map boundaries
-        const mapRect = map.getBoundingClientRect();
-        const draggableRect = draggable.getBoundingClientRect();
-
-        if (
-          newLeft >= 0 &&
-          newLeft + draggableRect.width <= mapRect.width &&
-          newTop >= 0 &&
-          newTop + draggableRect.height <= mapRect.height
-        ) {
-          draggable.style.left = `${newLeft}px`;
-          draggable.style.top = `${newTop}px`;
-        }
       }
     });
 
