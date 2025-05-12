@@ -22,9 +22,8 @@ body {
   background: var(--off-white);
   color: #333;
   line-height: 1.5;
-  width: 100%;
+  width: auto;
   overflow-x: auto;
-  max-width: 100%;
 }
 
 #banner {
