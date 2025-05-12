@@ -37,7 +37,7 @@ body {
 #banner a {
   color: var(--white);
   text-decoration: none;
-  font-size: 22px;
+  font-size: 18px;
   margin-left: var(--spacing);
   padding: 5px 10px;
   border-radius: var(--radius);
