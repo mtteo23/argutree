@@ -121,6 +121,8 @@ function showArg(id, parent) {
     const main = document.createElement('div');
     main.id = id;
     main.classList.add("Arg");
+    if(headId==id)
+      main.classList.add("Head");
     parent.appendChild(main);
 
     if (id != headId) {
@@ -620,4 +622,41 @@ function nChild(id) {
   return cont;
 }
 
+const draggable = document.getElementById(headId);
+const map = document.getElementById('graph');
 
+    let isDragging = false;
+    let offsetX, offsetY;
+
+    draggable.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      offsetX = e.clientX - draggable.offsetLeft;
+      offsetY = e.clientY - draggable.offsetTop;
+      draggable.style.cursor = 'grabbing';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        const newLeft = e.clientX - offsetX;
+        const newTop = e.clientY - offsetY;
+
+        // Constrain within the map boundaries
+        const mapRect = map.getBoundingClientRect();
+        const draggableRect = draggable.getBoundingClientRect();
+
+        if (
+          newLeft >= 0 &&
+          newLeft + draggableRect.width <= mapRect.width &&
+          newTop >= 0 &&
+          newTop + draggableRect.height <= mapRect.height
+        ) {
+          draggable.style.left = `${newLeft}px`;
+          draggable.style.top = `${newTop}px`;
+        }
+      }
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+      draggable.style.cursor = 'grab';
+    });

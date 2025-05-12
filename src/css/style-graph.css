@@ -47,6 +47,11 @@
 	display: inline-block; 
 }
 
+.Arg.Head {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
 .SubArgList {
 	display: flex; 
 	flex-wrap: nowrap; 
