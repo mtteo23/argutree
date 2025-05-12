@@ -38,7 +38,7 @@ body {
 #banner a {
   color: var(--white);
   text-decoration: none;
-  font-size: 18px;
+  font-size: 22px;
   margin-left: var(--spacing);
   padding: 5px 10px;
   border-radius: var(--radius);
@@ -258,6 +258,13 @@ body {
   .project-container {
     width: 50%;
   }
+  #graph input[type="text"],
+  .project-container input[type="text"] {
+    width: 50%;
+  }
+  #banner a {
+    font-size: 18px;
+  }
 }
 /* Ensure any project-input fields match card style */
 #graph input[type="text"],
@@ -281,13 +288,6 @@ body {
   border-color: var(--green);
   background: var(--white);
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
-
-@media (max-width: 480px) {
-  #graph input[type="text"],
-  .project-container input[type="text"] {
-    width: 50%;
-  }
 }
 
 .explore-element {
