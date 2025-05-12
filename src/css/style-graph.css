@@ -5,6 +5,14 @@
   --green-dark: #1b5e20;
   --green-dark-hover: #1b5e20;
   --green-light-hover: #81c784;
+  
+  --red-light: #d6a5a7;
+  --red: #7d2e32;
+  --red-lighter: #e6c8c9;
+  --red-dark: #5e1b20;
+  --red-dark-hover: #5e1b20;
+  --red-light-hover: #c78184;
+  
   --off-white: #f5f9f5;
   --line-color: #2e7d32;
 }
@@ -36,6 +44,11 @@
 	padding: 0px; 
 	white-space: nowrap; 
 	box-sizing: border-box; 
+}
+
+.Confutation.trunk {
+  background: var(--red-light); 
+	border: 3px solid var(--red); 
 }
 
 .Arg {
