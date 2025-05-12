@@ -27,8 +27,12 @@
      
 	white-space: nowrap; 
 	box-sizing: border-box;
+  
+  /*
   max-width: 450px;
   min-width: 250px;
+  */
+  width: 300px;
   
   overflow: hidden;
   word-wrap: break-word;
