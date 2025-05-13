@@ -648,15 +648,14 @@ let isDragging = false;
       isDragging = false;
       draggable.style.cursor = 'grab';
     });
-
+    
     map.addEventListener('wheel', (e) => {
-      e.preventDefault();
-      moveElement(
-        draggable.offsetLeft - e.deltaX,
-        draggable.offsetTop - e.deltaY
-      );
-    });
-
+  e.preventDefault();
+  moveElement(
+    draggable.offsetLeft - e.deltaX, 
+    draggable.offsetTop - e.deltaY  
+  );
+});
     map.addEventListener('touchstart', (e) => {
       if (e.touches.length === 1) {
         lastScrollX = e.touches[0].clientX;
