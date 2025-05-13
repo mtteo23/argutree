@@ -706,7 +706,7 @@ map.addEventListener('touchstart', (e) => {
 });
 
 map.addEventListener('touchmove', (e) => {
-  if (e.touches.length === 2) {
+  if (e.touches.length === 2 && LastDistance!=0) {
     e.preventDefault(); // Prevent scrolling while pinching
 
     const newDistance = getDistance(e.touches[0], e.touches[1]);
