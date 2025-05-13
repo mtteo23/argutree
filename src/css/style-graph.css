@@ -28,7 +28,7 @@
 	white-space: nowrap; 
 	box-sizing: border-box;
   max-width: 450px;
-  min-width: 150px;
+  min-width: 250px;
   
   overflow: hidden;
   word-wrap: break-word;
@@ -406,4 +406,19 @@ body {
   padding: 0.5rem;
   font: inherit;
   grid-area: 1 / 1 / 2 / 2;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  background-color: #fff;
+  overflow: hidden;
+}
+#graph {
+  position: absolute;
+  cursor: grab;
+}
+#graph:active {
+  cursor: grabbing;
 }

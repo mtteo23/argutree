@@ -41,7 +41,7 @@ async function start() {
         const heading = document.createElement("h1");
         heading.innerHTML = 'Welcome <span id="username">'+username+'</span>';
         profileDiv.appendChild(heading);
-        document.getElementById('graph').appendChild(profileDiv);
+        document.getElementById('map').appendChild(profileDiv);
       }
       else
       {						
@@ -50,7 +50,7 @@ async function start() {
         const heading = document.createElement("h1");
         heading.innerHTML = 'Archive of <span id="username">'+username+'</span>';
         profileDiv.appendChild(heading);
-        document.getElementById('graph').appendChild(profileDiv);
+        document.getElementById('map').appendChild(profileDiv);
       }
       const Projects= await getProjects(username)
       Projects.forEach(project => {
@@ -94,7 +94,7 @@ async function start() {
         }
 
         // Append the container to the 'graph' element
-        document.getElementById('graph').appendChild(projectContainer);
+        document.getElementById('map').appendChild(projectContainer);
     });
     if(logged){
         const but=document.createElement("a");
@@ -102,13 +102,13 @@ async function start() {
         but.classList.add("project-link");
         but.onclick=function (){insertTitle();};
         but.id="new-project";
-        document.getElementById('graph').appendChild(but);
+        document.getElementById('map').appendChild(but);
       }
     }	
   }
   else
   {
-    document.getElementById('graph').innerHTML = '<div  id="explaination">Our world is increasingly trapped in echo chambers, and debates have become harder to conduct as we tie our identities to simplistic opinions about complex problems.This website aims to present intricate flows of thought—underlying both individual and collective opinions—in a simple and clear way. This approach helps us understand opposing views on political, ideological, and personal conflicts, making it easier to find solutions without misunderstandings or logical fallacies.</div>';
+    document.getElementById('map').innerHTML = '<div  id="explaination">Our world is increasingly trapped in echo chambers, and debates have become harder to conduct as we tie our identities to simplistic opinions about complex problems.This website aims to present intricate flows of thought—underlying both individual and collective opinions—in a simple and clear way. This approach helps us understand opposing views on political, ideological, and personal conflicts, making it easier to find solutions without misunderstandings or logical fallacies.</div>';
   }
 }
 

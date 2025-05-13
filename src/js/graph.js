@@ -621,3 +621,74 @@ function nChild(id) {
 }
 
 
+///dragging
+
+const draggable = document.getElementById('graph');
+const map = document.getElementById('map');
+    
+let isDragging = false;
+let startX, startY;
+let touchStartX, touchStartY;
+let offsetX = 0;
+let offsetY = 0;
+
+function updateTransform() {
+  draggable.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+}
+
+draggable.addEventListener('mousedown', e => {
+  isDragging = true;
+  startX     = e.clientX;
+  startY     = e.clientY;
+  draggable.style.cursor = 'grabbing';
+});
+
+document.addEventListener('mousemove', e => {
+  if (!isDragging) return;
+  
+  const dx = e.clientX - startX;
+  const dy = e.clientY - startY;
+  startX = e.clientX;
+  startY = e.clientY;
+
+  offsetX += dx;
+  offsetY += dy;
+  updateTransform();
+});
+
+document.addEventListener('mouseup', () => {
+  isDragging = false;
+  draggable.style.cursor = 'grab';
+});
+
+map.addEventListener('touchstart', e => {
+  if (e.touches.length === 1) {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }
+});
+
+map.addEventListener('touchmove', e => {
+  if (e.touches.length === 1) {
+    e.preventDefault();
+    const tx = e.touches[0].clientX;
+    const ty = e.touches[0].clientY;
+
+    const dx = tx - touchStartX;
+    const dy = ty - touchStartY;
+    touchStartX = tx;
+    touchStartY = ty;
+
+    offsetX -= dx;
+    offsetY -=dy;
+    updateTransform();
+  }
+}, { passive: false });
+
+map.addEventListener('wheel', e => {
+  e.preventDefault();
+
+  offsetX -= e.deltaX;
+  offsetY -= e.deltaY;
+  updateTransform();
+});
