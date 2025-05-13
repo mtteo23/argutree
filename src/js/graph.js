@@ -649,21 +649,21 @@ let isDragging = false;
       draggable.style.cursor = 'grab';
     });
     
-    map.addEventListener('wheel', (e) => {
-  e.preventDefault(); // Prevent default scrolling behavior
+const SCROLL_FACTOR = 0.2; // tweak to taste
+map.addEventListener('wheel', e => {
+  e.preventDefault();
+  // if you ever need to detect “lines” vs “pixels”:
+  // if (e.deltaMode === 1) { /* line-based */ }
 
-  const newLeft = draggable.offsetLeft - e.deltaX; // Calculate new horizontal position
-  const newTop = draggable.offsetTop - e.deltaY;  // Calculate new vertical position
+  const dx = e.deltaX * SCROLL_FACTOR;
+  const dy = e.deltaY * SCROLL_FACTOR;
 
-  console.log("Wheel Event:", {
-    deltaX: e.deltaX,
-    deltaY: e.deltaY,
-    newLeft,
-    newTop
-  });
-
-  moveElement(newLeft, newTop); // Move the element
+  moveElement(
+    draggable.offsetLeft + dx,
+    draggable.offsetTop  + dy
+  );
 });
+
     map.addEventListener('touchstart', (e) => {
       if (e.touches.length === 1) {
         lastScrollX = e.touches[0].clientX;
