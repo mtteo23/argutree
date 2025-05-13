@@ -620,6 +620,71 @@ function nChild(id) {
   return cont;
 }
 
+
+///dragging
+
+let isDragging = false;
+    let offsetX, offsetY;
+    let lastScrollX = 0;
+    let lastScrollY = 0;
+
+    draggable.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      offsetX = e.clientX - draggable.offsetLeft;
+      offsetY = e.clientY - draggable.offsetTop;
+      draggable.style.cursor = 'grabbing';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        moveElement(e.clientX - offsetX, e.clientY - offsetY);
+      }
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+      draggable.style.cursor = 'grab';
+    });
+
+    map.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      moveElement(
+        draggable.offsetLeft - e.deltaX,
+        draggable.offsetTop - e.deltaY
+      );
+    });
+
+    map.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        lastScrollX = e.touches[0].clientX;
+        lastScrollY = e.touches[0].clientY;
+      }
+    });
+
+    map.addEventListener('touchmove', (e) => {
+      if (e.touches.length === 1) {
+        const deltaX = e.touches[0].clientX - lastScrollX;
+        const deltaY = e.touches[0].clientY - lastScrollY;
+
+        lastScrollX = e.touches[0].clientX;
+        lastScrollY = e.touches[0].clientY;
+
+        moveElement(draggable.offsetLeft + deltaX, draggable.offsetTop + deltaY);
+      }
+    });
+
+    function moveElement(newLeft, newTop) {
+      const mapRect = map.getBoundingClientRect();
+      const draggableRect = draggable.getBoundingClientRect();
+
+      newLeft = mapRect.width - draggableRect.width;
+      newTop = mapRect.height - draggableRect.height;
+
+      draggable.style.left = `${newLeft}px`;
+      draggable.style.top = `${newTop}px`;
+    }
+
+/*
 const draggable = document.getElementById('graph');
     const map = document.getElementById('map');
 
@@ -651,3 +716,4 @@ const draggable = document.getElementById('graph');
       isDragging = false;
       draggable.style.cursor = 'grab';
     });
+//*/
