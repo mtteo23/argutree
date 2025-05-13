@@ -650,11 +650,19 @@ let isDragging = false;
     });
     
     map.addEventListener('wheel', (e) => {
-  e.preventDefault();
-  moveElement(
-    draggable.offsetLeft - e.deltaX, 
-    draggable.offsetTop - e.deltaY  
-  );
+  e.preventDefault(); // Prevent default scrolling behavior
+
+  const newLeft = draggable.offsetLeft - e.deltaX; // Calculate new horizontal position
+  const newTop = draggable.offsetTop - e.deltaY;  // Calculate new vertical position
+
+  console.log("Wheel Event:", {
+    deltaX: e.deltaX,
+    deltaY: e.deltaY,
+    newLeft,
+    newTop
+  });
+
+  moveElement(newLeft, newTop); // Move the element
 });
     map.addEventListener('touchstart', (e) => {
       if (e.touches.length === 1) {
