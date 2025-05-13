@@ -679,8 +679,8 @@ map.addEventListener('touchmove', e => {
     touchStartX = tx;
     touchStartY = ty;
 
-    offsetX -= dx;
-    offsetY -=dy;
+    offsetX += dx;
+    offsetY +=dy;
     updateTransform();
   }
 }, { passive: false });
