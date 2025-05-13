@@ -94,7 +94,7 @@ async function start() {
         }
 
         // Append the container to the 'graph' element
-        document.getElementById('graph').appendChild(projectContainer);
+        document.getElementById('map').appendChild(projectContainer);
     });
     if(logged){
         const but=document.createElement("a");
