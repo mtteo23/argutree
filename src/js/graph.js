@@ -627,19 +627,15 @@ const draggable = document.getElementById('graph');
 const map = document.getElementById('map');
     
 let isDragging = false;
-let startX, startY;         // for mouse drag
-let touchStartX, touchStartY; // for touch drag
-
-// these accumulators store our “camera” offset
+let startX, startY;
+let touchStartX, touchStartY;
 let offsetX = 0;
 let offsetY = 0;
 
-// apply the current offsets in one place
 function updateTransform() {
   draggable.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
 }
 
-// MOUSE DRAGGING
 draggable.addEventListener('mousedown', e => {
   isDragging = true;
   startX     = e.clientX;
@@ -649,7 +645,7 @@ draggable.addEventListener('mousedown', e => {
 
 document.addEventListener('mousemove', e => {
   if (!isDragging) return;
-  // delta since last event
+  
   const dx = e.clientX - startX;
   const dy = e.clientY - startY;
   startX = e.clientX;
@@ -665,7 +661,6 @@ document.addEventListener('mouseup', () => {
   draggable.style.cursor = 'grab';
 });
 
-// TOUCH DRAGGING (one-finger pan)
 map.addEventListener('touchstart', e => {
   if (e.touches.length === 1) {
     touchStartX = e.touches[0].clientX;
@@ -684,51 +679,16 @@ map.addEventListener('touchmove', e => {
     touchStartX = tx;
     touchStartY = ty;
 
-    offsetX += dx;
-    offsetY += dy;
+    offsetX -= dx;
+    offsetY  dy;
     updateTransform();
   }
 }, { passive: false });
 
-// TOUCHPAD WHEEL PANNING
 map.addEventListener('wheel', e => {
   e.preventDefault();
-  // note: positive deltaX → scroll right, so content moves left
-  // if you want content to follow your fingers, **add**:
+
   offsetX -= e.deltaX;
   offsetY -= e.deltaY;
   updateTransform();
 });
-/*
-const draggable = document.getElementById('graph');
-    const map = document.getElementById('map');
-
-    let isDragging = false;
-    let offsetX, offsetY;
-
-    draggable.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      offsetX = e.clientX - draggable.offsetLeft;
-      offsetY = e.clientY - draggable.offsetTop;
-      draggable.style.cursor = 'grabbing';
-    });
-
-    document.addEventListener('mousemove', (e) => {
-      if (isDragging) {
-        const newLeft = e.clientX - offsetX;
-        const newTop = e.clientY - offsetY;
-
-        // Constrain within the map boundaries
-        const mapRect = map.getBoundingClientRect();
-        const draggableRect = draggable.getBoundingClientRect();
-
-        draggable.style.left = `${newLeft}px`;
-        draggable.style.top = `${newTop}px`;
-      }
-    });
-
-    document.addEventListener('mouseup', () => {
-      isDragging = false;
-      draggable.style.cursor = 'grab';
-    });
-//*/
