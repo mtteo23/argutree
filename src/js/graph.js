@@ -623,6 +623,8 @@ function nChild(id) {
 
 ///dragging
 
+const draggable = document.getElementById('graph');
+    const map = document.getElementById('map');
 let isDragging = false;
     let offsetX, offsetY;
     let lastScrollX = 0;
