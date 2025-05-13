@@ -627,67 +627,78 @@ const draggable = document.getElementById('graph');
 const map = document.getElementById('map');
     
 let isDragging = false;
-    let offsetX, offsetY;
-    let lastScrollX = 0;
-    let lastScrollY = 0;
+let startX, startY;         // for mouse drag
+let touchStartX, touchStartY; // for touch drag
 
-    draggable.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      offsetX = e.clientX - draggable.offsetLeft;
-      offsetY = e.clientY - draggable.offsetTop;
-      draggable.style.cursor = 'grabbing';
-    });
+// these accumulators store our “camera” offset
+let offsetX = 0;
+let offsetY = 0;
 
-    document.addEventListener('mousemove', (e) => {
-      if (isDragging) {
-        moveElement(e.clientX - offsetX, e.clientY - offsetY);
-      }
-    });
+// apply the current offsets in one place
+function updateTransform() {
+  draggable.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+}
 
-    document.addEventListener('mouseup', () => {
-      isDragging = false;
-      draggable.style.cursor = 'grab';
-    });
-    
-const SCROLL_FACTOR = 0.2; // tweak to taste
-map.addEventListener('wheel', e => {
-  e.preventDefault();
-  // if you ever need to detect “lines” vs “pixels”:
-  // if (e.deltaMode === 1) { /* line-based */ }
-
-  const dx = e.deltaX * SCROLL_FACTOR;
-  const dy = e.deltaY * SCROLL_FACTOR;
-
-  moveElement(
-    draggable.offsetLeft + dx,
-    draggable.offsetTop  + dy
-  );
+// MOUSE DRAGGING
+draggable.addEventListener('mousedown', e => {
+  isDragging = true;
+  startX     = e.clientX;
+  startY     = e.clientY;
+  draggable.style.cursor = 'grabbing';
 });
 
-    map.addEventListener('touchstart', (e) => {
-      if (e.touches.length === 1) {
-        lastScrollX = e.touches[0].clientX;
-        lastScrollY = e.touches[0].clientY;
-      }
-    });
+document.addEventListener('mousemove', e => {
+  if (!isDragging) return;
+  // delta since last event
+  const dx = e.clientX - startX;
+  const dy = e.clientY - startY;
+  startX = e.clientX;
+  startY = e.clientY;
 
-    map.addEventListener('touchmove', (e) => {
-      if (e.touches.length === 1) {
-        const deltaX = e.touches[0].clientX - lastScrollX;
-        const deltaY = e.touches[0].clientY - lastScrollY;
+  offsetX += dx;
+  offsetY += dy;
+  updateTransform();
+});
 
-        lastScrollX = e.touches[0].clientX;
-        lastScrollY = e.touches[0].clientY;
+document.addEventListener('mouseup', () => {
+  isDragging = false;
+  draggable.style.cursor = 'grab';
+});
 
-        moveElement(draggable.offsetLeft + deltaX, draggable.offsetTop + deltaY);
-      }
-    });
+// TOUCH DRAGGING (one-finger pan)
+map.addEventListener('touchstart', e => {
+  if (e.touches.length === 1) {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }
+});
 
-    function moveElement(newLeft, newTop) {
-      draggable.style.left = `${newLeft}px`;
-      draggable.style.top = `${newTop}px`;
-    }
+map.addEventListener('touchmove', e => {
+  if (e.touches.length === 1) {
+    e.preventDefault();
+    const tx = e.touches[0].clientX;
+    const ty = e.touches[0].clientY;
 
+    const dx = tx - touchStartX;
+    const dy = ty - touchStartY;
+    touchStartX = tx;
+    touchStartY = ty;
+
+    offsetX += dx;
+    offsetY += dy;
+    updateTransform();
+  }
+}, { passive: false });
+
+// TOUCHPAD WHEEL PANNING
+map.addEventListener('wheel', e => {
+  e.preventDefault();
+  // note: positive deltaX → scroll right, so content moves left
+  // if you want content to follow your fingers, **add**:
+  offsetX += e.deltaX;
+  offsetY += e.deltaY;
+  updateTransform();
+});
 /*
 const draggable = document.getElementById('graph');
     const map = document.getElementById('map');
