@@ -695,8 +695,8 @@ map.addEventListener('wheel', e => {
   e.preventDefault();
   // note: positive deltaX → scroll right, so content moves left
   // if you want content to follow your fingers, **add**:
-  offsetX += e.deltaX;
-  offsetY += e.deltaY;
+  offsetX -= e.deltaX;
+  offsetY -= e.deltaY;
   updateTransform();
 });
 /*
