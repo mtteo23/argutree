@@ -632,8 +632,11 @@ let touchStartX, touchStartY;
 let offsetX = 0;
 let offsetY = 0;
 
+let scale = 1; // Current scale of the image
+let lastDistance = 0; // Last pinch distance
+
 function updateTransform() {
-  draggable.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+  draggable.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
 }
 
 draggable.addEventListener('mousedown', e => {
@@ -679,8 +682,8 @@ map.addEventListener('touchmove', e => {
     touchStartX = tx;
     touchStartY = ty;
 
-    offsetX -= dx;
-    offsetY -=dy;
+    offsetX += dx;
+    offsetY +=dy;
     updateTransform();
   }
 }, { passive: false });
@@ -692,3 +695,41 @@ map.addEventListener('wheel', e => {
   offsetY -= e.deltaY;
   updateTransform();
 });
+
+// zoom in phone
+
+map.addEventListener('touchstart', (e) => {
+  if (e.touches.length === 2) {
+    // Two-finger pinch start
+    lastDistance = getDistance(e.touches[0], e.touches[1]);
+  }
+});
+
+map.addEventListener('touchmove', (e) => {
+  if (e.touches.length === 2) {
+    e.preventDefault(); // Prevent scrolling while pinching
+
+    const newDistance = getDistance(e.touches[0], e.touches[1]);
+    const scaleChange = newDistance / lastDistance; // Ratio of new distance to last distance
+    lastDistance = newDistance;
+
+    scale *= scaleChange; // Update the scale
+    draggable.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
+  }
+}, { passive: false });
+
+map.addEventListener('touchend', (e) => {
+  if (e.touches.length < 2) {
+    // Reset when fingers are lifted
+    lastDistance = 0;
+  }
+});
+
+// Helper function to calculate the distance between two touch points
+function getDistance(touch1, touch2) {
+  const dx = touch1.clientX - touch2.clientX;
+  const dy = touch1.clientY - touch2.clientY;
+  return Math.sqrt(dx * dx + dy * dy);
+}
+
+

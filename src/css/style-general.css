@@ -44,6 +44,7 @@ body {
   color: var(--white);
   text-decoration: none;
   font-size: 22px;
+  font-weight: bold;
   margin-left: var(--spacing);
   padding: 5px 10px;
   border-radius: var(--radius);
@@ -166,6 +167,8 @@ body {
   display: block;
   text-align: center;
   text-decoration: none;
+  width: 50%;
+  float: center;
   background: var(--green);
   color: var(--white);
   padding: var(--spacing);
@@ -267,7 +270,10 @@ body {
     width: 50%;
   }
   #banner a {
-    font-size: 18px;
+    font-size: 14px;
+  }
+  .project-container{
+    width: 100%;
   }
 }
 /* Ensure any project-input fields match card style */
