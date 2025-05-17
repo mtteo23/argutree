@@ -178,6 +178,8 @@ body {
 #new-project:hover {
   background: var(--green-light);
   color: var(--green);
+  width: 50%;
+  float: center;
 }
 
 #graph {
@@ -269,6 +271,9 @@ body {
   }
   #banner a {
     font-size: 14px;
+  }
+  .project-container{
+    width: 100%;
   }
 }
 /* Ensure any project-input fields match card style */

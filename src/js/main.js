@@ -4,6 +4,7 @@ window.onload = async function() {
 
 async function start() {
   document.getElementById('graph').innerHTML = '';
+  document.getElementById('label').innerHTML = '';
   document.getElementById('error').textContent = '';
   const pathParts = window.location.pathname.split('/').filter(Boolean);
 	const username = pathParts[0] || "#no-user#";
