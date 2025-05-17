@@ -632,8 +632,11 @@ let touchStartX, touchStartY;
 let offsetX = 0;
 let offsetY = 0;
 
+let scale = 1; // Current scale of the image
+let lastDistance = 0; // Last pinch distance
+
 function updateTransform() {
-  draggable.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+  draggable.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
 }
 
 draggable.addEventListener('mousedown', e => {
@@ -694,9 +697,6 @@ map.addEventListener('wheel', e => {
 });
 
 // zoom in phone
-
-let scale = 1; // Current scale of the image
-let lastDistance = 0; // Last pinch distance
 
 map.addEventListener('touchstart', (e) => {
   if (e.touches.length === 2) {
