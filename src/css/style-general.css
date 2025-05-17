@@ -167,6 +167,8 @@ body {
   display: block;
   text-align: center;
   text-decoration: none;
+  width: 50%;
+  float: center;
   background: var(--green);
   color: var(--white);
   padding: var(--spacing);
@@ -178,8 +180,6 @@ body {
 #new-project:hover {
   background: var(--green-light);
   color: var(--green);
-  width: 50%;
-  float: center;
 }
 
 #graph {
