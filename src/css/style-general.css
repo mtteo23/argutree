@@ -275,6 +275,9 @@ body {
   .project-container{
     width: 100%;
   }
+  #graph {
+    transform: scale(0.25); /* Uniform scaling */
+  }
 }
 /* Ensure any project-input fields match card style */
 #graph input[type="text"],

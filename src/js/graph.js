@@ -714,8 +714,7 @@ map.addEventListener('touchmove', (e) => {
     lastDistance = newDistance;
 
     scale *= scaleChange; // Update the scale
-    const adjScale=scale/1000;
-    draggable.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${adjScale})`;
+    draggable.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
   }
 }, { passive: false });
 
