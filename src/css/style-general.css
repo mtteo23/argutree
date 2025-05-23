@@ -243,7 +243,7 @@ body {
   color: var(--white);
 }
 
-.project-container input[type="text"] {
+input[type="text"] {
   width: 100%;
   padding: calc(var(--spacing) * 0.75);
   margin-top: var(--spacing);
@@ -265,8 +265,8 @@ input[type="text"]:focus {
   .project-container {
     width: 50%;
   }
-  #graph input[type="text"],
-  .project-container input[type="text"] {
+  input[type="text"],
+  {
     width: 50%;
   }
   #banner a {
