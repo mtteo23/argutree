@@ -204,12 +204,12 @@ body {
   transition: transform var(--transition), box-shadow var(--transition);
   text-align: center;
   flex-wrap: wrap;
+  margin: 10px;
 }
 
 .project-container:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-  margin: 10px;
 }
 
 .modify-button-project,
