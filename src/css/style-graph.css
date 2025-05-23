@@ -133,7 +133,7 @@
 .AddArgBtn {
   color: white;
   font-weight: bold;
-  size: 18;
+  font-size: 28;
 	background: var(--green);  
 	border-radius: 15px; 
 	display: inline-block;  
