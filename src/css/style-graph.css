@@ -360,9 +360,8 @@ div.BtnDiv * {
 
 .horizontal-line {
   height: 3px;
-  width: calc(10%-100px);
   background-color: black;
-  margin: 0; 
+  margin: 100px; 
   padding: 0; 
   display: block; 
 }
