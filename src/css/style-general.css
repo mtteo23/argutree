@@ -244,7 +244,7 @@ body {
 }
 
 input[type="text"] {
-  width: 100%;
+  width: 25%;
   padding: calc(var(--spacing) * 0.75);
   margin-top: var(--spacing);
   border: 2px solid var(--green-light);
