@@ -361,7 +361,7 @@ div.BtnDiv * {
 .horizontal-line {
   height: 3px;
   background-color: black;
-  margin: 0px, 100px; 
+  margin: 0; 
   padding: 0; 
   display: block; 
 }
