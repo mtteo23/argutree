@@ -139,19 +139,12 @@
 	white-space: nowrap; 
 	box-sizing: border-box;
 	width: 30px; 
-	height: 30px;
+	height: 15px;
 	margin: 0px;
 }
 
 .AddArgBtn:hover {
-	background: var(--green-dark);  
-	border-radius: 15px; 
-	display: inline-block;  
-	white-space: nowrap; 
-	box-sizing: border-box;
-	width: 30px; 
-	height: 30px;
-	margin: 0px;
+	background: var(--green-dark);   
 }
 
 
