@@ -133,6 +133,7 @@
 .AddArgBtn {
   color: white;
   font-weight: bold;
+  font-size: 20;
 	background: var(--green);  
 	border-radius: 15px; 
 	display: inline-block;  
@@ -144,14 +145,7 @@
 }
 
 .AddArgBtn:hover {
-	background: var(--green-dark);  
-	border-radius: 15px; 
-	display: inline-block;  
-	white-space: nowrap; 
-	box-sizing: border-box;
-	width: 30px; 
-	height: 30px;
-	margin: 0px;
+	background: var(--green-dark);   
 }
 
 
@@ -365,7 +359,7 @@ div.BtnDiv * {
 }
 
 .horizontal-line {
-  height: 2px; 
+  height: 3px;
   background-color: black;
   margin: 0; 
   padding: 0; 
@@ -373,7 +367,7 @@ div.BtnDiv * {
 }
 
 .vertical-line {
-  width: 2px;  
+  width: 3px;  
   height: 20px; 
   background-color: black;
 }
