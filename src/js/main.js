@@ -3,7 +3,7 @@ window.onload = async function() {
 }
 
 async function start() {
-  document.getElementById('graph').innerHTML = '';
+  //document.getElementById('graph').innerHTML = '';
   document.getElementById('label').innerHTML = '';
   document.getElementById('error').textContent = '';
   const pathParts = window.location.pathname.split('/').filter(Boolean);
@@ -21,6 +21,10 @@ async function start() {
 		}
     if(project!="#no-project#")
     {
+      const map = document.createElement('div');
+      map.innerHTML='<div id="map"><div id="graph" align=center></div></div>';
+      document.body.appendChild(map.firstChild);
+      
       const script = document.createElement('script');
       script.src = '/src/js/graph.js';
       script.onload = () => {
