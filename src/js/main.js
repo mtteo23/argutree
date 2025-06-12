@@ -21,8 +21,8 @@ async function start() {
 		}
     if(project!="#no-project#")
     {
-      const map=document.createElement('div');
-      mao.innerHTML='<div id="map"><div id="graph" align=center></div></div>';
+      const map = document.createElement('div');
+      map.innerHTML='<div id="map"><div id="graph" align=center></div></div>';
       document.body.appendChild(map.firstChild);
       
       const script = document.createElement('script');
