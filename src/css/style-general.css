@@ -167,7 +167,7 @@ body {
   display: block;
   text-align: center;
   text-decoration: none;
-  width: 50%;
+  width: 25%;
   float: center;
   background: var(--green);
   color: var(--white);
@@ -244,6 +244,7 @@ body {
   color: var(--white);
 }
 
+/*
 input[type="text"] {
   width: 25%;
   padding: calc(var(--spacing) * 0.75);
@@ -261,7 +262,7 @@ input[type="text"]:focus {
   border-color: var(--green);
   background: var(--white);
 }
-
+*/
 @media (max-width: 480px) {
   .project-container {
     width: 50%;
