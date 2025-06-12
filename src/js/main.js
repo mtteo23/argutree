@@ -21,6 +21,8 @@ async function start() {
 		}
     if(project!="#no-project#")
     {
+      const map='<div id="map"><div id="graph" align=center></div></div>'
+      document.body.appendChild(map);
       const script = document.createElement('script');
       script.src = '/src/js/graph.js';
       script.onload = () => {
